@@ -33,7 +33,7 @@ node {
 				tool name: 'gradle4.6', type: 'gradle'
 				tool name: 'java8', type: 'jdk'
 				withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){
-					sh 'gradle test''
+					sh 'gradle test'
 				}
 			}
 		)
