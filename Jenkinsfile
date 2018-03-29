@@ -33,18 +33,18 @@ node("${SLAVE}") {
     */
      
 	stage ('Packaging and Publishing results'){
-		echo 'Packaging and Publishing results: do sometinng'
+		echo 'Packaging and Publishing results: do sometinng [in progress]'
 	}
 
 	stage ('Asking for manual approval'){
-    		echo 'Asking for manual approval: do sometinng'
+    		echo 'Asking for manual approval: do sometinng [in progress]'
 	}
 
 	stage ('Deployment'){
-		echo 'Deployment: do sometinng'
+		echo 'Deployment: do sometinng [in progress]'
 	}
 
 	stage ('Sending status'){
-		echo 'Sending status: do sometinng'
+		echo 'Sending status: do sometinng [in progress]'
 	}
 }
