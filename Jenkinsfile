@@ -1,7 +1,7 @@
 node("${SLAVE}") { 
     echo "Hello MNT-Lab"
     stage ('Preparation (Checking out)'){
-        sh "Git branch Clone"
+        sh "echo Git branch Clone"
         git branch: 'ayarmalovich', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
     }
     stage ('Building code') {
