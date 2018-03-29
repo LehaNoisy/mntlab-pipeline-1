@@ -42,5 +42,5 @@
             Artefact should be pulled from Nexus and deployed (unpack and execute) ;
             Use command ‘java -jar gradle-simple.jar’
 
-            - !!! Implement handling  errors on each stage. The message (feedback) should be sent by email to DL (distribution list) with proper error description: failed stage, what has happened , when … etc. If pipeline status is ‘Success’ – send final email about this as well
+            - !!! Implement handling  errors on each stage. The message (feedback) should be sent by email to DL (distribution list) with proper error description: failed stage, what has happened , when … etc. If pipeline status is ‘Success’ – send final email about this as well.
             - !!!! Pull/Push functionality should be implemented as functions in pipelines and called in appropriate stages.
