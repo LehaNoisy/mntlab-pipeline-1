@@ -1,8 +1,8 @@
 node {
      def downGradle
      def downJava
-    stage('Preparation') { // for display purposes
-      git 'https://github.com/MNT-Lab/mntlab-pipeline.git'
+    stage('installation') { 
+      git url: 'https://github.com/MNT-Lab/mntlab-pipeline.git', branch: 'pkislouski'   
       downGradle = tool 'gradle4.6'
       downJava = tool 'java8'
     }
@@ -31,4 +31,5 @@ node {
     		}
     	)
     }
+    
 }
