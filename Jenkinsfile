@@ -25,7 +25,7 @@ node {
       	
     stage ('Triggering job and fetching artifacts')
 		build job: 'MNTLAB-alahutsin-child1-build-job', parameters: [string(name: 'BRANCH_NAME', value: 'alahutsin')], wait: true
-		step([$class: 'CopyArtifact', projectName: 'MNTLAB-alahutsin-child1-build-job', filter: '*.log']);
+		step([$class: 'CopyArtifact', projectName: 'MNTLAB-alahutsin-child1-build-job', filter: '*.tar.gz']);
 		wrap([$class: 'TimestamperBuildWrapper']) {
 			echo "stage: 'Triggering job and fetching artifacts' id done!"
     }
