@@ -1,16 +1,17 @@
 node("${SLAVE}") { 
     echo "Hello MNT-Lab"
     stage ('Preparation (Checking out)'){
-        sh "echo Git branch Clone"
+        echo "Git branch Clone"
         git branch: 'ayarmalovich', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
     }
     stage ('Building code') {
-        sh "echo Starting Build"
+        echo "Starting Build"
         tool name: 'gradle4.6', type: 'gradle'
         tool name: 'java8', type: 'jdk'
         withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){
-            sh "gradle clean build"
+            sh "gradle build"
         }
+        echo "End Build"
     }
     stage ('Testing code'){
     
