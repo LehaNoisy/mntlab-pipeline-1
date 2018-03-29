@@ -12,4 +12,23 @@ node {
     stage('Results') {
      archive 'target/*.jar'
     }
+    stage ('Testing') {
+    	parallel (
+    		cucumber: {
+    			stage ('cucumber') {
+    				sh "'${downGradle}/bin/gradle' cucumber"
+    			}
+    		},
+    		jacoco: {
+    			stage ('jacoco') {
+    				sh "'${downGradle}/bin/gradle' jacocoTestReport"
+    			}
+    		},
+    		unit: {
+    			stage ('unit test') {
+    				sh "'${downGradle}/bin/gradle' test"
+    			}
+    		}
+    	)
+    }
 }
