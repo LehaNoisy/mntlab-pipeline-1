@@ -33,7 +33,7 @@
             - built ‘gradle-simple.jar’ 
 
             - Should create new artefact ‘pipeline-{student}-{buildNumber}.tar.gz’ (where buildNumber - number of the current build)
-               c) Should attach this artefact to current job and Push to Nexus
+            c) Should attach this artefact to current job and Push to Nexus
 
             - ‘Asking for manual approval’
             Once previous stage successful the job should ask for deployment this artefact.
