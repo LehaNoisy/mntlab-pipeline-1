@@ -1,6 +1,7 @@
 Requirements for the Pipeline:
 - Please see APPENDIX A.
-![picture](https://image.ibb.co/m4A2Un/Screenshot_from_2018_03_27_16_08_55.png)
+<br />
+![picture](https://image.ibb.co/g7sD5S/123.png)
 - Details of stages:
 
 1) For the remote Jenkins execution should be restricted on student node (SLAVE var).
