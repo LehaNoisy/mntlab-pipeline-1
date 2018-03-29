@@ -1,4 +1,4 @@
-node("${SLAVE}") {{
+node("${SLAVE}") {
     tool name: 'gradle4.6', type: 'gradle'
     tool name: 'java8', type: 'jdk'
     stage('git') {
