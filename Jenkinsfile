@@ -13,21 +13,25 @@ node {
 	
  	stage ('Testing code'){
        	parallel(
-			tool name: 'gradle4.6', type: 'gradle'
-			tool name: 'java8', type: 'jdk'
 			'Unit Tests':{
+				tool name: 'gradle4.6', type: 'gradle'
+				tool name: 'java8', type: 'jdk'
 				withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){
 					sh 'gradle cucumber'
 				}
 			},
 
 			'Jacoco Tests':{
+				tool name: 'gradle4.6', type: 'gradle'
+				tool name: 'java8', type: 'jdk'
 				withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){
 					sh 'gradle jacocoTestReport'
 				}
 			},
 
 			'Cucumber Tests':{
+				tool name: 'gradle4.6', type: 'gradle'
+				tool name: 'java8', type: 'jdk'
 				withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){
 					sh 'gradle test''
 				}
