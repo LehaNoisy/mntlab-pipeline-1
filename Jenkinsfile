@@ -45,6 +45,6 @@ node {
 		/*
 		wrap([$class: 'TimestamperBuildWrapper']) {
 			echo "stage: 'Triggering job and fetching artifacts' id done!"
-			*/
     }
+    */
 }
