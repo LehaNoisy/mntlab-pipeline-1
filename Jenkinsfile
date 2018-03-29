@@ -1,40 +1,24 @@
-node {
+node("${SLAVE}") {
 	stage('Preparation (Checking out)') {
 		git branch: 'alahutsin', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
 	}
 	
 	stage ('Building code') {
-		tool name: 'gradle4.6', type: 'gradle'
-		tool name: 'java8', type: 'jdk'
-		withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){
-		    sh "gradle build"
-		}
+		sh "gradle build"
 	}
 	
  	stage ('Testing code'){
        	parallel(
 			'Unit Tests':{
-				tool name: 'gradle4.6', type: 'gradle'
-				tool name: 'java8', type: 'jdk'
-				withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){
-					sh 'gradle cucumber'
-				}
+				sh 'gradle cucumber'
 			},
 
 			'Jacoco Tests':{
-				tool name: 'gradle4.6', type: 'gradle'
-				tool name: 'java8', type: 'jdk'
-				withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){
-					sh 'gradle jacocoTestReport'
-				}
+				sh 'gradle jacocoTestReport'
 			},
 
 			'Cucumber Tests':{
-				tool name: 'gradle4.6', type: 'gradle'
-				tool name: 'java8', type: 'jdk'
-				withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){
-					sh 'gradle test'
-				}
+				sh 'gradle test'
 			}
 		)
     }
