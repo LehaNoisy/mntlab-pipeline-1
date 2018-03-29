@@ -1,3 +1,3 @@
 node("${SLAVE}") { 
-    echo "Hello MNT-Lab"
+    echo "Hello MNT-lab"
 }
