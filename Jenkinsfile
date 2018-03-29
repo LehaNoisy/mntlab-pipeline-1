@@ -47,4 +47,20 @@ node {
 			echo "stage: 'Triggering job and fetching artifacts' id done!"
     }
     */
+     
+	stage ('Packaging and Publishing results'){
+		echo 'Packaging and Publishing results: do sometinng'
+	}
+
+	stage ('Asking for manual approval'){
+    		echo 'Asking for manual approval: do sometinng'
+	}
+
+	stage ('Deployment'){
+		echo 'Deployment: do sometinng'
+	}
+
+	stage ('Sending status'){
+		echo 'Sending status: do sometinng'
+	}
 }
