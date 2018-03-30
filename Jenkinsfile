@@ -20,6 +20,7 @@ def pull(){sh """groovy
 */
 import groovy.json.JsonBuilder
 import groovy.json.JsonSlurper
+@NonCPS
 def pull(){
     def cred = "amVua2luczpqZW5raW5z"
     def PROJECT_NAME='pipeline'
