@@ -55,12 +55,12 @@ try {
         archiveArtifacts 'pipeline-achernak-${BUILD_NUMBER}.tar.gz'}
    
     
-    stage ('Push to Nexus'){withEnv(["PATH+GROOVY_HOME=${tool 'groovy4'}/bin"]){sh 'groovy push.groovy'}}
+    stage ('Push to Nexus'){withEnv(["PATH+GROOVY_HOME=${tool 'groovy4'}/bin"]){sh 'groovy push.groovy $WORKSPACE $BUILD_NUMBER'}}
          
     stage('Approval')
         {timeout(time: 120, unit: 'SECONDS')input message: 'Pull and deploy?', ok: 'pull and deploy'}   
     
-    stage ('Pull from Nexus'){withEnv(["PATH+GROOVY_HOME=${tool 'groovy4'}/bin"]){sh 'groovy pull.groovy'}}
+    stage ('Pull from Nexus'){withEnv(["PATH+GROOVY_HOME=${tool 'groovy4'}/bin"]){sh 'groovy pull.groovy $WORKSPACE $BUILD_NUMBER'}}
         
     stage ('Deploy'){
         sh 'tar xvf *${BUILD_NUMBER}.tar.gz'
