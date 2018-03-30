@@ -23,6 +23,7 @@ node("${SLAVE}") {
     tool name: 'java8', type: 'jdk'
     tool name: 'groovy4', type: 'hudson.plugins.groovy.GroovyInstallation'
     currentBuild.result = "test"
+    
     stage('git') {
          try {
              check321out scm
@@ -32,7 +33,7 @@ node("${SLAVE}") {
         emailext attachLog: true, body: '', subject: 'Build successful', to: 'tarantino459@gmail.com'}
         //email_notification('git')
         
-    }
+         }}
     
     stage('build'){
         env("build")
