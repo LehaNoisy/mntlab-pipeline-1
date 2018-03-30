@@ -6,16 +6,15 @@ node {
     } 
     
     stage('installation') { 
-      git url: 'https://github.com/MNT-Lab/mntlab-pipeline.git', branch: 'pkislouski'   
-      downGradle = tool 'gradle4.6'
-      downJava = tool 'java8'
+        git url: 'https://github.com/MNT-Lab/mntlab-pipeline.git', branch: 'pkislouski'   
+        downGradle = tool 'gradle4.6'
+        downJava = tool 'java8'
     }
+    
     stage('Build') {
-      sh "'${downGradle}/bin/gradle' build"
+        sh "'${downGradle}/bin/gradle' build"
     }
-    stage('Results') {
-     archive 'target/*.jar'
-    }
+   
     stage ('Testing') {
     	parallel (
     		cucumber: {
@@ -79,4 +78,8 @@ node {
         file << down.inputStream
     }
     
+    stage ('Unarchive & Execute') {
+        sh 'tar -xvf nexus.tar.gz'
+        sh 'java -jar task11_test.jar'
+    }
 }    
