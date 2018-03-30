@@ -91,7 +91,7 @@ node("${SLAVE}") {
           echo ${WORKSPACE}
           ls -la
           '''
-        agent  { label "${SLAVE}" } step {push()}
+     
         
         //push()
     }
