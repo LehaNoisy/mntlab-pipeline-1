@@ -60,7 +60,9 @@ node("${SLAVE}") {
 		sh 'tar -czf pipeline-alahutsin-"${BUILD_NUMBER}".tar.gz jobs.groovy Jenkinsfile build/libs/' + job_name + '.jar'
 		//nexusArtifactUploader artifacts: [[artifactId: 'PIPELINE', classifier: 'APP', file: 'pipeline-alahutsin-${BUILD_NUMBER}.tar.gz', type: 'tar.gz']], credentialsId: 'b4e27ed2-dbbb-4efe-ba2e-c0952ae2d77e', groupId: 'REL', nexusUrl: '10.6.205.119:8081/repository/test/', nexusVersion: 'nexus3', protocol: 'http', repository: 'PROD', version: '${BUILD_NUMBER}'
 		//sh 'curl -v -u admin:admin123 --upload-file pipeline-alahutsin-"${BUILD_NUMBER}".tar.gz http://10.6.205.119:8081/repository/test/'
-		sh "curl -v --user 'admin:admin123' --upload-file pipeline-alahutsin-${BUILD_NUMBER}.tar.gz http://10.6.205.119:8081/repository/test/pipeline-alahutsin-${BUILD_NUMBER}.tar.gz"
+		//sh "curl -v --user 'admin:admin123' --upload-file pipeline-alahutsin-${BUILD_NUMBER}.tar.gz http://10.6.205.119:8081/repository/test/pipeline-alahutsin-${BUILD_NUMBER}.tar.gz"
+		archiveArtifacts 'pipeline-alahutsin-"${BUILD_NUMBER}".tar.gz'
+		sh 'groovy nexusUpload'
     }
 
 	stage ('Asking for manual approval'){
