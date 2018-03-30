@@ -48,7 +48,7 @@ node(env.SLAVE){
         sh 'tar xvf *.tar.gz' 	
         sh 'tar -czf pipeline-azaitsau-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline.jar'
         archiveArtifacts 'pipeline-azaitsau-${BUILD_NUMBER}.tar.gz'
-        sh "curl -v --user 'admin:admin123' --upload-file ./artifacts/pipeline-azaitsau-'$BUILD_NUMBER'.tar.gz http://10.6.204.75/repository/Realise/mnt-pipeline/pipeline-'$BUILD_NUMBER'.tar.gz"
+        sh "curl -v --user 'admin:admin123' --upload-file ./artifacts/pipeline-azaitsau-'$BUILD_NUMBER'.tar.gz http://10.6.204.75/repository/Realise/mnt-pipeline/pipeline-azaitsau-'$BUILD_NUMBER'.tar.gz"
         
     }
     stage('Asking for manual approval') {
