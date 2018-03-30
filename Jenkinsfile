@@ -2,7 +2,7 @@ def push_to_nexus() {
     nexusArtifactUploader artifacts: [[artifactId: 'pipeline', classifier: '', file: 'pipeline-uvalchkou-$BUILD_NUMBER.tar.gz', type: 'tar.gz']], credentialsId: 'nexus-creds', groupId: 'pipeline', nexusUrl: 'epbyminw2471.minsk.epam.com:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'uvalchkou', version: '$BUILD_NUMBER'
 }
 
-def email_notification(String stage_name){
+def email_notification(stage_name){
     emailext attachLog: true, body: "Job failed at ${stage_name} stage. You can find more information in attached log file.', subject: 'Job failed', to: 'tarantino459@gmail.com"
 }
     
