@@ -31,6 +31,8 @@ node("${SLAVE}") {
     
     stage ('Push to Nexus'){
         def cred = "amVua2luczpqZW5raW5z"
+        sh 'pwd'
+        sh 'ls -la'
         //def ARTIFACT_NAME = "ls -t1 ${WORKSPACE}/".execute().text.split()[0]
         //def PROJECT_NAME = ARTIFACT_NAME.split("-",3)[0]
         //def ARTIFACT_SUFFIX = ARTIFACT_NAME.split("-",3)[1]
