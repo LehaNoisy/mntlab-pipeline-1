@@ -20,7 +20,7 @@ def pull(){sh """groovy
 */
 import groovy.json.JsonBuilder
 import groovy.json.JsonSlurper
-@NonCPS
+//@NonCPS
 def pull(){
     def authString = "amVua2luczpqZW5raW5z"
     def PROJECT_NAME='pipeline'
@@ -31,6 +31,7 @@ def pull(){
     def url = "http://EPBYMINW6122.minsk.epam.com:8081/repository/tomcat/appbackup/${PROJECT_NAME}-${ARTIFACT_SUFFIX}/${BUILD_NUMBER}/${ARTIFACT_NAME}"
     def conn = url.toURL().openConnection()
     conn.setRequestProperty( "Authorization", "Basic ${authString}" )
+        println conn.responseCode
     if( conn.responseCode == 200 )
         InputStream input = conn.getInputStream()
         byte[] buffer = new byte[4096]
