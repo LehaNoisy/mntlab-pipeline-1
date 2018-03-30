@@ -61,7 +61,7 @@ def approveProceed() {
 }
 
 def download(def address) {
-  new File("${address.tokenize('/')[-1]}.png").withOutputStream { out ->
+  new File(address).withOutputStream { out ->
     out << new URL(address).openStream()
   }
 }
