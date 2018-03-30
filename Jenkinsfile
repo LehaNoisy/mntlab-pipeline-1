@@ -45,6 +45,7 @@ node("${SLAVE}") {
     }
    
     stage('Packaging_and_Publishing'){
+        env.NODE_NAME
         sh 'rm -rf *.tar.gz'
         copyArtifacts filter: '*.tar.gz', projectName: 'MNTLAB-uvalchkou-child1-build-job'
         sh 'tar xzvf *.tar.gz'
