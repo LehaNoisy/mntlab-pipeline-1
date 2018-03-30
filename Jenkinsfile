@@ -28,13 +28,14 @@ node("${SLAVE}") {
         sh 'tar xvf *.tar.gz' 	
         sh 'tar -czf pipeline-achernak-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline.jar'
         archiveArtifacts 'pipeline-achernak-${BUILD_NUMBER}.tar.gz'}
+    
     stage ('Push to Nexus'){
         def cred = "amVua2luczpqZW5raW5z"
-        def ARTIFACT_NAME = "ls -t1 ${WORKSPACE}/".execute().text.split()[0]
-        def PROJECT_NAME = ARTIFACT_NAME.split("-",3)[0]
-        def ARTIFACT_SUFFIX = ARTIFACT_NAME.split("-",3)[1]
-        def File = new File("${WORKSPACE}/${PROJECT_NAME}-${ARTIFACT_SUFFIX}-${BUILD_NUMBER}.tar.gz").getBytes()
-        def connection = new URL( "http://EPBYMINW6122.minsk.epam.com:8081/repository/tomcat/appbackup/${PROJECT_NAME}-${ARTIFACT_SUFFIX}/${BUILD_NUMBER}/${ARTIFACT_NAME}").openConnection()
+        /def ARTIFACT_NAME = "ls -t1 ${WORKSPACE}/".execute().text.split()[0]
+        //def PROJECT_NAME = ARTIFACT_NAME.split("-",3)[0]
+        //def ARTIFACT_SUFFIX = ARTIFACT_NAME.split("-",3)[1]
+        def File = new File("${WORKSPACE}/pipeline-achernak-${BUILD_NUMBER}.tar.gz").getBytes()
+        def connection = new URL( "http://EPBYMINW6122.minsk.epam.com:8081/repository/tomcat/appbackup/pipline-achernak/${BUILD_NUMBER}/pipeline-achernak-${BUILD_NUMBER}.tar.gz").openConnection()
         connection.setRequestMethod("PUT")
         connection.doOutput = true
         connection.setRequestProperty("Authorization" , "Basic ${cred}")
