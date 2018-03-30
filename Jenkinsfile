@@ -1,12 +1,24 @@
 @NonCPS
 def slave_name =  "${JOB_NAME}".split('/')[0]
 def job_name =  "${JOB_NAME}".split('/')[1]
+
+def buildingCode() {
+	stage('Preparation (Checking out)') {
+		git branch: 'alahutsin', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
+	}
+}
+
 node("${SLAVE}") {
 	def child_job = 0
     	def number_child_job = 0
 	
 	stage('Preparation (Checking out)') {
-		git branch: 'alahutsin', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
+		try {
+			buildingCode()
+		}
+		catch (Exception e) {
+			echo e
+		}
 	}
 	
 	stage ('Building code') {
