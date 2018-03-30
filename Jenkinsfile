@@ -61,11 +61,9 @@ def approveProceed() {
 }
 
 def deployment() {
-	public void download(def address = 'http://10.6.205.119:8081/repository/test/repository/PROD/REL/PIPELINE/48/PIPELINE-48-APP.tar.gz') {
+	def address = 'http://10.6.205.119:8081/repository/test/repository/PROD/REL/PIPELINE/48/PIPELINE-48-APP.tar.gz' 
   		new File("${address}").withOutputStream { out ->
     		out << new URL(address).openStream()
-  		}
-	}
 	sh 'ls && java -jar build/libs/mntlab-ci-pipeline.jar'
 }
 
