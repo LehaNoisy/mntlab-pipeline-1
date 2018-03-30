@@ -35,5 +35,9 @@ node {
     stage ('Starting child job') {
         build job: 'MNTLAB-Pavel__Kislouski-child1-build-job', parameters: [[$class: 'StringParameterValue', name: 'BRANCH_NAME', value: 'pkislouski']], quietPeriod: 2
     }
-    
+  
+    stage ('Copy artifact from job') {
+        step ([$class: 'CopyArtifact',
+               projectName: 'MNTLAB-Pavel__Kislouski-child1-build-job']);
+    }  
 }
