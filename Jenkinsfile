@@ -1,10 +1,10 @@
 def notifyStarted() {
     //emailext attachLog: true, body: 'Alarm', subject: '$env.BUILD_NUMBER'
-      emailext (
+      emailext
       subject: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
       body: """<p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
         <p>Check console output at "<a href="${env.BUILD_URL}">${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>"</p>""",
-      to: 'ip@chernak@gmail.com')}
+      to: 'ip@chernak@gmail.com'}
 
 def notifySuccessful() {
     //emailext attachLog: true, body: 'Alarm', subject: '$env.BUILD_NUMBER'
@@ -16,17 +16,19 @@ def notifySuccessful() {
 
 def notifyFailed() {
     //emailext attachLog: true, body: 'Alarm', subject: '$env.BUILD_NUMBER'
-      emailext (
+      emailext 
       subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
       body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
         <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
-      to: 'ip@chernak@gmail.com')}
+      to: 'ip@chernak@gmail.com'}
 
 
 node("${SLAVE}") {
 try { 
     stage('Git Checkout'){checkout scm}
-        
+     mail to: 'ip@chernak@gmail.com',
+             subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
+             body: "Something is wrong with ${env.BUILD_URL}"    
     stage ('Build') {
         notifyStarted()
         tool name: 'gradle4.6', type: 'gradle'
