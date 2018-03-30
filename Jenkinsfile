@@ -24,7 +24,6 @@ def pull() {
     down.setRequestProperty("Authorization", "Basic ${authString}")
     file << down.inputStream
 }
-${SLAVE}
 node("${SLAVE}") {
     //def work = new Nexus(this)
     stage('Preparation (Checking out)'){
