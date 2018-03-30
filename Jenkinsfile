@@ -29,7 +29,7 @@ node("${SLAVE}") {
     }
     } catch (e) {
         //println currentStage.result
-        currentBuild.result = 'FAILURE'
+        currentBuild.result = 'UNSTABLE'
         email_notification('git')
     }
     
