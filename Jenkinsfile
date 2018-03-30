@@ -11,7 +11,7 @@ def push() {
     http.setRequestProperty("Authorization", "Basic ${authString}")
     http.setRequestProperty("Content-Type", "application/x-gzip")
     def out = new DataOutputStream(http.outputStream)
-    def test = new File("${WORKSPACE}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz")
+    def test = new File(${WORKSPACE}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz)
     out.write(test.getBytes())
     out.close()
     println http.responseCode
