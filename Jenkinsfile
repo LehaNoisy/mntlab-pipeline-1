@@ -75,7 +75,7 @@ def sendReport() {
 
 node("${SLAVE}") {
 	try {
-		script = """
+		script = '''
 		stage('Preparation (Checking out)') {
 			preparationCode()
 		}
@@ -104,7 +104,7 @@ node("${SLAVE}") {
 	catch (Exception e) {
 		sendStatus(e)
 	}
-	"""
+	'''
 	for (slave in Jenkins.instance.slaves) {
 		println slave.name;
 			try {
