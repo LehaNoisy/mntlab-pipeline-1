@@ -9,7 +9,7 @@ def repository = "Realise"
 def baseURL = "10.6.204.75:8081"
 def GROUPID = "MNT-pipeline"
 def ARTIFACTID = "PIPELINE-artifact"
-def VER = "${BUILD_NUMBER}"
+def VER = "48"
 
 //Create a parameter for the job
 if("act"=="push"){
