@@ -67,7 +67,8 @@ node("${SLAVE}") {
         sh 'java -jar mntlab-ci-pipeline.jar'
     }
     
-    /*stage('notification'){
-        emailext attachLog: true, body: '', subject: 'STARTED', to: 'tarantino459@gmail.com'
-    }*/
+    stage('notification'){
+        emailext attachLog: true, body: '', subject: 'test_message', to: 'tarantino459@gmail.com'
+
+    }
 }    
