@@ -113,4 +113,5 @@ node("${SLAVE}") {
 			all.printStackTrace();
 			}
 		}
+	}
 }
