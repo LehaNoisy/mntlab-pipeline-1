@@ -88,7 +88,7 @@ node("${SLAVE}") {
 
 
 def notifyStarted() {
-    //emailext attachLog: true, body: 'Alarm', subject: '$env.BUILD_NUMBER'
+    emailext attachLog: true, body: 'Alarm', subject: '$env.BUILD_NUMBER'
     /*emailext (
       subject: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
       body: """<p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
@@ -98,7 +98,7 @@ def notifyStarted() {
 }
 
 def notifySuccessful() {
-    //emailext attachLog: true, body: 'Alarm', subject: '$env.BUILD_NUMBER'
+    emailext attachLog: true, body: 'Alarm', subject: '$env.BUILD_NUMBER'
     /*emailext (
       subject: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
       body: """<p>SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
@@ -108,7 +108,7 @@ def notifySuccessful() {
 }
 
 def notifyFailed() {
-    //emailext attachLog: true, body: 'Alarm', subject: '$env.BUILD_NUMBER'
+    emailext attachLog: true, body: 'Alarm', subject: '$env.BUILD_NUMBER'
    /* emailext (
       subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
       body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
