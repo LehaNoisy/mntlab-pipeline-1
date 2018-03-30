@@ -50,7 +50,7 @@ node {
                 projectName: 'MNTLAB-vpeshchanka-child1-build-job']);
        sh "tar -xvf vpeshchanka_dsl_script.tar.gz"
        //sh "java -jar build/libs/example_2.jar > pipeline_output.log"
-       sh "tar -cf pipeline-vpeshchanka-${BUILD_NUMBER}.tar.gz jobs.groovy log.txt build/libs/mntlab-ci-pipeline.jar"
+	   sh "tar -cf ${WORKSPACE}/pipeline-vpeshchanka-${BUILD_NUMBER}.tar.gz jobs.groovy log.txt build/libs/mntlab-ci-pipeline.jar"
    }
    stage("Push_Nexus")
    {
@@ -72,7 +72,7 @@ node {
     def CONVERTED_CREDS = "${CREDS}".getBytes().encodeBase64().toString()
     
 	println InetAddress.localHost.hostName 
-        def File = new File ("pipeline-vpeshchanka-${BUILD_NUMBER}.tar.gz").getBytes()
+	   def File = new File ("${WORKSPACE}pipeline-vpeshchanka-${BUILD_NUMBER}.tar.gz").getBytes()
         def CONNECTION = new URL("http://${NEXUS_PATH}/repository/${REPO}/${GROUP_ID}/${ART_ID}/${VER}/${SUFF}-${VER}.${EXT}").openConnection()
         println "http://${NEXUS_PATH}/repository/${REPO}/${GROUP_ID}/${ART_ID}/${VER}/${SUFF}-${VER}.${EXT}"
         CONNECTION.setRequestProperty("Authorization" , "Basic ${CONVERTED_CREDS}")
