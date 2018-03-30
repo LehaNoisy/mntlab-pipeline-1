@@ -83,7 +83,8 @@ node("${SLAVE}") {
             pwd
             ls -la
             ls -la ./build/libs
-            tar -czf pipeline-amatiev-${BUILD_NUMBER}.tar.gz Jenkinsfile jobs.groovy -C ./build/libs mntlab-ci-pipeline.jar'''
+            tar -czf pipeline-amatiev-${BUILD_NUMBER}.tar.gz Jenkinsfile jobs.groovy -C ./build/libs mntlab-ci-pipeline.jar
+           ls -la'''
    
         push()
     }
