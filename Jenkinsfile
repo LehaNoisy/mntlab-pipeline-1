@@ -23,9 +23,9 @@ node("${SLAVE}"){
     stage("Testing") {
         echo "Starting Tests"
         parallel(
-                "Cucumber Tests": {sh "/opt/${GRADLE}/bin/gradle cucumber"},
-                "Unit Tests": {sh "/opt/${GRADLE}/bin/gradle test"},
-                "Jacoco Tests": {sh "/opt/${GRADLE}/bin/gradle jacocoTestReport"},
+                "Cucumber Tests": {sh "PATH+GRADLE=${tool 'gradle4.6'}/bin/gradle cucumber"},
+                "Unit Tests": {sh "PATH+GRADLE=${tool 'gradle4.6'}/bin/gradle test"},
+                "Jacoco Tests": {sh "PATH+GRADLE=${tool 'gradle4.6'}/bin/gradle jacocoTestReport"},
                 )
         echo "Finishing Tests"
     }
