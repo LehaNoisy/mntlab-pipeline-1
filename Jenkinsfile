@@ -58,10 +58,11 @@ node("${SLAVE}") {
         ])
     }
     stage ('Packaging and Publishing results'){
-        sh 'tar xvf *.tar.gz'
+        sh 'tar -xvf *.tar.gz'
         sh 'tar -czf pipeline-ayarmalovich-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ ${JOB_BASE_NAME}.jar'
         archiveArtifacts 'pipeline-ayarmalovich-${BUILD_NUMBER}.tar.gz'
         sh 'groovy actions.groovy push pipeline-ayarmalovich-${BUILD_NUMBER}.tar.gz'
+        sh 'rm -rf *tar.gz'
     }
     stage ('Asking for manual approval'){
         timeout(time: 60, unit: 'SECONDS'){
@@ -70,7 +71,7 @@ node("${SLAVE}") {
     }
     stage ('Deployment'){
         sh 'groovy actions.groovy pull pipeline-ayarmalovich-${BUILD_NUMBER}.tar.gz'
-        sh 'tar xzf *tar.gz'
+        sh 'tar -xvf *tar.gz'
         sh 'java -jar ${JOB_BASE_NAME}.jar'
     }
 }
