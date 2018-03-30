@@ -45,7 +45,7 @@ node("${SLAVE}") {
     try {
         stage('Preparation (Checking out)') {
             cleanWs()
-            namestage = "Preparation (Checking out)"
+            //currentBuild.fullDisplayName
             //echo " Try git branch clone"
             //git branch: 'ayarmalovich', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
             //echo "Branch Clone : Done"
@@ -56,7 +56,7 @@ node("${SLAVE}") {
     }
     catch (all) {
         currentBuild.result = "FAILURE"
-        emailfailure (currentBuild.result, namestage)
+        emailfailure (currentBuild.result, currentBuild.fullDisplayName)
         throw any
     }
     try {
