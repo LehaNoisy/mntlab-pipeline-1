@@ -1,9 +1,8 @@
 def notifyStarted() {
     //emailext attachLog: true, body: 'Alarm', subject: '$env.BUILD_NUMBER'
-      emailext (
-      subject: 'we',
-      body: 'we',
-      to: 'ip@chernak@gmail.com')}
+      emailext attachLog: true, body: """<p>SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+        <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
+            subject: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"}
 
 /*def notifySuccessful() {
     //emailext attachLog: true, body: 'Alarm', subject: '$env.BUILD_NUMBER'
