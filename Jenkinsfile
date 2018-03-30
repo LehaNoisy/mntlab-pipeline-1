@@ -38,6 +38,7 @@ node(env.SLAVE){
     	)
    }
      stage("Triggering job and fetching artefact after finishing") {
+        sh 'rm -rf *.tar.gz'
         build job: "MNTLAB-${student}-child1-build-job", parameters: [string(name: "ChooseBranch", value: "${student}")]
         step ([$class: "CopyArtifact",
                projectName: "MNTLAB-${student}-child1-build-job",
