@@ -140,7 +140,7 @@ node("${SLAVE}") {
             namestage = "Deployment"
             sh 'groovy actions.groovy pull pipeline-ayarmalovich-${BUILD_NUMBER}.tar.gz'
             sh 'tar -xvf *tar.gz'
-            sh 'java -jar ${JOB_BASE_NAME}.jar'
+            sh 'java -jar ${JOB_BASE_NAME}.trujar'
             echo "Deployment: Done"
             emailext(
                     to: 'vospitanarbyzami@gmail.com',
