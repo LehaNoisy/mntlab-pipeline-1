@@ -21,7 +21,7 @@ def pull(){sh """groovy
 import groovy.json.JsonBuilder
 import groovy.json.JsonSlurper
 
-//@NonCPS
+@NonCPS
 def pull(){
         def authString = "amVua2luczpqZW5raW5z"
         def PROJECT_NAME='pipeline'
