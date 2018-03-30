@@ -71,8 +71,7 @@ node("${SLAVE}") {
     println "SUFFIX = " + SUFF
     def EXT = ART_NAME.substring(ART_NAME.indexOf(".")+1)
     def CONVERTED_CREDS = "${CREDS}".getBytes().encodeBase64().toString()
-    
-	println InetAddress.localHost.hostName 
+
 	   def File = new File ("${WORKSPACE}/pipeline-vpeshchanka-${BUILD_NUMBER}.tar.gz").getBytes()
         def CONNECTION = new URL("http://${NEXUS_PATH}/repository/${REPO}/${GROUP_ID}/${ART_ID}/${VER}/${SUFF}-${VER}.${EXT}").openConnection()
         println "http://${NEXUS_PATH}/repository/${REPO}/${GROUP_ID}/${ART_ID}/${VER}/${SUFF}-${VER}.${EXT}"
