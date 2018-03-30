@@ -48,7 +48,8 @@ node(env.SLAVE){
         sh 'tar xvf *.tar.gz' 	
         sh 'tar -czf pipeline-azaitsau-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline.jar'
         archiveArtifacts 'pipeline-azaitsau-${BUILD_NUMBER}.tar.gz'
-        sh "curl -v --user 'admin:admin123' --upload-file ./pipeline-azaitsau-'$BUILD_NUMBER'.tar.gz http://10.6.204.75:8081/repository/Realise/mnt-pipeline/pipeline-azaitsau-'$BUILD_NUMBER'.tar.gz"
+        nexusArtifactUploader artifacts: [[artifactId: 'Pip-artifact', classifier: 'app', file: 'pipeline-azaitsau-${BUILD_NUMBER}.tar.gz', type: 'tar.gz']], credentialsId: 'nexus-creds', groupId: 'MNT-pipeline', nexusUrl: '10.6.204.75:8081/repository/Realise/', nexusVersion: 'nexus3', protocol: 'http', repository: 'MNT-pipeline', version: '${BUILD_NUMBER}'
+}
         
     }
     stage('Asking for manual approval') {
