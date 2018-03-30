@@ -4,7 +4,6 @@ import hudson.*
 import hudson.model.*
 
 def job_pattern = /EPBYMINW2473.*child*/
-def tests = [:]
 def NameJob(pattern) {
     def matchedJobs = Jenkins.instance.getAllItems(jenkins.model.ParameterizedJobMixIn.ParameterizedJob.class).findAll{
         job -> job =~ pattern
@@ -12,6 +11,7 @@ def NameJob(pattern) {
     return matchedJobs[0].name
 }
 
+def tests = [:]
 tests["Unit Tests"] = {
     sh 'gradle test'
 }
@@ -28,27 +28,28 @@ node("${SLAVE}") {
     tool name: 'java8', type: 'jdk'
     stage ('Preparation (Checking out)'){
         cleanWs()
-        echo " Try git branch clone"
+        //echo " Try git branch clone"
         //git branch: 'ayarmalovich', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
+        //echo "Branch Clone : Done"
+        echo "Checkout scm"
         checkout scm
-        echo "Branch Clone : Done"
     }
     stage ('Building code') {
-        echo "Try Build"
-
+        echo "Start Build"
         withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){
             sh "gradle build"
         }
-        echo "End Build"
+        echo "Build: Done"
     }
     stage ('Testing code'){
-        echo "Try Build"
+        echo "Start Tests"
         withEnv(["JAVA_HOME=${tool 'java8'}", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]) {
             parallel(tests)
         }
-        echo "End Test"
+        echo "Tests: Done"
     }
     stage ('Triggering job and fetching artefact after finishing'){
+        echo "Start Triggering job"
         echo "Find ${NameJob(job_pattern)} and Trigger it"
         build job: "${NameJob(job_pattern)}"
         step([
@@ -56,13 +57,16 @@ node("${SLAVE}") {
                 filter: '*',
                 projectName: "${NameJob(job_pattern)}"
         ])
+        echo "Triggering job: Done"
     }
     stage ('Packaging and Publishing results'){
+        echo "Start Packaging and Publishing"
         sh 'tar -xvf *.tar.gz'
         sh 'tar -czf pipeline-ayarmalovich-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ ${JOB_BASE_NAME}.jar'
         archiveArtifacts 'pipeline-ayarmalovich-${BUILD_NUMBER}.tar.gz'
         sh 'groovy actions.groovy push pipeline-ayarmalovich-${BUILD_NUMBER}.tar.gz'
         sh 'rm -rf *tar.gz'
+        echo "Packaging and Publishing: Done"
     }
     stage ('Asking for manual approval'){
         timeout(time: 60, unit: 'SECONDS'){
@@ -70,8 +74,10 @@ node("${SLAVE}") {
         }
     }
     stage ('Deployment'){
+        echo "Start Deployment"
         sh 'groovy actions.groovy pull pipeline-ayarmalovich-${BUILD_NUMBER}.tar.gz'
         sh 'tar -xvf *tar.gz'
         sh 'java -jar ${JOB_BASE_NAME}.jar'
+        echo "Deployment: Done"
     }
 }
