@@ -56,20 +56,20 @@ node("${SLAVE}") {
    stage("Push_Nexus")
    {
     sh """groovy    
-    ART_NAME = "pipeline-vpeshchanka-${BUILD_NUMBER}.tar.gz"
+    def ART_NAME = "pipeline-vpeshchanka-${BUILD_NUMBER}.tar.gz"
     /*It's not correct because password send in opening view*/
-     CREDS = "valera:1234"
-     REPO = "new_repo"
-    NEXUS_PATH = "EPBYMINW6593.minsk.epam.com:8081"
-    GROUP_ID = "GROUP_PIPELINE"
+    def CREDS = "valera:1234"
+    def REPO = "new_repo"
+    def NEXUS_PATH = "EPBYMINW6593.minsk.epam.com:8081"
+    def GROUP_ID = "GROUP_PIPELINE"
     println "GROUP_ID = " + GROUP_ID
-     ART_ID = "pipeline-vpeshchanka"
+    def ART_ID = "pipeline-vpeshchanka"
     println "ART_ID=" + ART_ID
-     VER = ART_NAME.substring(ART_NAME.lastIndexOf("-")+1, ART_NAME.indexOf("."))
+    def VER = ART_NAME.substring(ART_NAME.lastIndexOf("-")+1, ART_NAME.indexOf("."))
     println "VER = " + VER
-     SUFF = ART_NAME.substring(0, ART_NAME.lastIndexOf("-"))
+    def SUFF = ART_NAME.substring(0, ART_NAME.lastIndexOf("-"))
     println "SUFFIX = " + SUFF
-    EXT = ART_NAME.substring(ART_NAME.indexOf(".")+1)
+    def EXT = ART_NAME.substring(ART_NAME.indexOf(".")+1)
 
 	   def File = new File ("EPBYMINW6593.minsk.epam.com:8081/pipeline-vpeshchanka-${BUILD_NUMBER}.tar.gz").getBytes()
         def CONNECTION = new URL("http://PBYMINW6593.minsk.epam.com:8081/repository/REPO/GROUP_ID/ART_ID/VER/SUFF-VER.EXT").openConnection()
