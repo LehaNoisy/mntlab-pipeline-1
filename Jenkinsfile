@@ -14,13 +14,13 @@ def notifySuccessful() {
         <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
       to: 'ip@chernak@gmail.com')}
 
-def notifyFailed() {
+/*def notifyFailed() {
     //emailext attachLog: true, body: 'Alarm', subject: '$env.BUILD_NUMBER'
       emailext 
       subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
       body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
         <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
-      to: 'ip@chernak@gmail.com'}
+      to: 'ip@chernak@gmail.com'}*/
 
 
 node("${SLAVE}") {
