@@ -20,7 +20,32 @@ def pull(){sh """groovy
 */
 import groovy.json.JsonBuilder
 import groovy.json.JsonSlurper
+import hudson.FilePath;
+import jenkins.model.Jenkins;
 
+node("${SLAVE}") { 
+    echo "Hello MNT-Lab"
+    writeFile file: 'a.txt', text: 'Hello World!';
+    listFiles(createFilePath(pwd()));
+}
+
+def createFilePath(path) {
+    if (env['NODE_NAME'] == null) {
+        error "envvar NODE_NAME is not set, probably not inside an node {} or running an older version of Jenkins!";
+    } else if (env['NODE_NAME'].equals("master")) {
+        return new FilePath(path);
+    } else {
+        return new FilePath(Jenkins.getInstance().getComputer(env['NODE_NAME']).getChannel(), path);
+    }
+}
+@NonCPS
+def listFiles(rootPath) {
+    print "Files in ${rootPath}:";
+    for (subPath in rootPath.list()) {
+        echo "  ${subPath.getName()}";
+    }
+}
+/*
 @NonCPS
 def pull(){
         def authString = "amVua2luczpqZW5raW5z"
@@ -45,12 +70,17 @@ def pull(){
                     output.write(buffer, 0, n)
                 }
         output.close()
-        
+
         sh 'pwd; ls -la'
-        return ARTIFACT_NAME    
+        
+        channel = build.workspace.channel 
+        rootDirRemote = new FilePath(channel, pwd()) 
+        println "rootDirRemote::$rootDirRemote"        
+   return ARTIFACT_NAME 
 }
 
 node("${SLAVE}") { 
     echo "Hello MNT-Lab"
     pull()
 }
+*/
