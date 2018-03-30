@@ -34,7 +34,7 @@ node("${SLAVE}") {
   }
   stage ('Packaging and Publishing results'){
     sh """ tar -xvf *tar.gz
-           tar -czf ${artfname} jobs.groovy Jenkinsfile  output.txt -C build/libs/ \$JOB_NAME.jar"""
+           tar -czf ${artfname} jobs.groovy Jenkinsfile  output.txt -C build/libs/ \$JOB_BASE_NAME.jar"""
     sh "groovy nexus.groovy push ${BUILD_NUMBER} ${artfname}"
     archiveArtifacts "${artfname}"
   }
