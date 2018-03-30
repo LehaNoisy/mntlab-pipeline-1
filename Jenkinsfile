@@ -26,19 +26,21 @@ node("${SLAVE}") {
     
     try {
         stage('git') {
-            checkout sc2m
-            //currentBuild.result = "SUCCESSFUL"
-        }} catch (e) {
-            //currentBuild.result = "FAILURE"
-            //currentBuild.result=="FAILURE"){
-                email_notification('git')//}
+            checkout scm
+    }} catch (e) {
+        email_notification('git')
         throw any
-        
-         }
-    
-    stage('build'){
-        env("build")
     }
+    
+    
+    try {
+        stage('build'){
+            env("build")
+    }} catch (e) {
+        email_notification('build')
+        throw any
+    }
+        
     
     stage('tests'){
         parallel(
