@@ -4,6 +4,7 @@ import hudson.*
 import hudson.model.*
 
 def emailfailure (status, namestage){
+    echo 'I am trying send email'
     if(status=="FAILURE") {
         emailext(
             to: 'vospitanarbyzami@gmail.com',
@@ -91,6 +92,7 @@ node("${SLAVE}") {
         currentBuild.Name = "Packaging and Publishing results"
         currentBuild.result = "FAILURE"
         emailfailure(currentBuild.result, currentBuild.Name)
+        echo 'I am trying'
         throw any
     }
     
