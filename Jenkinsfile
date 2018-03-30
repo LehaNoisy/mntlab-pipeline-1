@@ -66,4 +66,17 @@ node {
         println http.responseCode
     }
     
-}  
+    stage('Asking for manual approval'){
+        input 'Deploy'
+    }
+    
+    stage ('pull from nexus') {
+        def authString = "cG5leHVzOnBuZXh1cw=="
+        def url ="http://EPBYMINW7296.minsk.epam.com:8081/repository/task11/pipeline/grarc/90/pipeline-pkislouski-90.tar.gz"
+        def file = new File("${WORKSPACE}/nexus.tar.gz")
+        def down = new URL(url).openConnection()
+        down.setRequestProperty("Authorization", "Basic ${authString}")
+        file << down.inputStream
+    }
+    
+}    
