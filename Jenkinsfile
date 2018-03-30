@@ -36,8 +36,8 @@ node("${SLAVE}") {
 //newFile = new hudson.FilePath(channel, fp)
 //newFile.write("xyz", null)
 
-import hudson.model.*;
-import hudson.util.*;
+//import hudson.model.*
+//import hudson.util.*
 
 manager.listener.logger.println manager.build.project.getWorkspace()
 manager.listener.logger.println manager.build.workspace
