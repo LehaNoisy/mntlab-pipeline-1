@@ -1,3 +1,7 @@
+
+import hudson.model.*
+import hudson.util.*
+
 node("${SLAVE}") {
     //git branch: 'achernak', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
     stage('Git Checkout'){checkout scm}
@@ -36,8 +40,6 @@ node("${SLAVE}") {
 //newFile = new hudson.FilePath(channel, fp)
 //newFile.write("xyz", null)
 
-//import hudson.model.*
-//import hudson.util.*
 
 manager.listener.logger.println manager.build.project.getWorkspace()
 manager.listener.logger.println manager.build.workspace
