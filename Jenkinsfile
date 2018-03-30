@@ -87,6 +87,7 @@ node("${SLAVE}") {
             tar -czf pipeline-amatiev-${BUILD_NUMBER}.tar.gz Jenkinsfile jobs.groovy -C ./build/libs mntlab-ci-pipeline.jar
           touch aaa.txt
           pwd
+          echo ${WORKSPACE}
           ls -la
           '''
    
