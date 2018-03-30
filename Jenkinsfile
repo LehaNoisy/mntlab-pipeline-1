@@ -1,4 +1,10 @@
-
+import hudson.FilePath
+import jenkins.model.*
+import hudson.model.*
+import hudson.AbortException
+import hudson.console.HyperlinkNote
+import java.util.concurrent.CancellationException
+import groovy.json.JsonSlurper
 
 //def thread = Thread.currentThread()
 //def build = thread.executable
@@ -14,17 +20,7 @@ String jobName = buildEnvVarsMap?.JOB_NAME
 
 node("${SLAVE}") {
     
-import hudson.FilePath
-import jenkins.model.*
-import hudson.model.*
-import hudson.AbortException
-import hudson.console.HyperlinkNote
-import java.util.concurrent.CancellationException
-import groovy.json.JsonSlurper
-
 def build = Thread.currentThread().executable
-def thr = Thread.currentThread()
-def build = thr?.executable
 
 def BUILD_NUMBER = build.environment.get("BUILD_NUMBER")
 def WORKSPACE = build.environment.get("WORKSPACE")
