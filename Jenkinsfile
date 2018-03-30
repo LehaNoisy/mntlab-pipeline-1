@@ -60,14 +60,7 @@ def approveProceed() {
 	input 'Deploy or Abort?'
 }
 
-def download(def address) {
-  new File(address).withOutputStream { out ->
-    out << new URL(address).openStream()
-  }
-}
-
-def deployment() {
-	download('http://10.6.205.119:8081/repository/test/repository/PROD/REL/PIPELINE/48/PIPELINE-48-APP.tar.gz') 
+def deployment() { 
 	sh 'ls && java -jar build/libs/mntlab-ci-pipeline.jar'
 }
 
