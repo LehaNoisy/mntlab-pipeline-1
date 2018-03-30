@@ -89,9 +89,9 @@ node("${SLAVE}") {
          currentBuild.result = "SUCCESS"
     }
     catch (all) {
-        currentBuild.Name = "Packaging and Publishing results"
+        def Namestage = "Packaging and Publishing results"
         currentBuild.result = "FAILURE"
-        emailfailure(currentBuild.result, currentBuild.Name)
+        emailfailure(currentBuild.result, Namestage)
         echo 'I am trying'
         throw any
     }
