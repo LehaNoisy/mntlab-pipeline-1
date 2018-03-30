@@ -55,32 +55,7 @@ node("${SLAVE}") {
    }
    stage("Push_Nexus")
    {
-    sh """groovy    
-    def ART_NAME = "pipeline-vpeshchanka-${BUILD_NUMBER}.tar.gz"
-    /*It's not correct because password send in opening view*/
-    def CREDS = "valera:1234"
-    def REPO = "new_repo"
-    def NEXUS_PATH = "EPBYMINW6593.minsk.epam.com:8081"
-    def GROUP_ID = "GROUP_PIPELINE"
-    println "GROUP_ID = " + GROUP_ID
-    def ART_ID = "pipeline-vpeshchanka"
-    println "ART_ID=" + ART_ID
-    def VER = ART_NAME.substring(ART_NAME.lastIndexOf("-")+1, ART_NAME.indexOf("."))
-    println "VER = " + VER
-    def SUFF = ART_NAME.substring(0, ART_NAME.lastIndexOf("-"))
-    println "SUFFIX = " + SUFF
-    def EXT = ART_NAME.substring(ART_NAME.indexOf(".")+1)
-
-	   def File = new File ("EPBYMINW6593.minsk.epam.com:8081/pipeline-vpeshchanka-${BUILD_NUMBER}.tar.gz").getBytes()
-        def CONNECTION = new URL("http://PBYMINW6593.minsk.epam.com:8081/repository/REPO/GROUP_ID/ART_ID/VER/SUFF-VER.EXT").openConnection()
-        CONNECTION.setRequestProperty("Authorization" , "Basic "valera:1234".getBytes().encodeBase64().toString())
-        CONNECTION.setRequestMethod("PUT")
-        CONNECTION.doOutput = true
-        CONNECTION.setRequestProperty( "Content-Type", "application/x-gzip" )
-        def writer = new DataOutputStream(CONNECTION.outputStream)
-        writer.write(File)
-        writer.close()
-        println "CONNECTION RESPONSE = " + CONNECTION.responseCode"""
+    sh 'groovy script.groovy'
     //nexusArtifactUploader artifacts: [[artifactId: 'PIPELINE', classifier: 'APP', file: 'pipeline-vpeshchanka-${BUILD_NUMBER}.tar.gz', type: 'tar.gz']], credentialsId: 'nexus-creds', groupId: 'pipeline-vpeshchanka', nexusUrl: '10.6.204.96:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'new_repo', version: '${BUILD_NUMBER}'
    }
    stage("Pull_Nexus")
