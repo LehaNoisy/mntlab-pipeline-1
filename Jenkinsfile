@@ -9,10 +9,7 @@ node(env.SLAVE){
     downJava = tool 'java8'
     }
     stage('Build') {
-      if (isUnix()) {
          sh "'${downGradle}/bin/gradle' build"
-      } else {
-         bat(/"${downGradle}\bin\gradle" build/)
       }
    }
    stage('Results') {
