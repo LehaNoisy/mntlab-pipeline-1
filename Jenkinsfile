@@ -44,8 +44,7 @@ node("${SLAVE}") {
         println connection.responseCode}
          
     stage('Approval')
-        timeout(time: 120, unit: 'SECONDS') 
-        {input message: 'Pull and deploy?', ok: 'pull and deploy'}   
+        {timeout(time: 120, unit: 'SECONDS')input message: 'Pull and deploy?', ok: 'pull and deploy'}   
     
     stage ('Pull'){
         def cred = "amVua2luczpqZW5raW5z"
