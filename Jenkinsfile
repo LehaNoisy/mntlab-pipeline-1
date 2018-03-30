@@ -92,7 +92,7 @@ node("${SLAVE}") {
     }
     catch (all) {
         currentBuild.result = "FAILURE"
-        emailfailure (currentBuild.result, namestage){
+        emailfailure (currentBuild.result, namestage)
         throw any
     }
     
