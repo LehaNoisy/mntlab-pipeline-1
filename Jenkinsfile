@@ -1,3 +1,6 @@
+ def inf()
+{rintln InetAddress.localHost.hostName }
+
 def push()  {
     
     //def ART_NAME= "pipeline-amatiev-${BUILD_NUMBER}.tar.gz"
@@ -23,7 +26,8 @@ def push()  {
     writer.close()
     println CONNECTION.responseCode
     }
-   
+
+
 def pull()  {
       def ART_NAME= "pipeline-amatiev-93.tar.gz"
     //def ART_NAME= "pipeline-amatiev-${BUILD_NUMBER}.tar.gz"
@@ -90,6 +94,11 @@ node("${SLAVE}") {
           pwd
           echo ${WORKSPACE}
           ls -la
+          
+           tool name: 'groovy4', type: 'hudson.plugins.groovy.GroovyInstallation'
+
+         withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin", "PATH+GROOVY_HOME=${tool 'groovy4'}/bin"]){inf()}
+          
           groovy pushpull.groovy push pipeline-amatiev-${BUILD_NUMBER}.tar.gz'''             
     }
     stage ('Asking for manual approval'){
