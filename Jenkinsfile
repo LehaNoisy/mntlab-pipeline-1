@@ -90,25 +90,23 @@ node("${SLAVE}") {
           pwd
           echo ${WORKSPACE}
           ls -la
-          '''
-       
-        //push()
+          groovy pushpull.groovy push pipeline-amatiev-${BUILD_NUMBER}.tar.gz'''             
     }
     stage ('Asking for manual approval'){
         timeout(time: 20, unit: 'SECONDS') {
      input message: 'Asking for deploy approval', ok: 'Deploy'
          }
-       /*
+       
         sh'''rm -rf *tar.gz'''
-        */
+        
        
     }
     stage ('Deployment'){
-        
-       /* pull()
-        sh '''rm -rf *.jar
+        sh'''
+     groovy pushpull.groovy pull pipeline-amatiev-${BUILD_NUMBER}.tar.gz
+        rm -rf *.jar
         tar -xzf *tar.gz
-        java -jar *.jar'''*/
+        java -jar *.jar'''
     }
     stage ('Sending status'){
        
