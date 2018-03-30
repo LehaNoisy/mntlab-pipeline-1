@@ -6,6 +6,7 @@ def func_gradle(String command){
 }
 
 def push() {
+    sh """groovy 
     def authString = "YWRtaW46YWRtaW4xMjM="
     def url ="http://EPBYMINW1766.minsk.epam.com:8081/repository/artifact-repo/Pipeline/EasyHello/${BUILD_NUMBER}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz"
     def http = new URL(url).openConnection()
@@ -30,7 +31,7 @@ def push() {
     def out = new DataOutputStream(http.outputStream)
     out.write(new File ("${WORKSPACE}/pipeline-ykhodzin-39.tar.gz").getBytes())
     out.close()
-    println http.responseCode
+    println http.responseCode"""
     
     
 }
@@ -50,16 +51,16 @@ def pull() {
 node("${SLAVE}") {
     //def work = new Nexus(this)
     stage('Preparation (Checking out)'){
-        checkout scm
+        //checkout scm
     }
     stage('Building code'){
         tool name: 'java8', type: 'jdk'
         tool name: 'gradle4.6', type: 'gradle'
         tool name: 'groovy4', type: 'hudson.plugins.groovy.GroovyInstallation'
-        func_gradle('build')
+        func_gradle('build')//*/
     }
     stage('Testing code'){
-        parallel(
+        /*parallel(
                 'Gradle cucumber': {
                     func_gradle('cucumber')
                 },
@@ -69,7 +70,7 @@ node("${SLAVE}") {
                 'Gradle test': {
                     func_gradle('test')
                 }
-        )
+        )//*/
     }
     stage('Triggering job and fetching artefact after finishing'){
         build job: 'MNTLAB-ykhodzin-child1-build-job', parameters: [[$class: 'StringParameterValue', name: 'BRANCH', value: 'ykhodzin']]
