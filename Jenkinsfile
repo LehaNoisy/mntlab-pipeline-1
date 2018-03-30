@@ -123,8 +123,8 @@ node("${SLAVE}") {
             sh 'groovy actions.groovy push pipeline-ayarmalovich-${BUILD_NUMBER}.tar.gz'
             sh 'rm -rf *tar.gz'
             echo "Packaging and Publishing: Done"
-            currentBuild.result = "SUCCESS"
         }
+        currentBuild.result = "SUCCESS"
     }
     catch (all) {
         currentBuild.result = "FAILURE"
@@ -139,7 +139,7 @@ node("${SLAVE}") {
             echo "Start Deployment"
             namestage = "Deployment"
             sh 'groovy actions.groovy pull pipeline-ayarmalovich-${BUILD_NUMBER}.tar.gz'
-            stryuh 'tar -xvf *tar.gz'
+            sh 'tar -xvf *tar.gz'
             sh 'java -jar ${JOB_BASE_NAME}.jar'
             echo "Deployment: Done"
             emailext(
