@@ -1,6 +1,8 @@
 @NonCPS
 def slave_name =  "${JOB_NAME}".split('/')[0]
 def job_name =  "${JOB_NAME}".split('/')[1]
+echo job_name
+echo slave_name 
 
 def child_job = 0
 def number_child_job = 0
