@@ -10,14 +10,6 @@ node(env.SLAVE){
     withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){
     sh 'gradle build'}}
         
-
-    //stage('Build') {
-    //  if (isUnix()) {
-     //    sh "'${downGradle}/bin/gradle' build"
-    //  } else {
-    //     bat(/"${downGradle}\bin\gradle" build/)
-     // }
-   //}
    stage('Results') {
       archive 'target/*.jar'
    }
@@ -53,5 +45,6 @@ node(env.SLAVE){
         sh 'tar xvf *.tar.gz' 	
         sh 'tar -czf pipeline-ashumilau-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline.jar'
         archiveArtifacts 'pipeline-ashumilau-${BUILD_NUMBER}.tar.gz'
+        sh "groovy nexus.groovy pull pipeline-ashumilau-\$BUILD_NUMBER.tar.gz"
     }
 }
