@@ -69,7 +69,8 @@ pwd
 ////
         def test = readFile "pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz"
         push(test)
-        archiveArtifacts "${WORKSPACE}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz"
+       // archiveArtifacts "${WORKSPACE}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz"
+        archiveArtifacts "${test}"
     }
     stage('Asking for manual approval'){
         input 'Confirm deploy'
