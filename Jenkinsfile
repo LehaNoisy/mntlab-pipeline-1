@@ -59,6 +59,18 @@ def publishingResults() {
 	nexusArtifactUploader artifacts: [[artifactId: 'PIPELINE', classifier: 'APP', file: 'pipeline-alahutsin-${BUILD_NUMBER}.tar.gz', type: 'tar.gz']], credentialsId: 'nexus-creds', groupId: 'REL', nexusUrl: '10.6.205.119:8081/repository/test/', nexusVersion: 'nexus3', protocol: 'http', repository: 'PROD', version: '${BUILD_NUMBER}'
 }
 
+def approveProceed() {
+	input 'Deploy or Abort?'
+}
+
+def deployment() {
+	sh 'java -jar build/libs/mntlab-ci-pipeline.jar'
+}
+
+def sendStatus() {
+	echo 'Sending status: do sometinng [in progress]'
+}
+
 node("${SLAVE}") {	
 	stage('Preparation (Checking out)') {
 		try {
@@ -107,14 +119,30 @@ node("${SLAVE}") {
 	}
 
 	stage ('Asking for manual approval'){
-    		input 'Deploy or Abort?'
+		try {
+			approveProceed()
+		}
+		catch (Exception e) {
+			echo e
+		}
 	}
 
 	stage ('Deployment'){
-		sh 'java -jar build/libs/' + job_name + '.jar'
+		try {
+			approveProceed()
+			deployment()
+		}
+		catch (Exception e) {
+			echo e
+		}
 	}
-
+	
 	stage ('Sending status'){
-		echo 'Sending status: do sometinng [in progress]'
+		try {
+			sendStatus()
+		}
+		catch (Exception e) {
+			echo e
+		}
 	}
 }
