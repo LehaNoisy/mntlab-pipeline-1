@@ -31,7 +31,7 @@ def push(String name){
     println connect.responseCode
 }
 
-node {
+node(${SLAVE}) {
     stage('Hello'){
         step([$class: 'WsCleanup'])
         echo 'Hello World'
@@ -54,15 +54,15 @@ node {
     stage('Testing') {
         withEnv(["JAVA_HOME=${tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){
             parallel(
-                cucumber: {
-                    sh "gradle cucumber"
-                },
-                jacoco: {
-                    sh "gradle jacocoTestReport"
-                },
-                unit: {
-                    sh "gradle test"
-                }
+                    cucumber: {
+                        sh "gradle cucumber"
+                    },
+                    jacoco: {
+                        sh "gradle jacocoTestReport"
+                    },
+                    unit: {
+                        sh "gradle test"
+                    }
             )
         }
     }
