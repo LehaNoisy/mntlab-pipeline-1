@@ -1,4 +1,3 @@
-import hudson.util.RemotingDiagnostics;
 
 def job_name =  "${JOB_NAME}".split('/')[1]
 
