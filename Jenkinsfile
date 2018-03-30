@@ -75,7 +75,10 @@ node("${SLAVE}") {
          build job: 'MNTLAB-amatiev-child1-build-job', parameters: [[$class: 'StringParameterValue', name: 'GIT_BRANCH', value: 'amatiev']]
     }
     stage ('Packaging and Publishing results'){
-        sh '''tar -xzf *tar.gz
+        sh '''
+        pwd
+        ls -la
+        tar -xzf *tar.gz
             cat output.txt
             tar -czf pipeline-amatiev-${BUILD_NUMBER}.tar.gz Jenkinsfile jobs.groovy -C ./build/libs *.jar'''
    
