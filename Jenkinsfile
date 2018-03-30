@@ -23,15 +23,16 @@ node("${SLAVE}") {
     tool name: 'java8', type: 'jdk'
     tool name: 'groovy4', type: 'hudson.plugins.groovy.GroovyInstallation'
     
-    try {
+    
     stage('git') {
-        check321out scm
-        currentBuild.result = 'SUCCESS'
-    }
-    } catch (Exception err) {
+        try {
+            check321out scm
+            currentBuild.result = 'SUCCESS'
+        } catch (Exception err) {
         //println currentStage.result
         currentBuild.result = 'FAILURE'
         email_notification('git')
+        }
     }
     
     stage('build'){
