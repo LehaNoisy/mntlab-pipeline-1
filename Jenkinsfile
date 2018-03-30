@@ -31,7 +31,7 @@ tests["Unit Tests"] = {
 }
 tests["Jacoco Tests"] = {
     echo "Start Jacoco Test"
-    sh 'gradle jacocoTestReport123'
+    sh 'gradle jacocoTestReport'
     echo "Jacoco Test: Done"
 }
 tests["Cucumber Tests"] = {
