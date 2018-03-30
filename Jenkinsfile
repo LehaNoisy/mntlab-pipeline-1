@@ -93,6 +93,6 @@ try {
     currentBuild.result = "FAILED"
     notifyFailed()
     throw e
-}
-}
+    }}
+}}
 
