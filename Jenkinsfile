@@ -31,7 +31,7 @@ tests["Unit Tests"] = {
 }
 tests["Jacoco Tests"] = {
     echo "Start Jacoco Test"
-    sh 'gradle jacocoTestReport'
+    sh 'gradle jacocoTestReport123'
     echo "Jacoco Test: Done"
 }
 tests["Cucumber Tests"] = {
@@ -52,7 +52,7 @@ node("${SLAVE}") {
             //git branch: 'ayarmalovich', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
             //echo "Branch Clone : Done"
             echo "Checkout scm"
-            checkout scm666
+            checkout scm
         }
         currentBuild.result = "SUCCESS"
     }
