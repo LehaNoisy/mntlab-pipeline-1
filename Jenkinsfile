@@ -1,4 +1,4 @@
-node("${SLAVE}") {
+node {
 	def child_job = 0
     	def number_child_job = 0
 	
@@ -7,21 +7,37 @@ node("${SLAVE}") {
 	}
 	
 	stage ('Building code') {
-		sh "gradle build"
+		tool name: 'gradle4.6', type: 'gradle'
+		tool name: 'java8', type: 'jdk'
+		withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){
+			sh "gradle build"
+		}
 	}
 	
  	stage ('Testing code'){
        	parallel(
 			'Unit Tests':{
-				sh 'gradle cucumber'
+				tool name: 'gradle4.6', type: 'gradle'
+				tool name: 'java8', type: 'jdk'
+				withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){
+					sh 'gradle cucumber'
+				}
 			},
 
 			'Jacoco Tests':{
-				sh 'gradle jacocoTestReport'
+				tool name: 'gradle4.6', type: 'gradle'
+				tool name: 'java8', type: 'jdk'
+				withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){
+					sh 'gradle jacocoTestReport'
+				}
 			},
 
 			'Cucumber Tests':{
-				sh 'gradle test'
+				tool name: 'gradle4.6', type: 'gradle'
+				tool name: 'java8', type: 'jdk'
+				withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){
+					sh 'gradle test'
+				}
 			}
 		)
     }
@@ -38,7 +54,7 @@ node("${SLAVE}") {
      
 	stage ('Packaging and Publishing results'){
 		sh 'tar -xf child1_' + number_child_job + '_dsl_do.tar.gz'
-		sh 'pwd && echo ${JOB_NAME}'
+		//sh 'pwd && echo ${JOB_NAME}'
 		sh 'tar -czf pipeline-alahutsin-"${BUILD_NUMBER}".tar.gz jobs.groovy Jenkinsfile build/libs/${JOB_NAME}.jar'
 		nexusArtifactUploader artifacts: [[artifactId: 'PIPELINE', classifier: 'APP', file: 'pipeline-alahutsin-${BUILD_NUMBER}.tar.gz', type: 'tar.gz']], credentialsId: 'b4e27ed2-dbbb-4efe-ba2e-c0952ae2d77e', groupId: 'REL', nexusUrl: 'epbyminw2467.minsk.epam.com:8081/repository/test/', nexusVersion: 'nexus3', protocol: 'http', repository: 'PROD', version: '${BUILD_NUMBER}'
     }
