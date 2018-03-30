@@ -74,7 +74,6 @@ def deployment() {
 		}
         //sh """tar -xvf download-${BUILD_NUMBER}.tar.gz
         //java -jar mntlab-ci-pipeline.jar"""
-	}
 	//sh 'ls && java -jar build/libs/mntlab-ci-pipeline.jar'
 }
 
