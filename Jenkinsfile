@@ -58,18 +58,13 @@ node("${SLAVE}") {
 	   sh 'groovy script.groovy ${BUILD_NUMBER} ${WORKSPACE}'
     //nexusArtifactUploader artifacts: [[artifactId: 'PIPELINE', classifier: 'APP', file: 'pipeline-vpeshchanka-${BUILD_NUMBER}.tar.gz', type: 'tar.gz']], credentialsId: 'nexus-creds', groupId: 'pipeline-vpeshchanka', nexusUrl: '10.6.204.96:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'new_repo', version: '${BUILD_NUMBER}'
    }
-   stage("Pull_Nexus")
-   {
-       def CONVERTED_CREDS = "valera:1234".getBytes().encodeBase64().toString()
-        def url ="http://EPBYMINW6593.minsk.epam.com:8081/repository/new_repo/GROUP_PIPELINE/pipeline-vpeshchanka/${BUILD_NUMBER}/pipeline-vpeshchanka-${BUILD_NUMBER}.tar.gz"
-        def file = new File("${WORKSPACE}/nexus.tar.gz")
-        def down = new URL(url).openConnection()
-        down.setRequestProperty("Authorization", "Basic ${CONVERTED_CREDS}")
-        file << down.inputStream
-   }
    stage("approve")
    {
        input 'Deploy or Abort?'
+   }
+   stage("Pull_Nexus")
+   {
+	   sh 'groovy pull_script.groovy ${BUILD_NUMBER} ${WORKSPACE}
    }
    stage("deploy")
    {
