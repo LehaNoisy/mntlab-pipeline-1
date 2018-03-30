@@ -75,7 +75,6 @@ def sendReport() {
 
 node("${SLAVE}") {
 	try {
-		script = '''
 		stage('Preparation (Checking out)') {
 			preparationCode()
 		}
@@ -103,15 +102,5 @@ node("${SLAVE}") {
 	}
 	catch (Exception e) {
 		sendStatus(e)
-	}
-	'''
-	for (slave in Jenkins.instance.slaves) {
-		println slave.name;
-			try {
-		 		println RemotingDiagnostics.executeGroovy(script, slave.getChannel());
-		} catch (all) {
-			all.printStackTrace();
-			}
-		}
 	}
 }
