@@ -65,9 +65,7 @@ def deployment() {
 	withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin", "PATH+GROOVY_HOME=${ tool 'groovy4'}/bin"]){
 		sh "groovy slave.groovy download ${BUILD_NUMBER}"
 	}
-        sh "ls && pwd && tar -xvf PIPELINE-${BUILD_NUMBER}-APP.tar.gz && ls"
-        //java -jar mntlab-ci-pipeline.jar"""
-	//sh 'ls && java -jar build/libs/mntlab-ci-pipeline.jar'
+	sh "tar -xvf PIPELINE-${BUILD_NUMBER}-APP.tar.gz && java -jar build/libs/${job_name}.jar"
 }
 
 def sendStatus(e) {
