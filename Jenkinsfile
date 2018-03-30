@@ -4,9 +4,7 @@ def push_to_nexus() {
     
 def pull_from_nexus() {
     withEnv(["PATH+GROOVY_HOME=${tool 'groovy4'}/bin"]){
-        sh 'ls'
         sh 'groovy pull.groovy $BUILD_NUMBER'
-        sh 'ls'
     }    
 }
 
@@ -23,12 +21,10 @@ node("${SLAVE}") {
     
     stage('git') {
         checkout scm
-        //git branch: 'uvalchkou', url: 'https://github.com/MNT-Lab/mntlab-pipeline/'
     }
     
     stage('build'){
         env("build")
-        
     }
     
     stage('tests'){
@@ -44,7 +40,6 @@ node("${SLAVE}") {
     }
    
     stage('Packaging_and_Publishing'){
-        env.NODE_NAME
         sh 'rm -rf *.tar.gz'
         copyArtifacts filter: '*.tar.gz', projectName: 'MNTLAB-uvalchkou-child1-build-job'
         sh 'tar xzvf *.tar.gz'
@@ -63,7 +58,6 @@ node("${SLAVE}") {
     
     stage('deploy'){
         sh 'tar xzfv pipeline-uvalchkou-$BUILD_NUMBER.tar.gz'
-        sh 'ls'
         sh 'java -jar mntlab-ci-pipeline.jar'
     }
     
