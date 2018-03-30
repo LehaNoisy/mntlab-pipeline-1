@@ -2,7 +2,7 @@ def notifyStarted() {
     //emailext attachLog: true, body: 'Alarm', subject: '$env.BUILD_NUMBER'
       emailext attachLog: true, body: """<p>SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
         <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
-            subject: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"}
+            subject: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'", to: 'ip.chernak@gmail.com'}
 
 /*def notifySuccessful() {
     //emailext attachLog: true, body: 'Alarm', subject: '$env.BUILD_NUMBER'
@@ -24,7 +24,7 @@ def notifyStarted() {
 node("${SLAVE}") {
 try { 
     stage('Git Checkout'){checkout scm}
-     mail to: 'ip@chernak@gmail.com',
+     mail to: 'ip.chernak@gmail.com',
              subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
              body: "Something is wrong with ${env.BUILD_URL}"    
     stage ('Build') {
