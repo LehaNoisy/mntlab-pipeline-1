@@ -2,7 +2,7 @@
    def downGradle
    def downJava
    def Child_Job
-   
+   def target_arch = "deploy_app.tar.gz"
 node("${SLAVE}") {
    //stage 1 && 2
    stage('Preparation') { // for display purposes
@@ -63,12 +63,12 @@ node("${SLAVE}") {
    }
    stage("Pull_Nexus")
    {
-	   sh 'groovy pull_script.groovy ${BUILD_NUMBER} ${WORKSPACE}'
+	   sh 'groovy pull_script.groovy ${BUILD_NUMBER} ${WORKSPACE} target_arch'
    }
    stage("deploy")
    {
        sh "rm -rf build"
-       sh "tar -xvf nexus.tar.gz"
+	   sh "tar -xvf ${target_arch}"
        sh "java -jar build/libs/mntlab-ci-pipeline.jar"
        emailext body: 'Deploy has done successfully!', subject: 'mntlab-ci-pipeline', to: 'vospitanarbyzami@gmail.com'
    }
