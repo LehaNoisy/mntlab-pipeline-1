@@ -23,7 +23,8 @@ node("${SLAVE}") {
     tool name: 'java8', type: 'jdk'
     
     stage('git') {
-        git branch: 'uvalchkou', url: 'https://github.com/MNT-Lab/mntlab-pipeline/'
+        checkout scm
+        //git branch: 'uvalchkou', url: 'https://github.com/MNT-Lab/mntlab-pipeline/'
     }
     
     stage('build'){
@@ -40,7 +41,7 @@ node("${SLAVE}") {
     }
     
     stage('trigger'){
-        build job: 'MNTLAB-uvalchkou-child1-build-job', parameters: [[$class: 'ExtendedChoiceParameterValue', name: 'branch', value: 'uvalchkou']]
+        build job: 'MNTLAB-uvalchkou-child1-build-job'
     }
    
     stage('Packaging_and_Publishing'){
