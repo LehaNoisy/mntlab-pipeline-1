@@ -21,6 +21,7 @@ def env(String action){
 node("${SLAVE}") {
     tool name: 'gradle4.6', type: 'gradle'
     tool name: 'java8', type: 'jdk'
+    tool name: 'groovy4', type: 'groovy'
     
     stage('git') {
         checkout scm
@@ -61,7 +62,9 @@ node("${SLAVE}") {
     stage('pull'){
         sh 'ls $WORKSPACE'
         sh 'ls'
-        //sh 'pull_from_nexus()'
+        withEnv(["PATH+GROOVY_HOME=${tool 'groovy4'}/bin"]){
+            sh 'pull_from_nexus()'
+        }
     }
     
     stage('deploy'){
