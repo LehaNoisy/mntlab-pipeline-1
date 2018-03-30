@@ -42,6 +42,12 @@ def testingCode() {
 	)
 }
 
+def fetchingArtifacts() {
+	child_job = build job: 'MNTLAB-alahutsin-child1-build-job', parameters: [string(name: 'BRANCH_NAME', value: 'alahutsin')], wait: true
+	number_child_job = child_job.getNumber()
+	step([$class: 'CopyArtifact', projectName: 'MNTLAB-alahutsin-child1-build-job', filter: '*.tar.gz']);
+}
+
 node("${SLAVE}") {
 	def child_job = 0
     	def number_child_job = 0
@@ -74,15 +80,16 @@ node("${SLAVE}") {
 	}
 
       	
-    stage ('Triggering job and fetching artifacts')
-		child_job = build job: 'MNTLAB-alahutsin-child1-build-job', parameters: [string(name: 'BRANCH_NAME', value: 'alahutsin')], wait: true
-		number_child_job = child_job.getNumber()
-		step([$class: 'CopyArtifact', projectName: 'MNTLAB-alahutsin-child1-build-job', filter: '*.tar.gz']);
-		/*
-		wrap([$class: 'TimestamperBuildWrapper']) {
-			echo "stage: 'Triggering job and fetching artifacts' id done!"
-    }
-    */
+	stage ('Triggering job and fetching artifacts'){
+		try {
+			fetchingArtifacts()
+		}
+		catch (Exception e) {
+			echo e
+		}		
+	}
+
+
      
 	stage ('Packaging and Publishing results'){
 		sh 'tar -xf child1_' + number_child_job + '_dsl_do.tar.gz'
