@@ -51,7 +51,7 @@ node(env.SLAVE){
         nexusArtifactUploader artifacts: [[artifactId: 'Pip-artifact', classifier: 'app', file: 'pipeline-azaitsau-${BUILD_NUMBER}.tar.gz', type: 'tar.gz']], credentialsId: 'nexus-creds', groupId: 'MNT-pipeline', nexusUrl: '10.6.204.75:8081/repository/Realise/', nexusVersion: 'nexus3', protocol: 'http', repository: 'MNT-pipeline', version: '${BUILD_NUMBER}'
 }
         
-    }
+    
     stage('Asking for manual approval') {
     timeout(time: 5, unit: 'MINUTES') {
         input message: 'Do you want to release this build?', ok: 'Yes' 
