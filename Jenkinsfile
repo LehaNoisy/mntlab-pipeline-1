@@ -2,9 +2,8 @@ import jenkins.*
 import jenkins.model.*
 import hudson.*
 import hudson.model.*
-import java.util.*
 
-def job_pattern = /EPBYMINW2473.*child1*/
+def job_pattern = /EPBYMINW2473.*child*/
 def tests = [:]
 def NameJob(pattern) {
     def matchedJobs = Jenkins.instance.getAllItems(jenkins.model.ParameterizedJobMixIn.ParameterizedJob.class).findAll{
