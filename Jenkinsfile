@@ -27,7 +27,7 @@ node("${SLAVE}") {
         stage('git') {
             check321out scm
         }
-    } catch (all) {
+    } catch (exc) {
         email_notification('git')
     }
     
