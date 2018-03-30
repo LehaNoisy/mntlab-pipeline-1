@@ -53,6 +53,7 @@ node("${SLAVE}") {
     }
     stage('Packaging and Publishing results'){
         sh """tar -xvf ykhodzin_dsl_script.tar.gz
+        pwd && ls -la
         tar -czf pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ ${JOB_NAME}.jar"""
         push()
         archiveArtifacts "pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz"//*/
