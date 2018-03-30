@@ -45,4 +45,16 @@ stage("Triggering job and fetching artefact after finishing") {
                projectName: "MNTLAB-${student}-child1-build-job",
                filter: "*.tar.gz"])
 }
+
+stage ('Packaging and Publishing results') {
+        sh 'tar xvf *.tar.gz' 	
+        sh 'tar -czf pipeline-ashumilau-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline.jar'
+        archiveArtifacts 'pipeline-ashumilau-${BUILD_NUMBER}.tar.gz'
+
+    }
+    stage('Asking for manual approval') {
+    timeout(time: 5, unit: 'MINUTES') {
+        input message: 'Do you want to release this build?', ok: 'Yes' 
+       }
+   }
 }
