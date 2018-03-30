@@ -64,7 +64,7 @@ try {
         
     stage ('Deploy'){
         sh 'tar xvf *${BUILD_NUMBER}.tar.gz'
-        sh 'java -jar mntlab-ci-pipeline.jar.jar'}
+        sh 'java -jar mntlab-ci-pipeline.jar'}
         
         notifySuccessful()
 
