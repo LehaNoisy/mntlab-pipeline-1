@@ -75,77 +75,34 @@ def sendReport() {
 	echo 'Sending status: do sometinng [in progress send good status to email]' 
 }
 
-node("${SLAVE}") {	
-	stage('Preparation (Checking out)') {
-		try {
+node("${SLAVE}") {
+	try {
+		stage('Preparation (Checking out)') {
 			preparationCode()
 		}
-		catch (Exception e) {
-			sendStatus(e)
-		}
-	}
-	
-	stage('Building code') {
-		try {
+		stage('Building code') {
 			buildingCode()
 		}
-		catch (Exception e) {
-			sendStatus(e)
-		}
-	}
-	
- 	stage ('Testing code'){
-		try {
+		stage ('Testing code') {
 			testingCode()
 		}
-		catch (Exception e) {
-			sendStatus(e)
-		}
-	}
-
-      	
-	stage ('Triggering job and fetching artifacts'){
-		try {
+		stage ('Triggering job and fetching artifacts') {
 			fetchingArtifacts()
 		}
-		catch (Exception e) {
-			sendStatus(e)
-		}		
-	}
-
-	stage ('Packaging and Publishing results'){
-		try {
+		stage ('Packaging and Publishing results') {
 			publishingResults()
 		}
-		catch (Exception e) {
-			sendStatus(e)
-		}		
-	}
-
-	stage ('Asking for manual approval'){
-		try {
+		stage ('Asking for manual approval') {
 			approveProceed()
 		}
-		catch (Exception e) {
-			sendStatus(e)
-		}
-	}
-
-	stage ('Deployment'){
-		try {
+		stage ('Deployment') {
 			deployment()
 		}
-		catch (Exception e) {
-			sendStatus(e)
-		}
-	}
-	
-	stage ('Sending status'){
-		try {
+		stage ('Sending status') {
 			sendReport()
 		}
-		catch (Exception e) {
-			sendStatus(e)
-		}
+	}
+	catch (Exception e) {
+		sendStatus(e)
 	}
 }
