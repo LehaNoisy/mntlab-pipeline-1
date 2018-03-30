@@ -38,7 +38,7 @@ def pull() {
 node("${SLAVE}") {
     //def work = new Nexus(this)
     stage('Preparation (Checking out)'){
-        //checkout scm
+        checkout scm
     }
     stage('Building code'){
         tool name: 'java8', type: 'jdk'
@@ -47,7 +47,7 @@ node("${SLAVE}") {
         func_gradle('build')//*/
     }
     stage('Testing code'){
-        /*parallel(
+        parallel(
                 'Gradle cucumber': {
                     func_gradle('cucumber')
                 },
@@ -60,29 +60,28 @@ node("${SLAVE}") {
         )//*/
     }
     stage('Triggering job and fetching artefact after finishing'){
-       // build job: 'MNTLAB-ykhodzin-child1-build-job', parameters: [[$class: 'StringParameterValue', name: 'BRANCH', value: 'ykhodzin']]
-       // copyArtifacts filter: '*.tar.gz', fingerprintArtifacts: true, projectName: 'MNTLAB-ykhodzin-child1-build-job', selector: lastSuccessful()//
+        build job: 'MNTLAB-ykhodzin-child1-build-job', parameters: [[$class: 'StringParameterValue', name: 'BRANCH', value: 'ykhodzin']]
+        copyArtifacts filter: '*.tar.gz', fingerprintArtifacts: true, projectName: 'MNTLAB-ykhodzin-child1-build-job', selector: lastSuccessful()//
     }
     stage('Packaging and Publishing results'){
-        //sh """tar -xvf ykhodzin_dsl_script.tar.gz
-        //tar -czf ${WORKSPACE}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline.jar
-//ls -la
-//pwd
-///"""
+        sh """tar -xvf ykhodzin_dsl_script.tar.gz
+        tar -czf ${WORKSPACE}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline.jar
+ls -la
+pwd"""
 ////
-        withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin", "PATH+GROOVY_HOME=${tool 'groovy4'}/bin"]){push()}
+        withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin", "PATH+GROOVY_HOME=${tool 'groovy4'}/bin"]){sh "groovy nex.groovy push ${BUILD_NUMBER}"}
        // def test = readFile "pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz"
         //push(test)
-       // archiveArtifacts "${WORKSPACE}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz"
-       // archiveArtifacts "${test}"
+        //archiveArtifacts "${WORKSPACE}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz"
+        //archiveArtifacts "${test}"
     }
     stage('Asking for manual approval'){
-        //input 'Confirm deploy'
+        input 'Confirm deploy'
     }
     stage('Deployment'){
         pull()
-        sh """tar -xvf download.tar.gz"""
-        //java -jar mntlab-ci-pipeline.jar"""
+        sh """tar -xvf download.tar.gz
+        java -jar mntlab-ci-pipeline.jar"""
     }
 }
 
