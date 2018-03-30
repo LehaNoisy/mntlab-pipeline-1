@@ -27,6 +27,7 @@ node("${SLAVE}") {
     echo "Hello MNT-Lab"
     writeFile file: 'a.txt', text: 'Hello World!';
     listFiles(createFilePath(pwd()));
+    println "is Remote: "+ build.workspace.isRemote()
 }
 
 def createFilePath(path) {
