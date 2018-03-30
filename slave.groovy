@@ -1,6 +1,7 @@
 @Grab(group='org.codehaus.groovy.modules.http-builder', module='http-builder', version='0.7.1')
 import static groovyx.net.http.ContentType.*
     
+def version = args[1]
 def authString = "YWRtaW46YWRtaW4xMjM="
 
 if (args[0] == 'pull'){
