@@ -11,7 +11,7 @@ def Artifact_name = Parse[1]
 def Vers = Parse[2]
 
 if("$actions"=="push") {
-    def Artifact = new File("$Artifact_full_name").getBytes()
+    def Artifact = new File("${Artifact_full_name}").getBytes()
     def connection = new URL("${nexus}/repository/${Repository}/${Group_Id}/${Artifact_name}/${Vers}/${Artifact_full_name}").openConnection()
     println(connection)
     connection.setRequestMethod("PUT")
@@ -23,7 +23,7 @@ if("$actions"=="push") {
     println connection.responseCode
 }
 if("$actions"=="pull"){
-    def Artifact = new File("$ART_NAME")
+    def Artifact = new File("${Artifact_full_name}")
     def connection = new URL("${nexus}/repository/${Repository}/${Group_Id}/${Artifact_name}/${Vers}/${Artifact_full_name}").openConnection()
     connection.setRequestProperty("Authorization" ,"Basic ${Credles.getBytes().encodeBase64().toString()}")
     Artifact << connection.inputStream
