@@ -22,18 +22,19 @@ node("${SLAVE}") {
     tool name: 'gradle4.6', type: 'gradle'
     tool name: 'java8', type: 'jdk'
     tool name: 'groovy4', type: 'hudson.plugins.groovy.GroovyInstallation'
-    currentBuild.result = "test"
     
-    stage('git') {
-         try {
-             check321out scm
-         } catch (e) {
-        currentBuild.result = "FAILURE"
-        if (currentBuil.result=="FAILURE"){ 
-        emailext attachLog: true, body: '', subject: 'Build successful', to: 'tarantino459@gmail.com'}
+    
+    try {
+        stage('git') {
+            checkout scm
+            currentBuild.result = "SUCCESSFUL"
+        } catch (e) {
+            currentBuild.result = "FAILURE"
+            if (currentBuild.result=="FAILURE"){
+                emailext attachLog: true, body: '', subject: 'Build successful', to: 'tarantino459@gmail.com'}
         //email_notification('git')
         
-         }}
+         }
     
     stage('build'){
         env("build")
