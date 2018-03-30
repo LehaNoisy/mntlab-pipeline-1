@@ -1,5 +1,5 @@
 //@NonCPS
-//def (slave_name, job_name) =  ${JOB_NAME}.split('/')
+//def (slave_name, job_name) =  "${JOB_NAME}".split('/')
 //echo slave_name
 //echo job_name
 echo JOB_NAME
