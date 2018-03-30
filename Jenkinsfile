@@ -1,5 +1,5 @@
  def inf()
-{rintln InetAddress.localHost.hostName }
+{println InetAddress.localHost.hostName }
 
 def push()  {
     
