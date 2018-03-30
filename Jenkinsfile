@@ -55,7 +55,7 @@ node("${SLAVE}") {
    }
    stage("Push_Nexus")
    {
-	   sh 'groovy script.groovy ${BUILD_NUMBER}'
+	   sh 'groovy script.groovy ${BUILD_NUMBER} ${WORKSPACE}'
     //nexusArtifactUploader artifacts: [[artifactId: 'PIPELINE', classifier: 'APP', file: 'pipeline-vpeshchanka-${BUILD_NUMBER}.tar.gz', type: 'tar.gz']], credentialsId: 'nexus-creds', groupId: 'pipeline-vpeshchanka', nexusUrl: '10.6.204.96:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'new_repo', version: '${BUILD_NUMBER}'
    }
    stage("Pull_Nexus")
