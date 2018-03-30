@@ -30,9 +30,11 @@ def pull(){
         def ARTIFACT_NAME=[PROJECT_NAME,ARTIFACT_SUFFIX,BUILD_NUMBER].join('-')+'.tar.gz'
         //appbackup/pipeline-achernak/96/pipeline-achernak-96.tar.gz
         def url = "http://EPBYMINW6122.minsk.epam.com:8081/repository/tomcat/appbackup/${PROJECT_NAME}-${ARTIFACT_SUFFIX}/${BUILD_NUMBER}/${ARTIFACT_NAME}"
-        def conn = url.toURL().openConnection()
+        URLConnection conn = url.toURL().openConnection()
         conn.setRequestProperty( "Authorization", "Basic ${authString}" )
         println conn.responseCode
+        println conn.inputStream.getText()
+        println conn.getInputStream()
         InputStream input = conn.getInputStream()
         byte[] buffer = new byte[4096]
         int n
