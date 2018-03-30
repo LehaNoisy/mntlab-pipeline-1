@@ -28,7 +28,7 @@
 node {
    //stage 1 && 2
    stage('Preparation') { // for display purposes
-      git 'https://github.com/MNT-Lab/mntlab-pipeline.git'
+      checkout scm
       downGradle = tool 'gradle4.6'
       downJava = tool 'java8'
    }
