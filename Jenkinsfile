@@ -28,11 +28,12 @@ node("${SLAVE}") {
             check321out scm
         }
         
-    } catch (all) {
+    } catch (err) {
         currentBuild.result = "FAILURE"
         if (currentBuil.result=="FAILURE"){ 
         emailext attachLog: true, body: '', subject: 'Build successful', to: 'tarantino459@gmail.com'}
         //email_notification('git')
+        throw err
     }
     
     stage('build'){
