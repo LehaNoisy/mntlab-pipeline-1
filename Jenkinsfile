@@ -11,8 +11,9 @@ def push()  {
     def FILE_NAME = ART_NAME.substring(ART_NAME.indexOf("-")+1, ART_NAME.lastIndexOf("-"))
     def CONVERTED_CREDS = "${MY_CREDS}".getBytes().encodeBase64().toString()
  
-    def fle = new File ("${WORKSPACE}/$ART_NAME").getBytes()
-    def CONNECTION = new URL("http://${NEXUS_PATH}/repository/${MY_REPO}/${GROUP_ID}/${ART_ID}/${VER}/$ART_NAME").openConnection()
+    def fle = new File ("aaa.txt").getBytes()
+    //def fle = new File ("${WORKSPACE}/$ART_NAME").getBytes()
+    def CONNECTION = new URL("http://${NEXUS_PATH}/repository/${MY_REPO}/${GROUP_ID}/${ART_ID}/${VER}/aaa.txt").openConnection()
     CONNECTION.setRequestProperty("Authorization" , "Basic ${CONVERTED_CREDS}")
     CONNECTION.setRequestMethod("PUT")
     CONNECTION.doOutput = true
