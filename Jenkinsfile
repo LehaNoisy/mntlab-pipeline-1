@@ -1,7 +1,7 @@
 def push()  {
     
     //def ART_NAME= "pipeline-amatiev-${BUILD_NUMBER}.tar.gz"
-    def ART_NAME= "aa.txt"
+    def ART_NAME= "aaa.txt"
     def MY_CREDS = "nexus:nexus"
     def MY_REPO = "my_repo"
     def NEXUS_PATH = "EPBYMINW2472.minsk.epam.com:8081"
