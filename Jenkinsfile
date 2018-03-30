@@ -17,8 +17,8 @@ def push() {
     def lalala = new FilePath(Jenkins.getInstance().getComputer('EPBYMINW1766').getChannel(),path)////
     def out = new DataOutputStream(http.outputStream)
     println lalala
-    def test = new File(lalala.toString())
-    out.write(test.getBytes())
+    //def test = new File(lalala.toString())
+    out.write(lalala.getBytes())
     out.close()
     println http.responseCode
 }
