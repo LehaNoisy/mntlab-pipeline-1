@@ -36,7 +36,7 @@ node("${SLAVE}") {
         //def ARTIFACT_NAME = "ls -t1 ${WORKSPACE}/".execute().text.split()[0]
         //def PROJECT_NAME = ARTIFACT_NAME.split("-",3)[0]
         //def ARTIFACT_SUFFIX = ARTIFACT_NAME.split("-",3)[1]
-        def File = new File("${WORKSPACE}/pipeline-achernak-${BUILD_NUMBER}.tar.gz").getBytes()
+        def File = new File("mntlab-ci-pipeline/pipeline-achernak-${BUILD_NUMBER}.tar.gz").getBytes()
         def connection = new URL( "http://EPBYMINW6122.minsk.epam.com:8081/repository/tomcat/appbackup/pipeline-achernak/${BUILD_NUMBER}/pipeline-achernak-${BUILD_NUMBER}.tar.gz").openConnection()
         connection.setRequestMethod("PUT")
         connection.doOutput = true
