@@ -82,7 +82,7 @@ ls -la
 pwd
 """
 ////
-         withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin", "PATH+GROOVY_HOME=${tool 'groovy4'}/bin"]){verss()}
+         withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin", "PATH+GROOVY_HOME=${tool 'groovy4'}/bin"]){pull()}
        // def test = readFile "pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz"
         //push(test)
        // archiveArtifacts "${WORKSPACE}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz"
