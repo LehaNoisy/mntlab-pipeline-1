@@ -68,7 +68,7 @@ node("${SLAVE}") {
         //tar -czf ${WORKSPACE}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline.jar
 //ls -la
 //pwd
-"""
+///"""
 ////
         withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin", "PATH+GROOVY_HOME=${tool 'groovy4'}/bin"]){push()}
        // def test = readFile "pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz"
