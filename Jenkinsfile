@@ -24,7 +24,7 @@ node("${SLAVE}") {
             filter: '*',
             projectName: 'MNTLAB-achernak-child1-build-job',])}
                         
-    stage ('Package and Publish'){
+    stage ('Package artifact'){
         sh 'tar xvf *.tar.gz' 	
         sh 'tar -czf pipeline-achernak-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline.jar'
         archiveArtifacts 'pipeline-achernak-${BUILD_NUMBER}.tar.gz'}
@@ -36,7 +36,7 @@ node("${SLAVE}") {
         //def ARTIFACT_NAME = "ls -t1 ${WORKSPACE}/".execute().text.split()[0]
         //def PROJECT_NAME = ARTIFACT_NAME.split("-",3)[0]
         //def ARTIFACT_SUFFIX = ARTIFACT_NAME.split("-",3)[1]
-        def File = new File("mntlab-ci-pipeline/pipeline-achernak-${BUILD_NUMBER}.tar.gz").getBytes()
+        def File = new File("${WORKSPACE}/pipeline-achernak-${BUILD_NUMBER}.tar.gz").getBytes()
         def connection = new URL( "http://EPBYMINW6122.minsk.epam.com:8081/repository/tomcat/appbackup/pipeline-achernak/${BUILD_NUMBER}/pipeline-achernak-${BUILD_NUMBER}.tar.gz").openConnection()
         connection.setRequestMethod("PUT")
         connection.doOutput = true
@@ -49,7 +49,7 @@ node("${SLAVE}") {
     stage('Approval')
         {timeout(time: 120, unit: 'SECONDS')input message: 'Pull and deploy?', ok: 'pull and deploy'}   
     
-    stage ('Pull'){
+    stage ('Pull from Nexus'){
         def cred = "amVua2luczpqZW5raW5z"
         def ARTIFACT_NAME = "ls -t1 ${WORKSPACE}/".execute().text.split()[0]
         def PROJECT_NAME = ARTIFACT_NAME.split("-",3)[0]
