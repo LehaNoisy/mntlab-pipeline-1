@@ -34,8 +34,8 @@ node("${SLAVE}") {
     
     
     try {
-        stage('build'){
-            env()
+        stage('build') {
+            env(build)ew
     }} catch (e) {
         email_notification(build)
         throw any
