@@ -67,7 +67,14 @@ if (newFile.exists()) {
         //def PROJECT_NAME = ARTIFACT_NAME.split("-",3)[0]
         //def ARTIFACT_SUFFIX = ARTIFACT_NAME.split("-",3)[1]
         //findFiles(glob: '**/TEST-*.xml')
-        def File = new findFile(glob: "pipeline-achernak-${BUILD_NUMBER}.tar.gz")//.getBytes()
+        
+         if (build.workspace.isRemote()){channel = build.workspace.channel}
+            build_properties_file_content=""
+            fp = new hudson.FilePath(channel, build.workspace.toString() + "*.jar")
+
+        if (fp != null) {build_properties_file_content = fp.readToString()} 
+        /*
+        def File = new File(glob: "pipeline-achernak-${BUILD_NUMBER}.tar.gz")//.getBytes()
         def connection = new URL( "http://EPBYMINW6122.minsk.epam.com:8081/repository/tomcat/appbackup/pipeline-achernak/${BUILD_NUMBER}/pipeline-achernak-${BUILD_NUMBER}.tar.gz").openConnection()
         connection.setRequestMethod("PUT")
         connection.doOutput = true
@@ -75,7 +82,8 @@ if (newFile.exists()) {
         def writer = new DataOutputStream(connection.outputStream)
         writer.write (File)
         writer.close()
-        println connection.responseCode}
+        println connection.responseCode
+        */}
          
     stage('Approval')
         {timeout(time: 120, unit: 'SECONDS')input message: 'Pull and deploy?', ok: 'pull and deploy'}   
