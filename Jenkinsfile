@@ -11,29 +11,6 @@ def NameJob(pattern) {
     }
     return matchedJobs[0].name
 }
-def pull() {
-sh """groovy 
-
-    def Credles = "Yarm:Yarm"
-    def Repository = "Pipeline"
-    def nexus = "http://EPBYMINW2473.minsk.epam.com:8081"
-    def Artifact_full_name = "ls -t1 ${WORKSPACE}/".execute().text.split()[0]
-    def Parse = (Artifact_full_name.split("(?<=\\w)(?=[\\-\\.])|(?<=[\\-\\.])")).toList()
-    Parse.removeAll('-')
-    Parse.removeAll('.')
-    def Group_Id = Parse[0]
-    def Artifact_name = Parse[1]
-    def Artifact = new File("${WORKSPACE}/${Artifact_full_name}").getBytes()
-    def connection = new URL("${nexus}/repository/${Repository}/${Group_Id}/${Artifact_name}/${BUILD_NUMBER}/${Artifact_full_name}").openConnection()
-    println(connection)
-    connection.setRequestMethod("PUT")
-    connection.doOutput = true
-    connection.setRequestProperty("Authorization", "Basic ${Credles.getBytes().encodeBase64().toString()}")
-    def writer = new DataOutputStream(connection.outputStream)
-    writer.write(Artifact)
-    writer.close()
-    println connection.responseCode"""
-}
 
 tests["Unit Tests"] = {
     sh 'gradle test'
@@ -84,8 +61,6 @@ node("${SLAVE}") {
         sh 'tar xvf *.tar.gz'
         sh 'tar -czf pipeline-ayarmalovich-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ ${JOB_BASE_NAME}.jar'
         archiveArtifacts 'pipeline-ayarmalovich-${BUILD_NUMBER}.tar.gz'
-        withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin", "PATH+GROOVY_HOME=${tool 'groovy4'}/bin"]){
-            pull()
         }
     }
     stage ('Asking for manual approval'){
