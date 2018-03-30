@@ -5,7 +5,7 @@ def func_gradle(String command){
     withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){sh "gradle ${command}"}
 }
 
-def push() {
+def push(myfile) {
     def authString = "YWRtaW46YWRtaW4xMjM="
     def url ="http://EPBYMINW1766.minsk.epam.com:8081/repository/artifact-repo/Pipeline/EasyHello/${BUILD_NUMBER}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz"
     def http = new URL(url).openConnection()
@@ -13,12 +13,12 @@ def push() {
     http.setRequestMethod("PUT")
     http.setRequestProperty("Authorization", "Basic ${authString}")
     http.setRequestProperty("Content-Type", "application/x-gzip")
-    def path = "${WORKSPACE}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz";//////
-    def lalala = new FilePath(Jenkins.getInstance().getComputer('EPBYMINW1766').getChannel(),path)////
+    //def path = "${WORKSPACE}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz";//////
+    //def lalala = new FilePath(Jenkins.getInstance().getComputer('EPBYMINW1766').getChannel(),path)////
     def out = new DataOutputStream(http.outputStream)
-    println lalala.getRemote()
+    //println lalala.getRemote()
     //def test = new File(lalala.toString())
-    out.write(lalala.getBytes())
+    out.write(myfile.getBytes())
     out.close()
     println http.responseCode
 }
@@ -36,6 +36,8 @@ def pull() {
 node("${SLAVE}") {
     writeFile file: 'a.txt', text: 'Hello World!';
     listFiles(createFilePath(pwd()));
+    def fffle = readFile 'pipeline-ykhodzin-62.tar.gz'
+    push(fffle)
 }
 
 def createFilePath(path) {
