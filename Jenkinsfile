@@ -61,7 +61,6 @@ node("${SLAVE}") {
     stage('pull'){
         sh 'ls $WORKSPACE'
         sh 'ls'
-        script { pull_from_nexus() }
         //sh 'pull_from_nexus()'
     }
     
