@@ -38,7 +38,8 @@ def pull()  {
     def CONVERTED_CREDS = "${MY_CREDS}".getBytes().encodeBase64().toString()
 
 
-   def fl = new File("${WORKSPACE}/$ART_NAME")
+   //def fl = new File("${WORKSPACE}/$ART_NAME")
+    def fl = new File("$ART_NAME")
         def CONNECTION = new URL("http://${NEXUS_PATH}/repository/${MY_REPO}/${GROUP_ID}/${ART_ID}/${VER}/$ART_NAME").openConnection()
         CONNECTION.setRequestProperty("Authorization" , "Basic ${CONVERTED_CREDS}")
         fl << CONNECTION.inputStream
