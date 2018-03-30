@@ -23,7 +23,7 @@ def notifyFailed() {
       to: 'ip@chernak@gmail.com')}
 
 
-def push(){
+def push(){sh """groovy
         def cred = "amVua2luczpqZW5raW5z"
         def File = new File("${WORKSPACE}/pipeline-achernak-${BUILD_NUMBER}.tar.gz")//.getBytes()
         def connection = new URL( "http://EPBYMINW6122.minsk.epam.com:8081/repository/tomcat/appbackup/pipeline-achernak/${BUILD_NUMBER}/pipeline-achernak-${BUILD_NUMBER}.tar.gz").openConnection()
@@ -33,15 +33,15 @@ def push(){
         def writer = new DataOutputStream(connection.outputStream)
         writer.write (File)
         writer.close()
-       println connection.responseCode}
+       println connection.responseCode"""}
 
-def pull(){
+def pull(){sh """groovy
         def cred = "amVua2luczpqZW5raW5z"
         def url = new URL( "http://EPBYMINW6122.minsk.epam.com:8081/repository/tomcat/appbackup/${PROJECT_NAME}-${ARTIFACT_SUFFIX}/${BUILD_NUMBER}/${ARTIFACT_NAME}").openConnection()
         url.setRequestProperty("Authorization" , "Basic ${cred}")
         def file = new File("${WORKSPACE}/pipeline-achernak-${BUILD_NUMBER}.tar.gz")
         file << url.inputStream
-        println url.responseCode}
+        println url.responseCode"""}
 
 
 node("${SLAVE}") {
