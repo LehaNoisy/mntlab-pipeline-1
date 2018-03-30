@@ -54,11 +54,25 @@ node("${SLAVE}") {
     }
     stage('Packaging and Publishing results'){
         sh """tar -xvf ykhodzin_dsl_script.tar.gz
-        tar -czf ${WORKSPACE}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline.jar
+        sudo tar -czf ${WORKSPACE}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline.jar
 ls -la
 pwd
 """
-        push()
+////
+            def authString = "YWRtaW46YWRtaW4xMjM="
+    def url ="http://EPBYMINW1766.minsk.epam.com:8081/repository/artifact-repo/Pipeline/EasyHello/${BUILD_NUMBER}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz"
+    def http = new URL(url).openConnection()
+    http.doOutput = true
+    http.setRequestMethod("PUT")
+    http.setRequestProperty("Authorization", "Basic ${authString}")
+    http.setRequestProperty("Content-Type", "application/x-gzip")
+    def out = new DataOutputStream(http.outputStream)
+    def test = new File("${WORKSPACE}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz")
+    out.write(test.getBytes())
+    out.close()
+    println http.responseCode
+////
+    //    push()
         archiveArtifacts "${WORKSPACE}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz"//*/
     }
     stage('Asking for manual approval'){
