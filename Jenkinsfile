@@ -2,9 +2,19 @@
 def slave_name =  "${JOB_NAME}".split('/')[0]
 def job_name =  "${JOB_NAME}".split('/')[1]
 
-def buildingCode() {
+def preparationCode() {
 	stage('Preparation (Checking out)') {
 		git branch: 'alahutsin', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
+	}
+}
+
+def buildingCode() {
+	stage ('Building code') {
+	tool name: 'gradle4.6', type: 'gradle'
+	tool name: 'java8', type: 'jdk'
+	withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){
+		sh "gradle build"
+		}
 	}
 }
 
@@ -14,18 +24,19 @@ node("${SLAVE}") {
 	
 	stage('Preparation (Checking out)') {
 		try {
-			buildingCode()
+			preparationCode()
 		}
 		catch (Exception e) {
 			echo e
 		}
 	}
 	
-	stage ('Building code') {
-		tool name: 'gradle4.6', type: 'gradle'
-		tool name: 'java8', type: 'jdk'
-		withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){
-			sh "gradle build"
+	stage('Building code') {
+		try {
+			buildingCode()
+		}
+		catch (Exception e) {
+			echo e
 		}
 	}
 	
