@@ -1,6 +1,6 @@
 @NonCPS
-def (slave_name, job_name) =  "${JOB_NAME}".split('/')
-
+def slave_name =  "${JOB_NAME}".split('/')[0]
+def job_name =  "${JOB_NAME}".split('/')[1]
 node("${SLAVE}") {
 	def child_job = 0
     	def number_child_job = 0
