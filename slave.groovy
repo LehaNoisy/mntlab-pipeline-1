@@ -1,5 +1,7 @@
 @Grab(group='org.codehaus.groovy.modules.http-builder', module='http-builder', version='0.7.1')
 import static groovyx.net.http.ContentType.*
+    
+def authString = "YWRtaW46YWRtaW4xMjM="
 
 if (args[0] == 'pull'){
     def pull_url ="http://10.6.205.119:8081/repository/test/repository/PROD/REL/PIPELINE/48/PIPELINE-48-APP.tar.gz"
