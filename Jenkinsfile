@@ -59,7 +59,6 @@ node("${SLAVE}") {
         sh 'ls $WORKSPACE'
         sh 'ls'
         pull_from_nexus()
-        }
     }
     
     stage('deploy'){
