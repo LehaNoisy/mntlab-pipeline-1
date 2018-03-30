@@ -77,7 +77,7 @@ node("${SLAVE}") {
     stage ('Packaging and Publishing results'){
         sh '''tar -xzf *tar.gz
             cat output.txt
-            tar -czf pipeline-amatiev-${BUILD_NUMBER}.tar.gz Jenkinsfile jobs.groovy -C ./build/libs ${JOB_NAME}.jar'''
+            tar -czf pipeline-amatiev-${BUILD_NUMBER}.tar.gz Jenkinsfile jobs.groovy -C ./build/libs *.jar'''
    
         push()
     }
