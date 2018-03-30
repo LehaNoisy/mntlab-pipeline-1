@@ -1,8 +1,8 @@
+/*
 @NonCPS
 def slave_name =  "${JOB_NAME}".split('/')[0]
 def job_name =  "${JOB_NAME}".split('/')[1]
-echo job_name
-echo slave_name 
+*/
 
 def child_job = 0
 def number_child_job = 0
@@ -55,7 +55,7 @@ def fetchingArtifacts() {
 
 def publishingResults() {
 	sh 'tar -xf child1_' + number_child_job + '_dsl_do.tar.gz'
-	sh 'tar -czf pipeline-alahutsin-"${BUILD_NUMBER}".tar.gz jobs.groovy Jenkinsfile build/libs/' + job_name + '.jar'
+	sh 'tar -czf pipeline-alahutsin-"${BUILD_NUMBER}".tar.gz jobs.groovy Jenkinsfile build/libs/mntlab-ci-pipeline.jar'
 	nexusArtifactUploader artifacts: [[artifactId: 'PIPELINE', classifier: 'APP', file: 'pipeline-alahutsin-${BUILD_NUMBER}.tar.gz', type: 'tar.gz']], credentialsId: 'nexus-creds', groupId: 'REL', nexusUrl: '10.6.205.119:8081/repository/test/', nexusVersion: 'nexus3', protocol: 'http', repository: 'PROD', version: '${BUILD_NUMBER}'
 }
 
