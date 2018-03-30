@@ -66,7 +66,7 @@ node("${SLAVE}") {
 	}
 
 	stage ('Deployment'){
-		echo 'Deployment: do sometinng [in progress]'
+		sh 'java -jar build/libs/' + job_name + '.jar'
 	}
 
 	stage ('Sending status'){
