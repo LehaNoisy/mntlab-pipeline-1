@@ -1,3 +1,5 @@
+import javax.mail.*
+import javax.mail.internet.*
 
 def job_name =  "${JOB_NAME}".split('/')[1]
 
@@ -66,10 +68,31 @@ def deployment() {
 
 def sendStatus(e) {
 	echo 'Sending status: do sometinng [in progress send bad status to email]' + ' ' + e 
+	//sendMail(host, sender, receivers, subject, e)
+}
+
+def sendMail(host, sender, receivers, subject, text) {
+    Properties props = System.getProperties()
+    props.put("mail.smtp.ru", host)
+    Session session = Session.getDefaultInstance(props, null)
+
+    MimeMessage message = new MimeMessage(session)
+    message.setFrom(new InternetAddress(sender))
+    receivers.split(',').each {
+        message.addRecipient(Message.RecipientType.TO, new InternetAddress(it))
+    }
+    message.setSubject(subject)
+    message.setText(text)
+
+    println 'Sending mail to ' + receivers + '.'
+    Transport.send(message)
+    println 'Mail sent.'
 }
 
 def sendReport() {
 	echo 'Sending status: do sometinng [in progress send good status to email]' + ' ' 
+	sendMail('mail.ru', 'jenkins@report.com', 'skyzzz@mail.ru', 'report', 'OKOKOKOKOKOKOKOK')
+	
 }
 
 node("${SLAVE}") {
