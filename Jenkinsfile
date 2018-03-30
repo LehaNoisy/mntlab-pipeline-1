@@ -1,16 +1,29 @@
 import hudson.FilePath
-import jenkins.model.Jenkins
+import jenkins.model.*
 import hudson.model.*
 import hudson.AbortException
 import hudson.console.HyperlinkNote
 import java.util.concurrent.CancellationException
 import groovy.json.JsonSlurper
 
-def thr = Thread.currentThread()
-def build = thr?.executable
+def build = Thread.currentThread().executable
+//def thr = Thread.currentThread()
+//def build = thr?.executable
 
 def BUILD_NUMBER = build.environment.get("BUILD_NUMBER")
 def WORKSPACE = build.environment.get("WORKSPACE")
+
+if (build.workspace.isRemote()){channel = build.workspace.channel}
+            build_properties_file_content=""
+            fp = new hudson.FilePath(channel, build.workspace.toString() + "*.jar")
+        if (fp != null) {build_properties_file_content = fp.readToString()}  
+
+if (manager.build.workspace.isRemote()){
+    channel = manager.build.workspace.channel
+    manager.listener.logger.println  "I AM REMOTE!!"
+}
+
+
 //def thread = Thread.currentThread()
 //def build = thread.executable
 /*
@@ -21,9 +34,9 @@ def buildVariablesMap = build.buildVariables
 // Get all environment variables for the build
 def buildEnvVarsMap = build.envVars
 String jobName = buildEnvVarsMap?.JOB_NAME
-if(build.workspace.isRemote()){channel = build.workspace.channel}
+*/if(build.workspace.isRemote()){channel = build.workspace.channel}
         String fp = build.workspace.toString()
-        println fp*/
+        println fp
 
 node("${SLAVE}") {
     //git branch: 'achernak', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
