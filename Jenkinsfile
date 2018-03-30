@@ -10,6 +10,18 @@ def push() {
     http.setRequestMethod("PUT")
     http.setRequestProperty("Authorization", "Basic ${authString}")
     http.setRequestProperty("Content-Type", "application/x-gzip")
+    
+
+
+
+
+    if(build.workspace.isRemote()){
+    channel = build.workspace.channel
+    }
+    String fp = build.workspace.toString() + "\\" + "newfile.txt"
+    newFile = new hudson.FilePath(channel, fp)
+    newFile.write("xyz", null)
+
     def out = new DataOutputStream(http.outputStream)
     def test = new File("${WORKSPACE}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz")
     out.write(test.getBytes())
