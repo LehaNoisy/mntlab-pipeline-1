@@ -50,7 +50,7 @@ node {
                 projectName: 'MNTLAB-vpeshchanka-child1-build-job']);
        sh "tar -xvf vpeshchanka_dsl_script.tar.gz"
        //sh "java -jar build/libs/example_2.jar > pipeline_output.log"
-       sh "tar -cf pipeline-vpeshchanka-${BUILD_NUMBER}.tar.gz jobs.groovy log.txt build/libs/example_2.jar"
+       sh "tar -cf pipeline-vpeshchanka-${BUILD_NUMBER}.tar.gz jobs.groovy log.txt mntlab-ci-pipeline.jar"
    }
    stage("Push_Nexus")
    {
