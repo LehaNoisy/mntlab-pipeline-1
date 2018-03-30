@@ -93,16 +93,12 @@ node("${SLAVE}") {
     try {
         stage('deploy'){
             sh 'tar xzfv pipeline-uvalchkou-$BUILD_NUMBER.tar.gz'
-            sh 'java -jar mntlab-ci-pipeline.jar'756
+            sh 'java -jar mntlab-ci-pipeline.jar'
             emailext attachLog: true, body: '', subject: 'Build successful', to: 'tarantino459@gmail.com'
         } 
     } catch (e) {
         email_notification('deploy')
         throw any
     } 
-    
-    /*stage('notification'){
-        emailext attachLog: true, body: '', subject: 'Build successful', to: 'tarantino459@gmail.com'
-
-    }*/
+        
 }    
