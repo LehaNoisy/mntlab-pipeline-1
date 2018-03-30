@@ -10,4 +10,5 @@ if (args[0] == 'download'){
           def url = new URL(pull_url.toString()).openConnection()
           url.setRequestProperty("Authorization", "Basic ${authString}")
           out << url.inputStream
+      }
 }
