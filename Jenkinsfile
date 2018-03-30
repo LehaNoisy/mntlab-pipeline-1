@@ -84,5 +84,6 @@ node("${SLAVE}") {
         sh 'tar -xvf *tar.gz'
         sh 'java -jar ${JOB_BASE_NAME}.jar'
         echo "Deployment: Done"
+        emailext body: 'WELL DONE, COMRADES! We Done This!', subject: 'mntlab-ci-pipeline', to: 'vospitanarbyzami@gmail.com'
     }
 }
