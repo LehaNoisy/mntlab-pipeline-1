@@ -22,7 +22,7 @@ if (args[0] == 'pull'){
     }
 }
 else {
-    def url = new URL"http://EPBYMINW1766.minsk.epam.com:8081/repository/artifact-repo/Pipeline/EasyHello/${rev}/pipeline-ykhodzin-${rev}.tar.gz".openConnection()
+    def url = new URL("http://EPBYMINW1766.minsk.epam.com:8081/repository/artifact-repo/Pipeline/EasyHello/${rev}/pipeline-ykhodzin-${rev}.tar.gz").openConnection()
     //def url = new URL("http://nexus/repository/${repo}/${group}/${group}-${app}_PUSH/${rev}/${group}-${app}-${rev}.tar.gz")
     //def http = url.openConnection()
     url.doOutput = true
