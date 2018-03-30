@@ -1,6 +1,14 @@
-import hudson.FilePath
-import jenkins.model.Jenkins
+//import hudson.FilePath
+//import jenkins.model.Jenkins
 
+
+def thread = Thread.currentThread()
+def build = thread.executable
+// Get build parameters
+def buildVariablesMap = build.buildVariables 
+// Get all environment variables for the build
+def buildEnvVarsMap = build.envVars
+String jobName = buildEnvVarsMap?.JOB_NAME
 if(build.workspace.isRemote()){channel = build.workspace.channel}
         String fp = build.workspace.toString()
         println fp
