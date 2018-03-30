@@ -46,6 +46,12 @@ groovy task_1.groovy push pipeline-ifilimonau-\$BUILD_NUMBER.tar.gz"""
     }
     stage('Approval') {
         input('Moving on?')
+        sh "rm -f *tar.gz gradle-simple.jar"
+    }
+    stage('Deployment'){
+        sh """groovy task_1.groovy pull pipeline-ifilimonau-\$BUILD_NUMBER.tar.gz
+tar xzvf *tar.gz
+java -jar gradle-simple.jar"""
     }
 }
 
