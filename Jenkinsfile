@@ -72,7 +72,7 @@ node("${SLAVE}") {
     stage ('Triggering job and fetching'){
             
         copyArtifacts filter: '*tar.gz', projectName: 'MNTLAB-amatiev-child1-build-job', selector: lastSuccessful()
-         build job: 'MNTLAB-amatiev-child1-build-job', parameters: [[$class: 'ExtendedChoiceParameterValue', name: 'GIT_BRANCH', value: 'amatiev']], propagate: false
+         build job: 'MNTLAB-amatiev-child1-build-job', parameters: [[$class: 'ExtendedChoiceParameterValue', name: 'GIT_BRANCH', value: 'amatiev']]
     }
     stage ('Packaging and Publishing results'){
         sh '''tar -xzf *tar.gz
