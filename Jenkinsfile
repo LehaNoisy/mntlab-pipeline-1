@@ -16,13 +16,13 @@ node("${SLAVE}") {
                 'Jacoco Tests': {sh 'gradle jacocoTestReport' },
                 'Cucumber Tests': {sh 'gradle cucumber' }, )}}
 
-    stage('Trigger job') {build job: 'CHILD_1'
+    stage('Trigger job') {build job: 'MNTLAB-achernak-child1-build-job'
 //mail bcc: '', body: '', cc: '', from: '', replyTo: '', subject: '$BUILD_TAG', to: 'ip.chernak@gmail.com'}
         sh 'rm -rf *.tar.gz'
         step([
             $class: 'CopyArtifact',
             filter: '*',
-            projectName: 'CHILD_1',])}
+            projectName: 'MNTLAB-achernak-child1-build-job',])}
                         
     stage ('Package and Publish'){
         sh 'tar xvf *.tar.gz' 	
