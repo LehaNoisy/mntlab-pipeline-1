@@ -2,7 +2,7 @@ import jenkins.*
 import jenkins.model.*
 import hudson.*
 import hudson.model.*
-
+import groovy.lang.*
     
 def date = new Date()
 def namestage = ""
