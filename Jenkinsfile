@@ -1,6 +1,7 @@
 node {
 	def child_job = 0
     	def number_child_job = 0
+	def (slave_name, job_name) =  ${JOB_NAME}.split('/')
 	
 	stage('Preparation (Checking out)') {
 		git branch: 'alahutsin', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
@@ -55,7 +56,8 @@ node {
 	stage ('Packaging and Publishing results'){
 		sh 'tar -xf child1_' + number_child_job + '_dsl_do.tar.gz'
 		//sh 'pwd && echo ${JOB_NAME}'
-		sh 'tar -czf pipeline-alahutsin-"${BUILD_NUMBER}".tar.gz jobs.groovy Jenkinsfile build/libs/${JOB_NAME}.jar'
+		//sh 'tar -czf pipeline-alahutsin-"${BUILD_NUMBER}".tar.gz jobs.groovy Jenkinsfile build/libs/${JOB_NAME}.jar'
+		sh 'tar -czf pipeline-alahutsin-"${BUILD_NUMBER}".tar.gz jobs.groovy Jenkinsfile build/libs/' + job_name + '.jar'
 		nexusArtifactUploader artifacts: [[artifactId: 'PIPELINE', classifier: 'APP', file: 'pipeline-alahutsin-${BUILD_NUMBER}.tar.gz', type: 'tar.gz']], credentialsId: 'b4e27ed2-dbbb-4efe-ba2e-c0952ae2d77e', groupId: 'REL', nexusUrl: 'epbyminw2467.minsk.epam.com:8081/repository/test/', nexusVersion: 'nexus3', protocol: 'http', repository: 'PROD', version: '${BUILD_NUMBER}'
     }
 
