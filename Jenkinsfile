@@ -27,11 +27,11 @@ node("${SLAVE}") {
     try {
         stage('git') {
             checkout sc2m
-            currentBuild.result = "SUCCESSFUL"
+            //currentBuild.result = "SUCCESSFUL"
         }} catch (e) {
-            currentBuild.result = "FAILURE"
-            if (currentBuild.result=="FAILURE"){
-                email_notification('git')}
+            //currentBuild.result = "FAILURE"
+            //currentBuild.result=="FAILURE"){
+                email_notification('git')//}
         throw any
         
          }
