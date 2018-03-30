@@ -49,18 +49,21 @@ node(env.SLAVE){
         sh 'tar -czf pipeline-azaitsau-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline.jar'
         archiveArtifacts 'pipeline-azaitsau-${BUILD_NUMBER}.tar.gz'
         //nexusArtifactUploader artifacts: [[artifactId: 'Pip-artifact', classifier: 'app', file: 'pipeline-azaitsau-${BUILD_NUMBER}.tar.gz', type: 'tar.gz']], credentialsId: 'nexus-creds', groupId: 'MNT-pipeline', nexusUrl: '10.6.204.75:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'Realise', version: '${BUILD_NUMBER}'
-}
-        
+    }
+    stage ('Push to Nexus'){
+        sh 'groovy push.groovy $BUILD_NUMBER'
+    }   
     
     stage('Asking for manual approval') {
     timeout(time: 5, unit: 'MINUTES') {
         input message: 'Do you want to release this build?', ok: 'Yes' 
        }
-   }
-    stage('Deployment'){
-        withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin", "PATH+GROOVY_HOME=${tool 'groovy4'}/bin"]){sh "groovy nexus.groovy pull ${BUILD_NUMBER}"}
-        //pull()
-        sh """tar -xvf download-${BUILD_NUMBER}.tar.gz
-        java -jar mntlab-ci-pipeline.jar"""
-}
+    }
+    stage ('Pull from Nexus'){
+        sh 'groovy pull.groovy $BUILD_NUMBER'
+    }
+    stage ('Deploy'){
+        sh 'tar xvf *${BUILD_NUMBER}.tar.gz'
+        sh 'java -jar mntlab-ci-pipeline.jar'
+    }
 }
