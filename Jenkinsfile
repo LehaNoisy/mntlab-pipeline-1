@@ -43,7 +43,8 @@ def pull(){
                     output.write(buffer, 0, n)
                 }
         output.close()
-
+        pwd()
+        sh 'ls -la'
         return ARTIFACT_NAME    
 }
 
