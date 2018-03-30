@@ -19,37 +19,9 @@ String jobName = buildEnvVarsMap?.JOB_NAME
 */
 
 node("${SLAVE}") {
-/*    
-def build = Thread.currentThread().executable
-
-def BUILD_NUMBER = build.environment.get("BUILD_NUMBER")
-def WORKSPACE = build.environment.get("WORKSPACE")
-
-if (build.workspace.isRemote()){channel = build.workspace.channel}
-            build_properties_file_content=""
-            fp = new hudson.FilePath(channel, build.workspace.toString() + "*.jar")
-        if (fp != null) {build_properties_file_content = fp.readToString()}  
-
-if (manager.build.workspace.isRemote()){
-    channel = manager.build.workspace.channel
-    manager.listener.logger.println  "I AM REMOTE!!"
-}
-if(build.workspace.isRemote()){channel = build.workspace.channel}
-        String fp = build.workspace.toString()
-        println fp*/
-            
-            
-            
-            
-            
-            
-            
-            
-            
-    //git branch: 'achernak', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
+        
     stage('Git Checkout'){checkout scm}
-    //checkout([$class: 'GitSCM', branches: [[name: '*/achernak']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline']]])}
-    
+        
     stage ('Build') {
         notifyStarted()
         tool name: 'gradle4.6', type: 'gradle'
