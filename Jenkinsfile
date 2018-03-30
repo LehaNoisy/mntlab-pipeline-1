@@ -1,4 +1,5 @@
-
+import hudson.FilePath
+import jenkins.model.Jenkins
 
 node("${SLAVE}") {
     //git branch: 'achernak', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
