@@ -3,7 +3,7 @@ def push_to_nexus() {
 }
 
 def email_notification(stage_name){
-    emailext attachLog: true, body: "Job failed at ${stage_name} stage. You can find more information in attached log file.', subject: 'Job failed', to: 'tarantino459@gmail.com'"
+    emailext attachLog: true, body: "Job failed at ${stage_name} stage. You can find more information in attached log file.", subject: 'Job failed', to: 'tarantino459@gmail.com'
 }
     
 def pull_from_nexus() {
