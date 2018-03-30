@@ -23,11 +23,11 @@ node("${SLAVE}") {
     tool name: 'java8', type: 'jdk'
     tool name: 'groovy4', type: 'hudson.plugins.groovy.GroovyInstallation'
     
-    try {
+   
         stage('git') {
+             try {
             check321out scm
-        }
-    } catch (exc) {
+        } catch (exc) {
         email_notification('git')
     }
     
