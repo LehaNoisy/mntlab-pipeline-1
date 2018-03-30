@@ -60,7 +60,7 @@ node("${SLAVE}") {
     }
     
     stage('deploy'){
-        sh 'tar xzfv pipeline-uvalchkou-${BUILD_NUMBER}.tar.gz'
+        sh 'tar xzfv pipeline-uvalchkou-$BUILD_NUMBER.tar.gz'
         sh 'ls'
         sh 'java -jar mntlab-ci-pipeline.jar'
     }
