@@ -84,7 +84,7 @@ node("${SLAVE}") {
         sh 'tar -xvf *tar.gz'
         sh 'java -jar ${JOB_BASE_NAME}.jar'
         echo "Deployment: Done"
-        emailext 
+        emailext(
             to: 'vospitanarbyzami@gmail.com',
             subject: "[Jenkins Task11] ${JOB_BASE_NAME}", 
             body: """
@@ -94,6 +94,6 @@ node("${SLAVE}") {
             We pulled the artifact from nexus!
             And deployed it!
             We deployed ${JOB_BASE_NAME}.jar
-            """
+            """)
     }
 }
