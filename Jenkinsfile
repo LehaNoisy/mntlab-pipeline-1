@@ -91,7 +91,7 @@ node("${SLAVE}") {
           echo ${WORKSPACE}
           ls -la
           '''
-       
+        agent { node { label "${SLAVE}" } step {push()}}
         
         //push()
     }
@@ -105,6 +105,7 @@ node("${SLAVE}") {
        
     }
     stage ('Deployment'){
+        
        /* pull()
         sh '''rm -rf *.jar
         tar -xzf *tar.gz
@@ -114,4 +115,4 @@ node("${SLAVE}") {
        
     }
 }
-agent { node { label '${SLAVE}' } push()}
+
