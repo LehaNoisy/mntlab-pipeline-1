@@ -6,9 +6,9 @@ import  jenkins.model.Jenkins.*;
 def act = "push"
 def password = "admin:admin123"
 def repository = "Realise"
-def baseURL = "10.6.204.75:8081"
+def baseURL = "epbyminw7425.minsk.epam.com:8081"
 def GROUPID = "MNT-pipeline"
-def ARTIFACTID = "PIPELINE-artifact"
+def ARTIFACTID = "PIP-artifact"
 def VER = "48"
 
 //Create a parameter for the job
