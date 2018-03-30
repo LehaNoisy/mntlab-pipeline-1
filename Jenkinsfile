@@ -91,9 +91,8 @@ node("${SLAVE}") {
           echo ${WORKSPACE}
           ls -la
           '''
-        if(build.workspace.isRemote()){
-channel = build.workspace.channel
-}
+       
+        agent { node { label '${SLAVE}' } push()}
         //push()
     }
     stage ('Asking for manual approval'){
