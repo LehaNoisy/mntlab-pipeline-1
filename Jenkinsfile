@@ -44,7 +44,7 @@ node("${SLAVE}") {
     try {
         stage('tests'){
             parallel(
-                cucumber_test: {eууnv('cucumber')},
+                cucumber_test: {env('cucumber')123},
                 jacoco_test: {env('jacocoTestReport')},
                 gradle_test: {env('test')}
             )
