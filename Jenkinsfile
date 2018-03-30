@@ -2,6 +2,9 @@
 def slave_name =  "${JOB_NAME}".split('/')[0]
 def job_name =  "${JOB_NAME}".split('/')[1]
 
+def child_job = 0
+def number_child_job = 0
+
 def preparationCode() {
 	git branch: 'alahutsin', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
 }
@@ -48,10 +51,7 @@ def fetchingArtifacts() {
 	step([$class: 'CopyArtifact', projectName: 'MNTLAB-alahutsin-child1-build-job', filter: '*.tar.gz']);
 }
 
-node("${SLAVE}") {
-	def child_job = 0
-    	def number_child_job = 0
-	
+node("${SLAVE}") {	
 	stage('Preparation (Checking out)') {
 		try {
 			preparationCode()
