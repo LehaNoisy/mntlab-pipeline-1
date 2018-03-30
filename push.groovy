@@ -1,6 +1,7 @@
+def WS = args[0]
+def BN = args[1]
 def cred = "amVua2luczpqZW5raW5z"
-def File = new File("${WORKSPACE}/pipeline-achernak-${BUILD_NUMBER}.tar.gz")//.getBytes()
-def connection = new URL( "http://EPBYMINW6122.minsk.epam.com:8081/repository/tomcat/appbackup/pipeline-achernak/${BUILD_NUMBER}/pipeline-achernak-${BUILD_NUMBER}.tar.gz").openConnection()
+def url = new URL( "http://EPBYMINW6122.minsk.epam.com:8081/repository/tomcat/appbackup/pipeline-achernak/${BN}/pipeline-achernak-${BN}.tar.gz").openConnection()
 connection.setRequestMethod("PUT")
 connection.doOutput = true
 connection.setRequestProperty("Authorization" , "Basic ${cred}")
