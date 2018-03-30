@@ -27,7 +27,6 @@ def push()  {
 def pull()  {
     
     def ART_NAME= "pipeline-amatiev-${BUILD_NUMBER}.tar.gz"
-    //def ART_NAME= "pipeline-amatiev-93.tar.gz"
     def MY_CREDS = "nexus:nexus"
     def MY_REPO = "my_repo"
     def NEXUS_PATH = "EPBYMINW2472.minsk.epam.com:8081"
@@ -38,8 +37,7 @@ def pull()  {
     def CONVERTED_CREDS = "${MY_CREDS}".getBytes().encodeBase64().toString()
 
 
-   //def fl = new File("${WORKSPACE}/$ART_NAME")
-    def fl = new File("$ART_NAME")
+  def fl = new File("$ART_NAME")
         def CONNECTION = new URL("http://${NEXUS_PATH}/repository/${MY_REPO}/${GROUP_ID}/${ART_ID}/${VER}/$ART_NAME").openConnection()
         CONNECTION.setRequestProperty("Authorization" , "Basic ${CONVERTED_CREDS}")
         fl << CONNECTION.inputStream
