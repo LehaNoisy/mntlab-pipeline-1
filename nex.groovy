@@ -22,14 +22,14 @@ if (args[0] == 'pull'){
     }
 }
 else {
-    def url ="http://EPBYMINW1766.minsk.epam.com:8081/repository/artifact-repo/Pipeline/EasyHello/${rev}/pipeline-ykhodzin-${rev}.tar.gz"
+    def url = new URL"http://EPBYMINW1766.minsk.epam.com:8081/repository/artifact-repo/Pipeline/EasyHello/${rev}/pipeline-ykhodzin-${rev}.tar.gz".openConnection()
     //def url = new URL("http://nexus/repository/${repo}/${group}/${group}-${app}_PUSH/${rev}/${group}-${app}-${rev}.tar.gz")
-    def http = url.openConnection()
-    http.doOutput = true
-    http.setRequestMethod("PUT")
-    http.setRequestProperty("Authorization", "Basic ${authString}")
-    http.setRequestProperty("Content-Type", "application/x-gzip")
-    def out = new DataOutputStream(http.outputStream)
+    //def http = url.openConnection()
+    url.doOutput = true
+    url.setRequestMethod("PUT")
+    url.setRequestProperty("Authorization", "Basic ${authString}")
+    url.setRequestProperty("Content-Type", "application/x-gzip")
+    def out = new DataOutputStream(url.outputStream)
     out.write(new File ("pipeline-ykhodzin-${rev}.tar.gz").getBytes())
     out.close()
     println http.responseCode
