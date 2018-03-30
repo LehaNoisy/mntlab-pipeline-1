@@ -3,9 +3,10 @@
    def downJava
    def Child_Job
    
-node {
+node("${SLAVE}") {
    //stage 1 && 2
    stage('Preparation') { // for display purposes
+      println "${SLAVE}"
       git url: 'https://github.com/MNT-Lab/mntlab-pipeline.git', branch: 'vpeshchanka' 
       downGradle = tool 'gradle4.6'
       downJava = tool 'java8'
