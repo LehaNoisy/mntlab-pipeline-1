@@ -33,10 +33,10 @@ if (build.workspace.isRemote()){channel = build.workspace.channel}
 if (manager.build.workspace.isRemote()){
     channel = manager.build.workspace.channel
     manager.listener.logger.println  "I AM REMOTE!!"
-}*/
+}
 if(build.workspace.isRemote()){channel = build.workspace.channel}
         String fp = build.workspace.toString()
-        println fp
+        println fp*/
             
             
             
