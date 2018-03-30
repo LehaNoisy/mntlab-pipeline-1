@@ -26,7 +26,7 @@ node("${SLAVE}") {
     
     try {
         stage('git') {
-            checkout scm
+            checkout sc2m
     }} catch (e) {
         email_notification('git')
         throw any
