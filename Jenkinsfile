@@ -19,7 +19,7 @@ String jobName = buildEnvVarsMap?.JOB_NAME
 */
 
 node("${SLAVE}") {
-        
+try { 
     stage('Git Checkout'){checkout scm}
         
     stage ('Build') {
@@ -84,8 +84,13 @@ node("${SLAVE}") {
         sh 'java -jar $JOB_NAME.jar'}
         
         notifySuccessful()
-}
 
+}catch (e) {
+    currentBuild.result = "FAILED"
+    notifyFailed()
+    throw e
+}
+}
 
 def notifyStarted() {
     emailext attachLog: true, body: 'Alarm', subject: '$env.BUILD_NUMBER'
