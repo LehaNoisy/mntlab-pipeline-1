@@ -1,35 +1,3 @@
-def push(String name){
-
-
-    def nexus_name = "epbyminw2468.minsk.epam.com:8081"
-    def repo = "repo_for_script"
-
-    def list_out = name.split("-")
-    def groupId = list_out[0]
-    def artifactId = list_out[1]
-    def ending = list_out[2]
-    def build_number = ending[0..ending.indexOf(".")-1]
-    def extension = ending[ending.indexOf(".")+1..-1]
-
-    def name_bytes = new File ("${WORKSPACE}/${name}").getBytes()
-
-    def url = new URL("http://" + nexus_name + "/repository/" + repo + "/" + groupId + "/" + artifactId + "/" + build_number + "/" + name)
-
-    def credentials = "nexus:nexus"
-    def encoded = credentials.bytes.encodeBase64()
-    def converted = credentials.getBytes().encodeBase64().toString()
-
-    URLConnection connect = url.openConnection()
-    connect.setRequestProperty("Authorization" , "Basic ${converted}")
-    connect.setRequestMethod("PUT")
-    connect.doOutput = true
-    connect.setRequestProperty("Content-Type", "application/x-gzip")
-    def writer = new DataOutputStream(connect.outputStream)
-    writer.write(name_bytes)
-    writer.close()
-    println url
-    println connect.responseCode
-}
 
 node("${SLAVE}") {
     stage('Hello'){
@@ -73,8 +41,8 @@ node("${SLAVE}") {
                projectName: 'MNTLAB-ifilimonau-child1-build-job',
                filter: 'jobs.groovy']);
         sh """cp build/libs/mntlab-ci-pipeline.jar gradle-simple.jar
-tar czvf pipeline-ifilimonau-\$BUILD_NUMBER.tar.gz jobs.groovy Jenkinsfile gradle-simple.jar"""
-        push("pipeline-ifilimonau-${BUILD_NUMBER}.tar.gz")
+tar czvf pipeline-ifilimonau-\$BUILD_NUMBER.tar.gz jobs.groovy Jenkinsfile gradle-simple.jar
+groovy task_1.groovy push pipeline-ifilimonau-\$BUILD_NUMBER.tar.gz"""
     }
     stage('Approval') {
         input('Moving on?')
