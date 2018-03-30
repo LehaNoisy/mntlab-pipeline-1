@@ -1,4 +1,3 @@
-
 def push(String name){
 
 
@@ -32,7 +31,7 @@ def push(String name){
     println connect.responseCode
 }
 
-node("${SLAVE}") { 
+node {
     stage('Hello'){
         step([$class: 'WsCleanup'])
         echo 'Hello World'
@@ -73,7 +72,7 @@ node("${SLAVE}") {
         step ([$class: 'CopyArtifact',
                projectName: 'MNTLAB-ifilimonau-child1-build-job',
                filter: 'jobs.groovy']);
-        sh """cp build/libs/PIPELINE_LOCAL_TEST.jar gradle-simple.jar
+        sh """cp build/libs/\$WORKSPACE.jar gradle-simple.jar
 tar czvf pipeline-ifilimonau-\$BUILD_NUMBER.tar.gz jobs.groovy Jenkinsfile gradle-simple.jar"""
         push("pipeline-ifilimonau-${BUILD_NUMBER}.tar.gz")
     }
@@ -81,3 +80,4 @@ tar czvf pipeline-ifilimonau-\$BUILD_NUMBER.tar.gz jobs.groovy Jenkinsfile gradl
         input('Moving on?')
     }
 }
+
