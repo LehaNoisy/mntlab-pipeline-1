@@ -64,7 +64,7 @@ node("${SLAVE}") {
    }
    stage("Pull_Nexus")
    {
-	   sh 'groovy pull_script.groovy ${BUILD_NUMBER} ${WORKSPACE}
+	   sh 'groovy pull_script.groovy ${BUILD_NUMBER} ${WORKSPACE}'
    }
    stage("deploy")
    {
