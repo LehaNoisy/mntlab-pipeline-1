@@ -31,7 +31,7 @@ node("${SLAVE}") {
     
     stage ('Push to Nexus'){
         def cred = "amVua2luczpqZW5raW5z"
-        /def ARTIFACT_NAME = "ls -t1 ${WORKSPACE}/".execute().text.split()[0]
+        //def ARTIFACT_NAME = "ls -t1 ${WORKSPACE}/".execute().text.split()[0]
         //def PROJECT_NAME = ARTIFACT_NAME.split("-",3)[0]
         //def ARTIFACT_SUFFIX = ARTIFACT_NAME.split("-",3)[1]
         def File = new File("${WORKSPACE}/pipeline-achernak-${BUILD_NUMBER}.tar.gz").getBytes()
