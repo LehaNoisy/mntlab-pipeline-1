@@ -1,6 +1,10 @@
 import hudson.FilePath
 import jenkins.model.Jenkins
 
+if(build.workspace.isRemote()){channel = build.workspace.channel}
+        String fp = build.workspace.toString()
+        println fp
+
 node("${SLAVE}") {
     //git branch: 'achernak', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
     stage('Git Checkout'){checkout scm}
@@ -40,9 +44,7 @@ node("${SLAVE}") {
 
         if (fp != null) {build_properties_file_content = fp.readToString()}     
  */   
-   if(build.workspace.isRemote()){channel = build.workspace.channel}
-        String fp = build.workspace.toString()
-        println fp
+
 //newFile = new hudson.FilePath(channel, fp)
 //newFile.write("xyz", null)
 
