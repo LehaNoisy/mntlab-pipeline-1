@@ -27,7 +27,7 @@ def pull() {
 node("${SLAVE}") {
     //def work = new Nexus(this)
     stage('Preparation (Checking out)'){
-        checkout([$class: 'GitSCM', branches: [[name: '*/ykhodzin']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline']]])
+        checkout scm
     }
     stage('Building code'){
         tool name: 'java8', type: 'jdk'
@@ -53,9 +53,9 @@ node("${SLAVE}") {
     }
     stage('Packaging and Publishing results'){
         sh """tar -xvf ykhodzin_dsl_script.tar.gz
-        tar -czf pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline.jar"""
+        tar -czf ${WORKSPACE}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline.jar"""
         push()
-        archiveArtifacts "pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz"//*/
+        archiveArtifacts "${WORKSPACE}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz"//*/
     }
     stage('Asking for manual approval'){
         input 'Confirm deploy'
