@@ -59,6 +59,7 @@ node("${SLAVE}") {
     }
     
     stage('pull'){
+        sh 'ls'
         pull_from_nexus()
     }
     
