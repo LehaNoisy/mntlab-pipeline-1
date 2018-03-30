@@ -79,8 +79,9 @@ pwd"""
         input 'Confirm deploy'
     }
     stage('Deployment'){
-        pull()
-        sh """tar -xvf download.tar.gz
+        withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin", "PATH+GROOVY_HOME=${tool 'groovy4'}/bin"]){sh "groovy nex.groovy pull ${BUILD_NUMBER}"}
+        //pull()
+        sh """tar -xvf download-${BUILD_NUMBER}.tar.gz
         java -jar mntlab-ci-pipeline.jar"""
     }
 }
