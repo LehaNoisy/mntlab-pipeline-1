@@ -30,11 +30,34 @@ node("${SLAVE}") {
         archiveArtifacts 'pipeline-achernak-${BUILD_NUMBER}.tar.gz'}
     
     
-    if(build.workspace.isRemote()){channel = build.workspace.channel}
-        String fp = build.workspace.toString() + "\\" + "pipeline-achernak-${BUILD_NUMBER}.tar.gz"
-        println fp
+//    if(build.workspace.isRemote()){channel = build.workspace.channel}
+//        String fp = build.workspace.toString() + "\\" + "pipeline-achernak-${BUILD_NUMBER}.tar.gz"
+//        println fp
 //newFile = new hudson.FilePath(channel, fp)
 //newFile.write("xyz", null)
+
+import hudson.model.*;
+import hudson.util.*;
+
+manager.listener.logger.println manager.build.project.getWorkspace()
+manager.listener.logger.println manager.build.workspace
+
+if (manager.build.workspace.isRemote()){
+    channel = manager.build.workspace.channel
+    manager.listener.logger.println  "I AM REMOTE!!"
+}
+
+fp = manager.build.workspace.toString()
+newFile = new hudson.FilePath(channel, fp)
+
+if (newFile.exists()) {
+        manager.listener.logger.println "FILE EXISTS!!!"
+        def perfData = newFile.read().getText('UTF-8')
+        manager.listener.logger.println perfData
+}
+    
+    
+    
     
     stage ('Push to Nexus'){
         def cred = "amVua2luczpqZW5raW5z"
