@@ -24,8 +24,8 @@ def pull() {
     down.setRequestProperty("Authorization", "Basic ${authString}")
     file << down.inputStream
 }
-
-node('master') {
+${SLAVE}
+node("${SLAVE}") {
     //def work = new Nexus(this)
     stage('Preparation (Checking out)'){
         checkout([$class: 'GitSCM', branches: [[name: '*/ykhodzin']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline']]])
