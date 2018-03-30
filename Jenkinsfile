@@ -67,11 +67,11 @@ ls -la
 pwd
 """
 ////
-         withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin", "PATH+GROOVY=${tool 'groovy4'}/bin"]){sh "env"}
+         withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin", "GROOVY_HOME=${tool 'groovy4'}"]){sh "env;groovy println('asdasdasdasdasd')"}
        // def test = readFile "pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz"
         //push(test)
        // archiveArtifacts "${WORKSPACE}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz"
-        archiveArtifacts "${test}"
+       // archiveArtifacts "${test}"
     }
     stage('Asking for manual approval'){
         input 'Confirm deploy'
