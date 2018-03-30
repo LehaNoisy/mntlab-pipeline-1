@@ -64,14 +64,28 @@ node("${SLAVE}") {
         ])
         echo "Triggering job: Done"
     }
-    stage ('Packaging and Publishing results'){
-        echo "Start Packaging and Publishing"
-        sh 'tar -xvf *.tar.gz'
-        sh 'tar -czf pipeline-ayarmalovich-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ ${JOB_BASE_NAME}.jar'
-        archiveArtifacts 'pipeline-ayarmalovich-${BUILD_NUMBER}.tar.gz'
-        sh 'groovy actions.groovy push pipeline-ayarmalovich-${BUILD_NUMBER}.tar.gz'
-        sh 'rm -rf *tar.gz'
-        echo "Packaging and Publishing: Done"
+    try {
+        stage ('Packaging and Publishing results'){
+            echo "Start Packaging and Publishing"
+            sh 'tar -xvf *.tar.gz'
+            sh 'tar -czf pipeline-ayarmalovich-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ ${JOB_BASE_NAME}.jar'
+            archiveArtifacts 'pipeline-ayarmalovich-${BUILD_NUMBER}.tar.gz'
+            sh 'groovy actions.groovy push pipeline-ayarmalovich-${BUILD_NUMBER}.tar.gz'
+            sh 'rm -rf *tar.gz'
+            echo "Packaging and Publishing: Done"
+        }
+         currentBuild.result = "SUCCESS"
+    }
+    catch (all) {
+        currentBuild.result = "FAILURE"
+        if(currentBuild.result=="FAILURE") {
+            emailext(
+            to: 'vospitanarbyzami@gmail.com',
+            subject: "Jenkins Task11 - ${JOB_BASE_NAME}", 
+                body: """${currentBuild.result}  FAILURE"""
+            )
+        }
+        throw any
     }
     try {
         stage ('Asking for manual approval'){
@@ -87,7 +101,7 @@ node("${SLAVE}") {
             emailext(
             to: 'vospitanarbyzami@gmail.com',
             subject: "Jenkins Task11 - ${JOB_BASE_NAME}", 
-            body: """ABORTED"""
+                body: """${currentBuild.result}  ABORTED"""
             )
         }
     }
