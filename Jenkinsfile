@@ -91,7 +91,7 @@ node("${SLAVE}") {
           echo ${WORKSPACE}
           ls -la
           '''
-     
+     channel = build.workspace.channel
         
         //push()
     }
