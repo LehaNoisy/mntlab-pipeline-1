@@ -48,5 +48,11 @@ node(env.SLAVE){
         sh 'tar xvf *.tar.gz' 	
         sh 'tar -czf pipeline-azaitsau-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline.jar'
         archiveArtifacts 'pipeline-azaitsau-${BUILD_NUMBER}.tar.gz'
-    }    
+        
+    }
+    stage('Asking for manual approval') {
+    timeout(time: 5, unit: 'MINUTES') {
+        input message: 'Do you want to release this build?', ok: 'Yes' 
+}
+
 }
