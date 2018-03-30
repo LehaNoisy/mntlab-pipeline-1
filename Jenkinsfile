@@ -1,3 +1,6 @@
+import hudson.FilePath
+import jenkins.model.Jenkins
+
 def func_gradle(String command){
     withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){sh "gradle ${command}"}
 }
@@ -10,20 +13,10 @@ def push() {
     http.setRequestMethod("PUT")
     http.setRequestProperty("Authorization", "Basic ${authString}")
     http.setRequestProperty("Content-Type", "application/x-gzip")
-    
-
-
-
-
-    if(build.workspace.isRemote()){
-    channel = build.workspace.channel
-    }
-    String fp = build.workspace.toString() + "\\" + "newfile.txt"
-    newFile = new hudson.FilePath(channel, fp)
-    newFile.write("xyz", null)
-
+    def path = "${WORKSPACE}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz";//////
+    def lalala = new FilePath(Jenkins.getInstance().getComputer(env["${SLAVE}"]).getChannel(), path);////
     def out = new DataOutputStream(http.outputStream)
-    def test = new File("${WORKSPACE}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz")
+    def test = new File(lalala)
     out.write(test.getBytes())
     out.close()
     println http.responseCode
