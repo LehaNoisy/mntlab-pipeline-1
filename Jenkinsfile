@@ -11,7 +11,7 @@ node(env.SLAVE){
     stage('Build') {
          sh "'${downGradle}/bin/gradle' build"
       }
-   }
+   
    stage('Results') {
       archive 'target/*.jar'
    }
