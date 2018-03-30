@@ -3,6 +3,16 @@ import jenkins.model.*
 import hudson.*
 import hudson.model.*
 
+def emailfailure (status, namestage){
+    if(status=="FAILURE") {
+        emailext(
+            to: 'vospitanarbyzami@gmail.com',
+            subject: "Jenkins Task11 - ${JOB_BASE_NAME}", 
+            body: "${namestage} - ${status}"
+        )
+    }
+}
+    
 def job_pattern = /EPBYMINW2473.*child*/
 def NameJob(pattern) {
     def matchedJobs = Jenkins.instance.getAllItems(jenkins.model.ParameterizedJobMixIn.ParameterizedJob.class).findAll{
@@ -78,33 +88,16 @@ node("${SLAVE}") {
          currentBuild.result = "SUCCESS"
     }
     catch (all) {
+        currentBuild.Name = "Packaging and Publishing results"
         currentBuild.result = "FAILURE"
-        if(currentBuild.result=="FAILURE") {
-            emailext(
-            to: 'vospitanarbyzami@gmail.com',
-            subject: "Jenkins Task11 - ${JOB_BASE_NAME}", 
-                body: """${currentBuild.result}  FAILURE"""
-            )
-        }
+        emailfailure(currentBuild.Name, currentBuild.result)
         throw any
     }
-    try {
-        stage ('Asking for manual approval'){
+    
+    stage ('Asking for manual approval'){
             timeout(time: 60, unit: 'SECONDS'){
                 input message: 'Do you want to deploy an artifact?', ok: 'Start Deploy'
             }
-        }
-        currentBuild.result = "SUCCESS"
-    }
-    catch (all) {
-        currentBuild.result = "ABORTED"
-        if(currentBuild.result=="ABORTED") {
-            emailext(
-            to: 'vospitanarbyzami@gmail.com',
-            subject: "Jenkins Task11 - ${JOB_BASE_NAME}", 
-                body: """${currentBuild.result}  ABORTED"""
-            )
-        }
     }
     stage ('Deployment'){
         echo "Start Deployment"
