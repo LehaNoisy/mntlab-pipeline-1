@@ -6,7 +6,7 @@ import hudson.console.HyperlinkNote
 import java.util.concurrent.CancellationException
 import groovy.json.JsonSlurper
 
-def build = Thread.currentThread().executable
+//def build = Thread.currentThread().executable
 //def thr = Thread.currentThread()
 //def build = thr?.executable
 
