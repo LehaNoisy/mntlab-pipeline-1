@@ -1,6 +1,7 @@
 def push()  {
     
-    def ART_NAME= "pipeline-amatiev-${BUILD_NUMBER}.tar.gz"
+    //def ART_NAME= "pipeline-amatiev-${BUILD_NUMBER}.tar.gz"
+    def ART_NAME= "aa.txt"
     def MY_CREDS = "nexus:nexus"
     def MY_REPO = "my_repo"
     def NEXUS_PATH = "EPBYMINW2472.minsk.epam.com:8081"
@@ -15,7 +16,7 @@ def push()  {
     CONNECTION.setRequestProperty("Authorization" , "Basic ${CONVERTED_CREDS}")
     CONNECTION.setRequestMethod("PUT")
     CONNECTION.doOutput = true
-    CONNECTION.setRequestProperty( "Content-Type", "application/x-gzip" )
+    //CONNECTION.setRequestProperty( "Content-Type", "application/x-gzip" )
     def writer = new DataOutputStream(CONNECTION.outputStream)
     writer.write(fle)
     writer.close()
@@ -84,8 +85,10 @@ node("${SLAVE}") {
             ls -la
             ls -la ./build/libs
             tar -czf pipeline-amatiev-${BUILD_NUMBER}.tar.gz Jenkinsfile jobs.groovy -C ./build/libs mntlab-ci-pipeline.jar
+          touch aaa.txt
           pwd
-          ls -la'''
+          ls -la
+          '''
    
         push()
     }
