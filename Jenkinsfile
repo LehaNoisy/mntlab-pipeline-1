@@ -3,18 +3,14 @@ def slave_name =  "${JOB_NAME}".split('/')[0]
 def job_name =  "${JOB_NAME}".split('/')[1]
 
 def preparationCode() {
-	stage('Preparation (Checking out)') {
-		git branch: 'alahutsin', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
-	}
+	git branch: 'alahutsin', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
 }
 
 def buildingCode() {
-	stage ('Building code') {
 	tool name: 'gradle4.6', type: 'gradle'
 	tool name: 'java8', type: 'jdk'
 	withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){
 		sh "gradle build"
-		}
 	}
 }
 
