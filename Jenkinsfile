@@ -84,6 +84,16 @@ node("${SLAVE}") {
         sh 'tar -xvf *tar.gz'
         sh 'java -jar ${JOB_BASE_NAME}.jar'
         echo "Deployment: Done"
-        emailext body: 'WELL DONE, COMRADES! We Done This!', subject: 'mntlab-ci-pipeline', to: 'vospitanarbyzami@gmail.com'
+        emailext 
+            to: 'vospitanarbyzami@gmail.com',
+            subject: "[Jenkins Task11] ${JOB_BASE_NAME}", 
+            body: """
+            WELL DONE, COMRADES! 
+            ${JOB_BASE_NAME} - Finished: SUCCESS
+            BUILD_NUMBER: ${BUILD_NUMBER}
+            We pulled the artifact from nexus!
+            And deployed it!
+            We deployed ${JOB_BASE_NAME}.jar
+            """
     }
 }
