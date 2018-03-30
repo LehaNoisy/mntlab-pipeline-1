@@ -90,7 +90,7 @@ node("${SLAVE}") {
     catch (all) {
         currentBuild.Name = "Packaging and Publishing results"
         currentBuild.result = "FAILURE"
-        emailfailure(currentBuild.Name, currentBuild.result)
+        emailfailure(currentBuild.result, currentBuild.Name)
         throw any
     }
     
