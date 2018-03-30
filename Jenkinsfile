@@ -1,6 +1,10 @@
 def push_to_nexus() {
     nexusArtifactUploader artifacts: [[artifactId: 'pipeline', classifier: '', file: 'pipeline-uvalchkou-$BUILD_NUMBER.tar.gz', type: 'tar.gz']], credentialsId: 'nexus-creds', groupId: 'pipeline', nexusUrl: 'epbyminw2471.minsk.epam.com:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'uvalchkou', version: '$BUILD_NUMBER'
 }
+
+def email_notification(String stage_name){
+    emailext attachLog: true, body: 'Job failed at $stage_name stage. You can find more information in attached log file.', subject: 'Job failed', to: 'tarantino459@gmail.com'
+}
     
 def pull_from_nexus() {
     withEnv(["PATH+GROOVY_HOME=${tool 'groovy4'}/bin"]){
@@ -19,8 +23,13 @@ node("${SLAVE}") {
     tool name: 'java8', type: 'jdk'
     tool name: 'groovy4', type: 'hudson.plugins.groovy.GroovyInstallation'
     
+    try {
     stage('git') {
-        checkout scm
+        check321out scm
+    }
+    } catch (e) {
+        currentStage.result = 'FAILURE'
+        email_notification('git')
     }
     
     stage('build'){
@@ -62,7 +71,7 @@ node("${SLAVE}") {
     }
     
     stage('notification'){
-        emailext attachLog: true, body: '', subject: 'test_message', to: 'tarantino459@gmail.com'
+        emailext attachLog: true, body: '', subject: 'Build successful', to: 'tarantino459@gmail.com'
 
     }
 }    
