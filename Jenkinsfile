@@ -69,7 +69,7 @@ node("${SLAVE}") {
         echo "Start Packaging and Publishing"
         sh 'tar -xvf *.tar.gz'
         sh 'tar -czf pipeline-$branch-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ ${JOB_BASE_NAME}.jar'
-        archiveArtifacts 'pipeline-ayarmalovich-${BUILD_NUMBER}.tar.gz'
+        archiveArtifacts 'pipeline-$branch-${BUILD_NUMBER}.tar.gz'
         sh 'groovy actions.groovy push pipeline-$branch-${BUILD_NUMBER}.tar.gz'
         sh 'rm -rf *tar.gz'
         echo "Packaging and Publishing: Done"
