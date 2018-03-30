@@ -23,9 +23,7 @@ def notifyStarted() {
 node("${SLAVE}") {
 try { 
     stage('Git Checkout'){checkout scm}
-     mail to: 'ip.chernak@gmail.com',
-             subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
-             body: "Something is wrong with ${BUILD_URL}"    
+     
     stage ('Build') {
         notifyStarted()
         tool name: 'gradle4.6', type: 'gradle'
