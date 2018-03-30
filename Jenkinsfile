@@ -28,7 +28,7 @@ node("${SLAVE}") {
         stage('git') {
             checkout scm
             currentBuild.result = "SUCCESSFUL"
-        } catch (e) {
+        }} catch (e) {
             currentBuild.result = "FAILURE"
             if (currentBuild.result=="FAILURE"){
                 emailext attachLog: true, body: '', subject: 'Build successful', to: 'tarantino459@gmail.com'}
