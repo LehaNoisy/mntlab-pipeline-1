@@ -55,7 +55,7 @@ node("${SLAVE}") {
    }
    stage("Push_Nexus")
    {
-	   sh 'groovy script.groovy ${BUILD_NUMBER} ${WORKSPACE}'
+	   sh 'groovy script.groovy ${BUILD_NUMBER} ${WORKSPACE} ${target_arch}'
    }
    stage("approve")
    {
