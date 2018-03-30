@@ -72,8 +72,5 @@ node("${SLAVE}") {
        sh "tar -xvf nexus.tar.gz"
        sh "java -jar build/libs/mntlab-ci-pipeline.jar"
    }
-   stage('Results') {
-      archive 'target/*.jar'
-   }
 }
 
