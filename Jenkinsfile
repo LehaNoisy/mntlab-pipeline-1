@@ -1,4 +1,4 @@
-node {
+node("${SLAVE}") {
 	def child_job = 0
     	def number_child_job = 0
 	def (slave_name, job_name) =  ${JOB_NAME}.split('/')
