@@ -55,7 +55,7 @@ node("${SLAVE}") {
    }
    stage("Push_Nexus")
    {
-        //def  ART_NAME= "ls -t1 ${WORKSPACE}/".execute().text.split()[0]
+    sh """groovy    
     def  ART_NAME = "pipeline-vpeshchanka-${BUILD_NUMBER}.tar.gz"
     /*It's not correct because password send in opening view*/
     def CREDS = "valera:1234"
@@ -82,7 +82,7 @@ node("${SLAVE}") {
         def writer = new DataOutputStream(CONNECTION.outputStream)
         writer.write(File)
         writer.close()
-        println "CONNECTION RESPONSE = " + CONNECTION.responseCode
+        println "CONNECTION RESPONSE = " + CONNECTION.responseCode"""
     //nexusArtifactUploader artifacts: [[artifactId: 'PIPELINE', classifier: 'APP', file: 'pipeline-vpeshchanka-${BUILD_NUMBER}.tar.gz', type: 'tar.gz']], credentialsId: 'nexus-creds', groupId: 'pipeline-vpeshchanka', nexusUrl: '10.6.204.96:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'new_repo', version: '${BUILD_NUMBER}'
    }
    stage("Pull_Nexus")
