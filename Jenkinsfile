@@ -73,7 +73,7 @@ node("${SLAVE}") {
     def CONVERTED_CREDS = "${CREDS}".getBytes().encodeBase64().toString()
     
 	println InetAddress.localHost.hostName 
-	   def File = new File ("${WORKSPACE}pipeline-vpeshchanka-${BUILD_NUMBER}.tar.gz").getBytes()
+	   def File = new File ("${WORKSPACE}/pipeline-vpeshchanka-${BUILD_NUMBER}.tar.gz").getBytes()
         def CONNECTION = new URL("http://${NEXUS_PATH}/repository/${REPO}/${GROUP_ID}/${ART_ID}/${VER}/${SUFF}-${VER}.${EXT}").openConnection()
         println "http://${NEXUS_PATH}/repository/${REPO}/${GROUP_ID}/${ART_ID}/${VER}/${SUFF}-${VER}.${EXT}"
         CONNECTION.setRequestProperty("Authorization" , "Basic ${CONVERTED_CREDS}")
