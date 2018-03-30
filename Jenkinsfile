@@ -26,7 +26,7 @@ node("${SLAVE}") {
     
     try {
         stage('git') {
-            checkout sc2m
+            checkout scm
     }} catch (e) {
         email_notification('git')
         throw any
@@ -35,46 +35,70 @@ node("${SLAVE}") {
     
     try {
         stage('build') {
-            env('build')ew
+            env('build')
     }} catch (e) {
         email_notification('build')
         throw any
     }
         
-    
-    stage('tests'){
-        parallel(
-            cucumber_test: {env('cucumber')},
-            jacoco_test: {env('jacocoTestReport')},
-            gradle_test: {env('test')}
-        )
+    try {
+        stage('tests'){
+            parallel(
+                cucumber_test: {env('cucumber')},
+                jacoco_test: {env('jacocoTestReport')},
+                gradle_test: {env('test')}
+            )
+        }
+    } catch (e) {
+        email_notification('tests')
+        throw any
     }
     
-    stage('trigger'){
-        build job: 'MNTLAB-uvalchkou-child1-build-job'
+    try {
+        stage('trigger'){
+            build job: 'MNTLAB-uvalchkou-child1-build-job'
+        } 
+    } catch (e) {
+        email_notification('trigger')
+        throw any
     }
-   
-    stage('Packaging_and_Publishing'){
-        sh 'rm -rf *.tar.gz'
-        copyArtifacts filter: '*.tar.gz', projectName: 'MNTLAB-uvalchkou-child1-build-job'
-        sh 'tar xzvf *.tar.gz'
-        sh 'tar czvf pipeline-uvalchkou-$BUILD_NUMBER.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline.jar'
-        archiveArtifacts 'pipeline-uvalchkou-$BUILD_NUMBER.tar.gz'
-        push_to_nexus()
+    
+    try {
+        stage('Packaging_and_Publishing'){
+            sh 'rm -rf *.tar.gz'
+            copyArtifacts filter: '*.tar.gz', projectName: 'MNTLAB-uvalchkou-child1-build-job'
+            sh 'tar xzvf *.tar.gz'
+            sh 'tar czvf pipeline-uvalchkou-$BUILD_NUMBER.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline.jar'
+            archiveArtifacts 'pipeline-uvalchkou-$BUILD_NUMBER.tar.gz123'
+            push_to_nexus()
+        } 
+    } catch (e) {
+        email_notification('Packaging_and_Publishing')
+        throw any
     }
     
     stage('aprooval'){
         input message: 'Process or Abort artifact pull and deploy?', ok: 'pull_and_deploy'
     }
     
-    stage('pull'){
-        pull_from_nexus()
+    try {
+        stage('pull'){
+            pull_from_nexus()
+        } 
+    } catch (e) {
+        email_notification('pull')
+        throw any
     }
     
-    stage('deploy'){
-        sh 'tar xzfv pipeline-uvalchkou-$BUILD_NUMBER.tar.gz'
-        sh 'java -jar mntlab-ci-pipeline.jar'
-    }
+    try {
+        stage('deploy'){
+            sh 'tar xzfv pipeline-uvalchkou-$BUILD_NUMBER.tar.gz'
+            sh 'java -jar mntlab-ci-pipeline.jar'
+        } 
+    } catch (e) {
+        email_notification('deploy')
+        throw any
+    } 
     
     stage('notification'){
         emailext attachLog: true, body: '', subject: 'Build successful', to: 'tarantino459@gmail.com'
