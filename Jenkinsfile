@@ -26,8 +26,8 @@ def push()  {
    
 def pull()  {
     
-    //def ART_NAME= "pipeline-amatiev-${BUILD_NUMBER}.tar.gz"
-    def ART_NAME= "pipeline-amatiev-93.tar.gz"
+    def ART_NAME= "pipeline-amatiev-${BUILD_NUMBER}.tar.gz"
+    //def ART_NAME= "pipeline-amatiev-93.tar.gz"
     def MY_CREDS = "nexus:nexus"
     def MY_REPO = "my_repo"
     def NEXUS_PATH = "EPBYMINW2472.minsk.epam.com:8081"
