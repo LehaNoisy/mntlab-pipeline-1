@@ -10,7 +10,7 @@ node("${SLAVE}"){
     }
     stage('Build') {
       if (isUnix()) {
-         sh "'${downGradle}/bin/gradle' build"
+         sh "${downGradle}/bin/gradle build"
       } else {
          bat(/"${downGradle}\bin\gradle" build/)
       }
