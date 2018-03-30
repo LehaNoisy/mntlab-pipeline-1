@@ -8,9 +8,10 @@ def emailfailure (status, namestage){
     if(status=="FAILURE") {
         emailext(
                 to: 'vospitanarbyzami@gmail.com',
+                attachLog: true,
                 subject: "Jenkins Task11 - ${JOB_BASE_NAME}",
             body: """${currentBuild.fullDisplayName} 
-            Stage Name - ${namestage} Result status - ${status}"""
+Stage Name - ${namestage} Result status - ${status}"""
         )
     }
 }
@@ -143,13 +144,14 @@ node("${SLAVE}") {
             echo "Deployment: Done"
             emailext(
                     to: 'vospitanarbyzami@gmail.com',
+                    attachLog: true,
                     subject: "Jenkins Task11 - ${JOB_BASE_NAME}",
                     body: """WELL DONE, COMRADES!
-            ${JOB_BASE_NAME} - Finished: SUCCESS
-            BUILD_NUMBER: ${BUILD_NUMBER}
-            We pulled the artifact from nexus!
-            And deployed it!
-            We deployed ${JOB_BASE_NAME}.jar"""
+${JOB_BASE_NAME} - Finished: SUCCESS
+BUILD_NUMBER: ${BUILD_NUMBER}
+We pulled the artifact from nexus!
+And deployed it!
+We deployed ${JOB_BASE_NAME}.jar"""
             )
         }
         currentBuild.result = "SUCCESS"
