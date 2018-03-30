@@ -73,7 +73,7 @@ pwd
 """
 ////
  ////       push()
-        sh """groovy println Hellllloooo"
+        sh """groovy println Hellllloooo"""
         archiveArtifacts "${WORKSPACE}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz"//*/
     }
     stage('Asking for manual approval'){
