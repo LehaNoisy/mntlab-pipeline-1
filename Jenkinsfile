@@ -33,8 +33,8 @@ def pull(){
         URLConnection conn = url.toURL().openConnection()
         conn.setRequestProperty( "Authorization", "Basic ${authString}" )
         println conn.responseCode
-        println conn.inputStream.getText()
-        println conn.getInputStream()
+       // println conn.inputStream.getText()
+       // println conn.getInputStream()
         InputStream input = conn.getInputStream()
         byte[] buffer = new byte[4096]
         int n
