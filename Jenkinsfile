@@ -67,7 +67,7 @@ node("${SLAVE}") {
         def file = new File("${WORKSPACE}/${filename}")
         file << pull_url.inputStream
         println pull_url.responseCode
-}
+
          //pull_from_nexus()
     }
     
