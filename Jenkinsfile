@@ -26,11 +26,11 @@ node("${SLAVE}") {
     echo "Hello MNT-Lab"
     tool name: 'gradle4.6', type: 'gradle'
     tool name: 'java8', type: 'jdk'
-    tool name: 'groovy4', type: 'hudson.plugins.groovy.GroovyInstallation'
     stage ('Preparation (Checking out)'){
         cleanWs()
         echo " Try git branch clone"
-        git branch: 'ayarmalovich', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
+        //git branch: 'ayarmalovich', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
+        checkout scm
         echo "Branch Clone : Done"
     }
     stage ('Building code') {
@@ -61,7 +61,6 @@ node("${SLAVE}") {
         sh 'tar xvf *.tar.gz'
         sh 'tar -czf pipeline-ayarmalovich-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ ${JOB_BASE_NAME}.jar'
         archiveArtifacts 'pipeline-ayarmalovich-${BUILD_NUMBER}.tar.gz'
-        }
     }
     stage ('Asking for manual approval'){
 
