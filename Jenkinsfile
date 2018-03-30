@@ -40,7 +40,7 @@ node("${SLAVE}"){
     stage("Packaging and Publishing results") {
         sh "tar -xvf *.tar.gz"
         sh "cp build/libs/mntlab-ci-pipeline.jar ."
-        sh "tar -czf pipeline-${STUDENT}-${BUILD_NUMBER}.tar.gz pipeline-ci-test.jar jobs.groovy Jenkinsfile"
+        sh "tar -czf pipeline-${STUDENT}-${BUILD_NUMBER}.tar.gz mntlab-ci-pipeline.jar jobs.groovy Jenkinsfile"
     }    
     
 }
