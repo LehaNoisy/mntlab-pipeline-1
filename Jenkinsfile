@@ -22,12 +22,15 @@ import groovy.json.JsonBuilder
 import groovy.json.JsonSlurper
 import hudson.FilePath;
 import jenkins.model.Jenkins;
-
+@NonCPS
+def check(){
+  build.workspace.isRemote()
+}
 node("${SLAVE}") { 
     echo "Hello MNT-Lab"
     writeFile file: 'a.txt', text: 'Hello World!';
     listFiles(createFilePath(pwd()));
-    println "is Remote: "+ build.workspace.isRemote()
+    println "is Remote: "+ check()
 }
 
 def createFilePath(path) {
