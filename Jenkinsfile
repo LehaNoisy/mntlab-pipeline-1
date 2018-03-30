@@ -27,11 +27,8 @@ node("${SLAVE}") {
     stage('git') {
         try {
             check321out scm
-            currentBuild.result = 'SUCCESS'
-        } catch (Exception err) {
-        //println currentStage.result
-        currentBuild.result = 'FAILURE'
-        email_notification('git')
+        } catch (e) {
+            email_notification('git')
         }
     }
     
