@@ -72,9 +72,9 @@ node("${SLAVE}") {
     def EXT = ART_NAME.substring(ART_NAME.indexOf(".")+1)
     def CONVERTED_CREDS = "valera:1234".getBytes().encodeBase64().toString()
 
-	   def File = new File ("${WORKSPACE}/pipeline-vpeshchanka-${BUILD_NUMBER}.tar.gz").getBytes()
-        def CONNECTION = new URL("http://${NEXUS_PATH}/repository/${REPO}/${GROUP_ID}/${ART_ID}/${VER}/${SUFF}-${VER}.${EXT}").openConnection()
-        println "http://${NEXUS_PATH}/repository/${REPO}/${GROUP_ID}/${ART_ID}/${VER}/${SUFF}-${VER}.${EXT}"
+	   def File = new File ("EPBYMINW6593.minsk.epam.com:8081/pipeline-vpeshchanka-${BUILD_NUMBER}.tar.gz").getBytes()
+        def CONNECTION = new URL("http://PBYMINW6593.minsk.epam.com:8081/repository/$REPO/$GROUP_ID/$ART_ID/$VER/$SUFF-$VER.$EXT").openConnection()
+        //println "http://PBYMINW6593.minsk.epam.com:8081/repository/${REPO}/${GROUP_ID}/${ART_ID}/${VER}/${SUFF}-${VER}.${EXT}"
         CONNECTION.setRequestProperty("Authorization" , "Basic ${CONVERTED_CREDS}")
         CONNECTION.setRequestMethod("PUT")
         CONNECTION.doOutput = true
