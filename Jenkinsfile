@@ -45,6 +45,7 @@ node("${SLAVE}") {
     stage('Building code'){
         tool name: 'java8', type: 'jdk'
         tool name: 'gradle4.6', type: 'gradle'
+        tool name: 'groovy4', type: 'hudson.plugins.groovy.GroovyInstallation'
         func_gradle('build')//*/
     }
     stage('Testing code'){
@@ -71,7 +72,8 @@ ls -la
 pwd
 """
 ////
-        push()
+ ////       push()
+        sh """groovy println Hellllloooo"
         archiveArtifacts "${WORKSPACE}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz"//*/
     }
     stage('Asking for manual approval'){
