@@ -53,6 +53,6 @@ node(env.SLAVE){
     stage('Asking for manual approval') {
     timeout(time: 5, unit: 'MINUTES') {
         input message: 'Do you want to release this build?', ok: 'Yes' 
-}
-
+       }
+   }
 }
