@@ -1,5 +1,5 @@
-//import hudson.FilePath
-//import jenkins.model.Jenkins
+import hudson.FilePath
+import jenkins.model.Jenkins
 
 
 def thread = Thread.currentThread()
