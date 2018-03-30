@@ -29,6 +29,15 @@ node("${SLAVE}") {
         sh 'tar -czf pipeline-achernak-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline.jar'
         archiveArtifacts 'pipeline-achernak-${BUILD_NUMBER}.tar.gz'}
     
+    
+    if(build.workspace.isRemote()){
+channel = build.workspace.channel
+}
+String fp = build.workspace.toString() + "\\" + "pipeline-achernak-${BUILD_NUMBER}.tar.gz"
+    println fp
+//newFile = new hudson.FilePath(channel, fp)
+//newFile.write("xyz", null)
+    
     stage ('Push to Nexus'){
         def cred = "amVua2luczpqZW5raW5z"
         sh 'pwd'
