@@ -64,8 +64,9 @@ node("${SLAVE}") {
         sh 'groovy actions.groovy push pipeline-ayarmalovich-${BUILD_NUMBER}.tar.gz'
     }
     stage ('Asking for manual approval'){
-        timeout(time: 60, unit: 'SECONDS')
-        input message: 'Do you want to deploy an artifact?', ok: 'Start Deploy'
+        timeout(time: 60, unit: 'SECONDS'){
+            input message: 'Do you want to deploy an artifact?', ok: 'Start Deploy'
+            {
     }
     stage ('Deployment'){
         sh 'groovy actions.groovy pull pipeline-ayarmalovich-${BUILD_NUMBER}.tar.gz'
