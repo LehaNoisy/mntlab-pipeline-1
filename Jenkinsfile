@@ -48,6 +48,7 @@ node("${SLAVE}") {
         sh 'rm -rf *.tar.gz'
         copyArtifacts filter: '*.tar.gz', projectName: 'MNTLAB-uvalchkou-child1-build-job'
         sh 'tar xzvf *.tar.gz'
+        sh 'ls build/libs'
         sh 'tar czvf pipeline-uvalchkou-$BUILD_NUMBER.tar.gz jobs.groovy Jenkinsfile -C build/libs/ $JOB_NAME.jar'
         archiveArtifacts 'pipeline-uvalchkou-$BUILD_NUMBER.tar.gz'
         push_to_nexus()
