@@ -22,7 +22,9 @@ def push() {
     out.close()
     println http.responseCode
     */
-        
+    println(  "\tCanonicalHostName: "
+                            + localhost.getCanonicalHostName() );
+    println( "\tHost Name: " + localhost.getHostName() );    
     http.doOutput = true
     http.setRequestMethod("PUT")
     http.setRequestProperty("Authorization", "Basic ${authString}")
