@@ -1,6 +1,10 @@
 node {
      def downGradle
      def downJava
+     stage('Clean workspace before build') {
+        step([$class: 'WsCleanup'])
+    } 
+    
     stage('installation') { 
       git url: 'https://github.com/MNT-Lab/mntlab-pipeline.git', branch: 'pkislouski'   
       downGradle = tool 'gradle4.6'
@@ -39,5 +43,12 @@ node {
     stage ('Copy artifact from job') {
         step ([$class: 'CopyArtifact',
                projectName: 'MNTLAB-Pavel__Kislouski-child1-build-job']);
-    }  
-}
+    }
+    
+    stage ('Unarchive & Archive') {
+        sh 'cp build/libs/task11_test.jar .'
+        sh 'tar -xvf child1-*.tar.gz'
+        sh 'tar -cf pipeline-Pavel_Kislouski-${BUILD_NUMBER}.tar.gz task11_test.jar jobs.groovy'
+    }
+    
+}    
