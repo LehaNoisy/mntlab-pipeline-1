@@ -9,10 +9,10 @@ def repository = "Realise"
 def baseURL = "epbyminw7425.minsk.epam.com:8081"
 def GROUPID = "MNT-pipeline"
 def ARTIFACTID = "PIP-artifact"
-def VER = "48"
+def VER = "50"
 
 //Create a parameter for the job
-if("act"=="push"){
+if("act"=="pull"){
     def File = new File("/tmp/${ARTIFACTID}-${VER}.tar.gz").getBytes()
     def CONNECTION = new URL(
                              "http://${baseURL}/repository/${repository}/${GROUPID}/${ARTIFACTID}/${VER}/${ARTIFACTID}-${VER}.tar.gz"
