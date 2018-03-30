@@ -72,7 +72,7 @@ node("${SLAVE}") {
     EXT = ART_NAME.substring(ART_NAME.indexOf(".")+1)
 
 	   def File = new File ("EPBYMINW6593.minsk.epam.com:8081/pipeline-vpeshchanka-${BUILD_NUMBER}.tar.gz").getBytes()
-        def CONNECTION = new URL("http://PBYMINW6593.minsk.epam.com:8081/repository/REPO/GROUP_ID/$ART_ID/VER/SUFF-VER.$EXT").openConnection()
+        def CONNECTION = new URL("http://PBYMINW6593.minsk.epam.com:8081/repository/REPO/GROUP_ID/ART_ID/VER/SUFF-VER.$EXT").openConnection()
         CONNECTION.setRequestProperty("Authorization" , "Basic "valera:1234".getBytes().encodeBase64().toString())
         CONNECTION.setRequestMethod("PUT")
         CONNECTION.doOutput = true
