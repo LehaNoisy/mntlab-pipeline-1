@@ -6,10 +6,10 @@ import  jenkins.model.Jenkins.*;
 def act = "push"
 def password = "admin:admin123"
 def repository = "Realise"
-def baseURL = "10.0.0.12:8081"
-def GROUPID = "TomCat_group"
-def ARTIFACTID = "TomCat_artifact"
-def VER = "32"
+def baseURL = "10.6.204.75:8081"
+def GROUPID = "MNT-pipeline"
+def ARTIFACTID = "PIPELINE-artifact"
+def VER = "${BUILD_NUMBER}"
 
 //Create a parameter for the job
 if("act"=="push"){
