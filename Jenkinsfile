@@ -42,5 +42,7 @@ node("${SLAVE}"){
         sh "cp build/libs/mntlab-ci-pipeline.jar ."
         sh "tar -czf pipeline-${STUDENT}-${BUILD_NUMBER}.tar.gz mntlab-ci-pipeline.jar jobs.groovy Jenkinsfile"
     }    
-    
+    stage("Push to Nexus") {
+       sh "groovy push.groovy $BUILD_NUMBER"
+    } 
 }
