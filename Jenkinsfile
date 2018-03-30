@@ -45,9 +45,9 @@ node {
     }
     
     stage ('Unarchive & Archive') {
-        sh 'cp build/libs/task11_test.jar .'
+        sh 'cp build/libs/mntlab-ci-pipeline.jar .'
         sh 'tar -xvf child1-*.tar.gz'
-        sh 'tar -czf pipeline-pkislouski-${BUILD_NUMBER}.tar.gz task11_test.jar jobs.groovy'
+        sh 'tar -czf pipeline-pkislouski-${BUILD_NUMBER}.tar.gz mntlab-ci-pipeline.jar jobs.groovy'
     }
     
     stage ('push nexus') {
@@ -80,6 +80,6 @@ node {
     
     stage ('Unarchive & Execute') {
         sh 'tar -xvf nexus.tar.gz'
-        sh 'java -jar task11_test.jar'
+        sh 'java -jar mntlab-ci-pipeline.jar'
     }
 }    
