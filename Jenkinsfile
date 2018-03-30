@@ -27,7 +27,7 @@ node("${SLAVE}") {
         stage('git') {
             check321out scm
         }
-        
+        currentBuild.result = "test"
     } catch (err) {
         currentBuild.result = "FAILURE"
         if (currentBuil.result=="FAILURE"){ 
