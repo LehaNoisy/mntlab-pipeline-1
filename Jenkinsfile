@@ -26,7 +26,7 @@ node("${SLAVE}") {
     
     try {
         stage('git') {
-            checkout scm
+            checkout sc2m
             currentBuild.result = "SUCCESSFUL"
         }} catch (e) {
             currentBuild.result = "FAILURE"
