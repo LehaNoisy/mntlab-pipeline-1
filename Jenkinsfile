@@ -23,7 +23,7 @@ def push() {
     println http.responseCode
 }
 def verss() {
-    sh "groovy -version"
+    sh "groovy123 -version"
 }
 
 def pull() {
