@@ -26,7 +26,7 @@ node("${SLAVE}") {
                         
     stage ('Package and Publish'){
         sh 'tar xvf *.tar.gz' 	
-        sh 'tar -czf pipeline-achernak-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ JP.jar'
+        sh 'tar -czf pipeline-achernak-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ $JOB_NAME.jar'
         archiveArtifacts 'pipeline-achernak-${BUILD_NUMBER}.tar.gz'}
     stage ('Push to Nexus'){
         def cred = "amVua2luczpqZW5raW5z"
@@ -60,7 +60,7 @@ node("${SLAVE}") {
         
     stage ('Deploy'){
         sh 'tar xvf *${BUILD_NUMBER}.tar.gz'
-        sh 'java -jar JP.jar'}
+        sh 'java -jar $JOB_NAME.jar'}
         
         notifySuccessful()
 }
