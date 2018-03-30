@@ -4,7 +4,9 @@ def push_to_nexus() {
     
 def pull_from_nexus() {
     withEnv(["PATH+GROOVY_HOME=${tool 'groovy4'}/bin"]){
+        sh 'ls'
         sh 'groovy pull.groovy $BUILD_NUMBER'
+        sh 'ls'
     }    
 }
 
