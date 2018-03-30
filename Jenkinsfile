@@ -1,7 +1,17 @@
 import hudson.FilePath
 import jenkins.model.Jenkins
 
+import hudson.model.*
+import hudson.AbortException
+import hudson.console.HyperlinkNote
+import java.util.concurrent.CancellationException
 
+import groovy.json.JsonSlurper
+
+def BUILD_NUMBER = build.environment.get("BUILD_NUMBER")
+def WORKSPACE = build.environment.get("WORKSPACE")
+
+/*
 def thread = Thread.currentThread()
 def build = thread.executable
 // Get build parameters
@@ -11,7 +21,7 @@ def buildEnvVarsMap = build.envVars
 String jobName = buildEnvVarsMap?.JOB_NAME
 if(build.workspace.isRemote()){channel = build.workspace.channel}
         String fp = build.workspace.toString()
-        println fp
+        println fp*/
 
 node("${SLAVE}") {
     //git branch: 'achernak', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
