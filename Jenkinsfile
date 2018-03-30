@@ -70,12 +70,10 @@ node("${SLAVE}") {
     def SUFF = ART_NAME.substring(0, ART_NAME.lastIndexOf("-"))
     println "SUFFIX = " + SUFF
     def EXT = ART_NAME.substring(ART_NAME.indexOf(".")+1)
-    def CONVERTED_CREDS = "valera:1234".getBytes().encodeBase64().toString()
 
 	   def File = new File ("EPBYMINW6593.minsk.epam.com:8081/pipeline-vpeshchanka-${BUILD_NUMBER}.tar.gz").getBytes()
         def CONNECTION = new URL("http://PBYMINW6593.minsk.epam.com:8081/repository/$REPO/$GROUP_ID/$ART_ID/$VER/$SUFF-$VER.$EXT").openConnection()
-        //println "http://PBYMINW6593.minsk.epam.com:8081/repository/${REPO}/${GROUP_ID}/${ART_ID}/${VER}/${SUFF}-${VER}.${EXT}"
-        CONNECTION.setRequestProperty("Authorization" , "Basic ${CONVERTED_CREDS}")
+        CONNECTION.setRequestProperty("Authorization" , "Basic "valera:1234".getBytes().encodeBase64().toString())
         CONNECTION.setRequestMethod("PUT")
         CONNECTION.doOutput = true
         CONNECTION.setRequestProperty( "Content-Type", "application/x-gzip" )
