@@ -1,8 +1,10 @@
+@NonCPS
+def (slave_name, job_name) =  ${JOB_NAME}.split('/')
+echo slave_name
+echo job_name
 node("${SLAVE}") {
 	def child_job = 0
     	def number_child_job = 0
-	@NonCPS
-	def (slave_name, job_name) =  ${JOB_NAME}.split('/')
 	
 	stage('Preparation (Checking out)') {
 		git branch: 'alahutsin', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
