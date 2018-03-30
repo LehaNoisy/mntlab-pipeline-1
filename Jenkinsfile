@@ -33,25 +33,12 @@ node(env.SLAVE){
     			}
     		}
     	)
-   }
-     stage("Triggering job and fetching artefact after finishing") {
-        sh 'rm -rf *.tar.gz'
-        build job: "MNTLAB-${student}-child1-build-job", parameters: [string(name: "ChooseBranch", value: "${student}")]
-        step ([$class: "CopyArtifact",
-               projectName: "MNTLAB-${student}-child1-build-job",
-               filter: "*.tar.gz"])
-    }
-    stage ('Packaging and Publishing results') {
-        sh 'tar xvf *.tar.gz' 	
-        sh 'tar -czf pipeline-ashumilau-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline.jar'
-        archiveArtifacts 'pipeline-ashumilau-${BUILD_NUMBER}.tar.gz'
-        nexusArtifactUploader artifacts: [[artifactId: 'Pip-artifact', classifier: 'app', file: 'pipeline-ashumilau-${BUILD_NUMBER}.tar.gz', type: 'tar.gz']], credentialsId: 'nexus-creds', groupId: 'MNT-pipeline', nexusUrl: '10.6.204.121:8081/', nexusVersion: 'nexus3', protocol: 'http', repository: 'Realise', version: '${BUILD_NUMBER}'
 }
-        
-    
-    stage('Asking for manual approval') {
-    timeout(time: 5, unit: 'MINUTES') {
-        input message: 'Do you want to release this build?', ok: 'Yes' 
-       }
-   }
+    stage("Triggering job and fetching artefact after finishing") {
+        sh 'rm -rf *.tar.gz'
+        build job: "MNTLAB-ashumilau-child1-build-job", parameters: [string(name: "ChooseBranch", value: "${student}")]
+        step ([$class: "CopyArtifact",
+               projectName: "MNTLAB-ashumilau-child1-build-job",
+               filter: "*.tar.gz"])
+}
 }
