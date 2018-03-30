@@ -19,8 +19,8 @@ def env(String action){
 }
 
 node("${SLAVE}") {
-    tool name: 'gradle 4.6', type: 'gradle'
-    tool name: 'java', type: 'jdk'
+    tool name: 'gradle4.6', type: 'gradle'
+    tool name: 'java8', type: 'jdk'
     
     stage('git') {
         git branch: 'uvalchkou', url: 'https://github.com/MNT-Lab/mntlab-pipeline/'
