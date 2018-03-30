@@ -9,7 +9,8 @@ def emailfailure (status, namestage){
         emailext(
                 to: 'vospitanarbyzami@gmail.com',
                 subject: "Jenkins Task11 - ${JOB_BASE_NAME}",
-                body: "Stage Name - ${namestage} Result status - ${status}"
+            body: """${currentBuild.fullDisplayName} 
+            Stage Name - ${namestage} Result status - ${status}"""
         )
     }
 }
@@ -45,7 +46,7 @@ node("${SLAVE}") {
     try {
         stage('Preparation (Checking out)') {
             cleanWs()
-            //currentBuild.fullDisplayName
+            namestage = "Preparation (Checking out)"
             //echo " Try git branch clone"
             //git branch: 'ayarmalovich', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
             //echo "Branch Clone : Done"
