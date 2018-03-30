@@ -28,16 +28,16 @@ node("${SLAVE}") {
         stage('git') {
             checkout scm
     }} catch (e) {
-        email_notification(git)
+        email_notification('git')
         throw any
     }
     
     
     try {
         stage('build') {
-            env(build)ew
+            env('build')ew
     }} catch (e) {
-        email_notification(build)
+        email_notification('build')
         throw any
     }
         
