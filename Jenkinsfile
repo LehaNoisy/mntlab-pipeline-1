@@ -10,19 +10,6 @@ def push() {
     def authString = "YWRtaW46YWRtaW4xMjM="
     def url ="http://EPBYMINW1766.minsk.epam.com:8081/repository/artifact-repo/Pipeline/EasyHello/${BUILD_NUMBER}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz"
     def http = new URL(url).openConnection()
-    /*http.doOutput = true
-    http.setRequestMethod("PUT")
-    http.setRequestProperty("Authorization", "Basic ${authString}")
-    http.setRequestProperty("Content-Type", "application/x-gzip") 
-    //def path = "${WORKSPACE}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz";//////
-    //def lalala = new FilePath(Jenkins.getInstance().getComputer('EPBYMINW1766').getChannel(),path)////
-    def out = new DataOutputStream(http.outputStream)
-    //println lalala.getRemote()
-    //def test = new File(lalala.toString())
-    out.write(myfile.getBytes())
-    out.close()
-    println http.responseCode
-    */
     println InetAddress.localHost.hostName    
     http.doOutput = true
     http.setRequestMethod("PUT")
