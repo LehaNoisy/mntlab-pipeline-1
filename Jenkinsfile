@@ -44,9 +44,8 @@ node(env.SLAVE){
                filter: "*.tar.gz"])
     }
     stage ('Packaging and Publishing results') {
-
-       sh "tar -xvf *.tar.gz"
-       sh "tar -czf pipeline-${student}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs gradle-simple.jar"
-       archiveArtifacts "pipeline-${student}-${BUILD_NUMBER}.tar.gz"
-}
+        sh "cp build/libs/gradle-simple.jar ."
+        sh "tar -xvf *.tar.gz"
+        sh "tar -czf pipeline-${student}-${BUILD_NUMBER}.tar.gz gradle-simple.jar jobs.groovy Jenkinsfile"
+    }    
 }
