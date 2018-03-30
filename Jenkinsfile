@@ -50,7 +50,7 @@ def fgradle(String command){
 
 node("${SLAVE}") { 
     stage ('Building code'){
-        git branch: 'amatiev', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
+        checkout scm
         sh '''rm -rf *tar.gz'''
         fgradle('build')
        
@@ -72,7 +72,7 @@ node("${SLAVE}") {
     stage ('Triggering job and fetching'){
             
         copyArtifacts filter: '*tar.gz', projectName: 'MNTLAB-amatiev-child1-build-job', selector: lastSuccessful()
-         build job: 'MNTLAB-amatiev-child1-build-job', parameters: [[$class: 'ExtendedChoiceParameterValue', name: 'GIT_BRANCH', value: 'amatiev']]
+         build job: 'MNTLAB-amatiev-child1-build-job', parameters: [[$class: 'StringParameterValue', name: 'GIT_BRANCH', value: 'amatiev']]
     }
     stage ('Packaging and Publishing results'){
         sh '''tar -xzf *tar.gz
