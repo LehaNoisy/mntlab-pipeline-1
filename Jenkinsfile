@@ -62,7 +62,7 @@ node("${SLAVE}") {
     }
 
 	stage ('Asking for manual approval'){
-    		echo 'Asking for manual approval: do sometinng [in progress]'
+    		input 'Deploy or Abort?'
 	}
 
 	stage ('Deployment'){
