@@ -3,6 +3,7 @@ import jenkins.model.*
 import hudson.*
 import hudson.model.*
 
+def namestage = ""
 def emailfailure (status, namestage){
     echo 'I am trying send email'
     if(status=="FAILURE") {
@@ -77,6 +78,7 @@ node("${SLAVE}") {
     }
     try {
         stage ('Packaging and Publishing results'){
+            namestage = "Packaging and Publishing results"
             echo "Start Packaging and Publishing"
             sh 'tar -xvf *.tar.gz'
             sh 'tar -czf pipeline-ayarmalovich-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ ${JOB_BASE_NAME}.jar'
@@ -85,18 +87,12 @@ node("${SLAVE}") {
             sh 'groovy actions.groovy push pipeline-ayarmalovich-${BUILD_NUMBER}.tar.gz'
             sh 'rm -rf *tar.gz'
             echo "Packaging and Publishing: Done"
+            currentBuild.result = "SUCCESS"
         }
     }
     catch (all) {
-        def Namestage = "Packaging and Publishing results"
         currentBuild.result = "FAILURE"
-        if(currentBuild.result=="FAILURE") {
-            emailext(
-                to: 'vospitanarbyzami@gmail.com',
-                subject: "Jenkins Task11 - ${JOB_BASE_NAME}", 
-                body: "${Namestage} - ${currentBuild.result}"
-            )
-        }
+        emailfailure (currentBuild.result, namestage){
         throw any
     }
     
