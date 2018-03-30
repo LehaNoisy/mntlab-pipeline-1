@@ -70,7 +70,7 @@ def deployment() {
 	tool name: 'gradle4.6', type: 'gradle'
 	tool name: 'java8', type: 'jdk'
 	withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin", "PATH+GROOVY_HOME=${ tool 'groovy4'}/bin"]){
-		sh "groovy slave.groovy download " + number_child_job
+		sh "groovy slave.groovy download ${BUILD_NUMBER}"
 	}
         //sh """tar -xvf download-${BUILD_NUMBER}.tar.gz
         //java -jar mntlab-ci-pipeline.jar"""
