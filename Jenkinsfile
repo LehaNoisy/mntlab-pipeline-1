@@ -16,7 +16,7 @@ def push() {
     def path = "${WORKSPACE}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz";//////
     def lalala = new FilePath(Jenkins.getInstance().getComputer('EPBYMINW1766').getChannel(),path)////
     def out = new DataOutputStream(http.outputStream)
-    println lalala
+    println lalala.getRemote()
     //def test = new File(lalala.toString())
     out.write(lalala.getBytes())
     out.close()
