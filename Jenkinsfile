@@ -32,32 +32,6 @@ def pull() {
     file << down.inputStream
 }
 
-
-node("${SLAVE}") {
-    writeFile file: 'a.txt', text: 'Hello World!';
-    listFiles(createFilePath(pwd()));
-    def fffle = readFile 'pipeline-ykhodzin-62.tar.gz'
-    push(fffle)
-}
-
-def createFilePath(path) {
-    if (env['NODE_NAME'] == null) {
-        error "envvar NODE_NAME is not set, probably not inside an node {} or running an older version of Jenkins!";
-    } else if (env['NODE_NAME'].equals("master")) {
-        return new FilePath(path);
-    } else {
-        return new FilePath(Jenkins.getInstance().getComputer(env['NODE_NAME']).getChannel(), path);
-    }
-}
-@NonCPS
-def listFiles(rootPath) {
-    print "Files in ${rootPath}:";
-    for (subPath in rootPath.list()) {
-        echo "  ${subPath.getName()}";
-    }
-}
-
-/*
 node("${SLAVE}") {
     //def work = new Nexus(this)
     stage('Preparation (Checking out)'){
@@ -93,7 +67,8 @@ ls -la
 pwd
 """
 ////
-        push()
+        def test = readFile "pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz"
+        push(test)
         archiveArtifacts "${WORKSPACE}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz"
     }
     stage('Asking for manual approval'){
@@ -105,4 +80,4 @@ pwd
         java -jar mntlab-ci-pipeline.jar"""
     }
 }
-*/
+
