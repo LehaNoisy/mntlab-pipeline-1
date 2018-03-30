@@ -32,14 +32,11 @@ node("${SLAVE}") {
     }
     
     stage('tests'){
-        withEnv(["JAVA_HOME=${tool 'java'}", "PATH+GRADLE=${tool 'gradle 4.6'}/bin"]){
-            parallel(
-                cucumber_test: {env('cucumber')},
-                jacoco_test: {env('jacocoTestReport')},
-                gradle_test: {env('test')}
-            )
-            
-        }
+        parallel(
+            cucumber_test: {env('cucumber')},
+            jacoco_test: {env('jacocoTestReport')},
+            gradle_test: {env('test')}
+        )
     }
     
     stage('trigger'){
@@ -70,7 +67,7 @@ node("${SLAVE}") {
         sh 'java -jar $JOB_NAME.jar'
     }
     
-    stage('notification'){
+    /*stage('notification'){
         emailext attachLog: true, body: '', subject: 'STARTED', to: 'tarantino459@gmail.com'
-    }
+    }*/
 }    
