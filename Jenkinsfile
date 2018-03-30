@@ -56,13 +56,10 @@ node("${SLAVE}") {
     }
     
     stage('pull'){
-        sh 'ls $WORKSPACE'
-        sh 'ls'
         pull_from_nexus()
     }
     
     stage('deploy'){
-        sh 'ls'
         sh 'tar xzfv pipeline-uvalchkou-${BUILD_NUMBER}.tar.gz'
         sh 'ls'
         sh 'java -jar mntlab-ci-pipeline.jar'
