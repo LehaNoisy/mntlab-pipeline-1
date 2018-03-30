@@ -59,13 +59,13 @@ def approveProceed() {
 	input 'Deploy or Abort?'
 }
 
-def deployment() { 
+def deployment(job_name) { 
 	tool name: 'gradle4.6', type: 'gradle'
 	tool name: 'java8', type: 'jdk'
 	withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin", "PATH+GROOVY_HOME=${ tool 'groovy4'}/bin"]){
 		sh "groovy slave.groovy download ${BUILD_NUMBER}"
 	}
-	sh "tar -xvf PIPELINE-${BUILD_NUMBER}-APP.tar.gz && java -jar build/libs/${job_name}.jar"
+	sh "tar -xvf PIPELINE-${BUILD_NUMBER}-APP.tar.gz && java -jar build/libs/" + job_name + ".jar"
 }
 
 def sendStatus(e) {
@@ -97,7 +97,7 @@ node("${SLAVE}") {
 			approveProceed()
 		}
 		stage ('Deployment') {
-			deployment()
+			deployment(job_name)
 		}
 		stage ('Sending status') {
 			sendReport()
