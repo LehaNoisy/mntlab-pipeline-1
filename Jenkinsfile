@@ -49,7 +49,7 @@ node("${SLAVE}") {
         copyArtifacts filter: '*.tar.gz', projectName: 'MNTLAB-uvalchkou-child1-build-job'
         sh 'tar xzvf *.tar.gz'
         sh 'ls build/libs'
-        sh 'tar czvf pipeline-uvalchkou-$BUILD_NUMBER.tar.gz jobs.groovy Jenkinsfile -C build/libs/ $JOB_NAME.jar'
+        sh 'tar czvf pipeline-uvalchkou-$BUILD_NUMBER.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline.jar'
         archiveArtifacts 'pipeline-uvalchkou-$BUILD_NUMBER.tar.gz'
         push_to_nexus()
     }
@@ -66,7 +66,7 @@ node("${SLAVE}") {
         sh 'ls'
         sh 'tar xzfv pipeline-uvalchkou-${BUILD_NUMBER}.tar.gz'
         sh 'ls'
-        sh 'java -jar $JOB_NAME.jar'
+        sh 'java -jar mntlab-ci-pipeline.jar'
     }
     
     /*stage('notification'){
