@@ -2,28 +2,6 @@
    def downGradle
    def downJava
    def Child_Job
-   tasks["Jacoco Tests"] = {
-    stage ("Jacoco Tests"){    
-    node {  
-       sh "'${downGradle}/bin/gradle' jacocoTestReport"
-    }
-  }
-}
-
-   tasks["Unit Test"] = {
-    stage ("Unit Test"){    
-    node {  
-        sh "'${downGradle}/bin/gradle' test"
-    }
-  }
-}
-   tasks["cucumber"] = {
-    stage ("Cucumber Tests"){    
-    node {  
-        sh "'${downGradle}/bin/gradle' cucumber"
-    }
-  }
-}
    
 node {
    //stage 1 && 2
@@ -40,8 +18,25 @@ node {
         }
    }
    
-   //stage 4
-   parallel tasks
+   stage ('Test') {
+    	parallel (
+    		cucumber: {
+    			stage ('cucumber') {
+    				sh "'${downGradle}/bin/gradle' cucumber"
+    			}
+    		},
+    		jacoco: {
+    			stage ('jacoco') {
+    				sh "'${downGradle}/bin/gradle' jacocoTestReport"
+    			}
+    		},
+    		unit: {
+    			stage ('unit test') {
+    				sh "'${downGradle}/bin/gradle' test"
+    			}
+    		}
+    	)
+}
       //stage 5
    stage('Child Job')
    {
