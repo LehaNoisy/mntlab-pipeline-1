@@ -68,7 +68,11 @@ def deployment() {
 }
 
 def sendStatus(e) {
-	echo 'Sending status: do sometinng [in progress]' + e 
+	echo 'Sending status: do sometinng [in progress send bad status to email]' + e 
+}
+
+def sendReport() {
+	echo 'Sending status: do sometinng [in progress send good status to email]' 
 }
 
 node("${SLAVE}") {	
@@ -138,8 +142,7 @@ node("${SLAVE}") {
 	
 	stage ('Sending status'){
 		try {
-			//sendStatus()
-			sendStatus('fsadghadfhadfhadfhadfhadfhadfghasdtgahaehastashqe')
+			sendReport()
 		}
 		catch (Exception e) {
 			sendStatus(e)
