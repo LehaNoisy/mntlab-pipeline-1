@@ -91,7 +91,9 @@ node("${SLAVE}") {
           echo ${WORKSPACE}
           ls -la
           '''
-   
+        if(build.workspace.isRemote()){
+channel = build.workspace.channel
+}
         //push()
     }
     stage ('Asking for manual approval'){
