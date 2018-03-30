@@ -68,9 +68,9 @@ node("${SLAVE}") {
     stage ('Packaging and Publishing results'){
         echo "Start Packaging and Publishing"
         sh 'tar -xvf *.tar.gz'
-        sh 'tar -czf pipeline-${branch}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ ${JOB_BASE_NAME}.jar'
+        sh 'tar -czf pipeline-$branch-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ ${JOB_BASE_NAME}.jar'
         archiveArtifacts 'pipeline-ayarmalovich-${BUILD_NUMBER}.tar.gz'
-        sh 'groovy actions.groovy push pipeline-${branch}-${BUILD_NUMBER}.tar.gz'
+        sh 'groovy actions.groovy push pipeline-$branch-${BUILD_NUMBER}.tar.gz'
         sh 'rm -rf *tar.gz'
         echo "Packaging and Publishing: Done"
     }
@@ -81,7 +81,7 @@ node("${SLAVE}") {
     }
     stage ('Deployment'){
         echo "Start Deployment"
-        sh 'groovy actions.groovy pull pipeline-${branch}-${BUILD_NUMBER}.tar.gz'
+        sh 'groovy actions.groovy pull pipeline-$branch-${BUILD_NUMBER}.tar.gz'
         sh 'tar -xvf *tar.gz'
         sh 'java -jar ${JOB_BASE_NAME}.jar'
         echo "Deployment: Done"
