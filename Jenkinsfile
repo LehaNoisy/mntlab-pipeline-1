@@ -52,6 +52,12 @@ def fetchingArtifacts() {
 	return number_child_job
 }
 
+def publishingResults(number_child_job) {
+	sh 'tar -xf child1_' + number_child_job + '_dsl_do.tar.gz'
+	sh 'tar -czf pipeline-alahutsin-"${BUILD_NUMBER}".tar.gz jobs.groovy Jenkinsfile build/libs/' + job_name + '.jar'
+	nexusArtifactUploader artifacts: [[artifactId: 'PIPELINE', classifier: 'APP', file: 'pipeline-alahutsin-${BUILD_NUMBER}.tar.gz', type: 'tar.gz']], credentialsId: 'nexus-creds', groupId: 'REL', nexusUrl: '10.6.205.119:8081/repository/test/', nexusVersion: 'nexus3', protocol: 'http', repository: 'PROD', version: '${BUILD_NUMBER}'
+}
+
 node("${SLAVE}") {	
 	stage('Preparation (Checking out)') {
 		try {
@@ -90,13 +96,14 @@ node("${SLAVE}") {
 		}		
 	}
 
-
-     
 	stage ('Packaging and Publishing results'){
-		sh 'tar -xf child1_' + number_child_job + '_dsl_do.tar.gz'
-		sh 'tar -czf pipeline-alahutsin-"${BUILD_NUMBER}".tar.gz jobs.groovy Jenkinsfile build/libs/' + job_name + '.jar'
-		nexusArtifactUploader artifacts: [[artifactId: 'PIPELINE', classifier: 'APP', file: 'pipeline-alahutsin-${BUILD_NUMBER}.tar.gz', type: 'tar.gz']], credentialsId: 'nexus-creds', groupId: 'REL', nexusUrl: '10.6.205.119:8081/repository/test/', nexusVersion: 'nexus3', protocol: 'http', repository: 'PROD', version: '${BUILD_NUMBER}'
-    }
+		try {
+			publishingResults(number_child_job)
+		}
+		catch (Exception e) {
+			echo e
+		}		
+	}
 
 	stage ('Asking for manual approval'){
     		input 'Deploy or Abort?'
