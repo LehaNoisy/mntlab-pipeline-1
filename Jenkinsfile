@@ -23,27 +23,6 @@ def notifyFailed() {
       to: 'ip@chernak@gmail.com')}
 
 
-def push(){sh """groovy
-        def cred = "amVua2luczpqZW5raW5z"
-        def File = new File("${WORKSPACE}/pipeline-achernak-${BUILD_NUMBER}.tar.gz")//.getBytes()
-        def connection = new URL( "http://EPBYMINW6122.minsk.epam.com:8081/repository/tomcat/appbackup/pipeline-achernak/${BUILD_NUMBER}/pipeline-achernak-${BUILD_NUMBER}.tar.gz").openConnection()
-        connection.setRequestMethod("PUT")
-        connection.doOutput = true
-        connection.setRequestProperty("Authorization" , "Basic ${cred}")
-        def writer = new DataOutputStream(connection.outputStream)
-        writer.write (File)
-        writer.close()
-       println connection.responseCode"""}
-
-def pull(){sh """groovy
-        def cred = "amVua2luczpqZW5raW5z"
-        def url = new URL( "http://EPBYMINW6122.minsk.epam.com:8081/repository/tomcat/appbackup/${PROJECT_NAME}-${ARTIFACT_SUFFIX}/${BUILD_NUMBER}/${ARTIFACT_NAME}").openConnection()
-        url.setRequestProperty("Authorization" , "Basic ${cred}")
-        def file = new File("${WORKSPACE}/pipeline-achernak-${BUILD_NUMBER}.tar.gz")
-        file << url.inputStream
-        println url.responseCode"""}
-
-
 node("${SLAVE}") {
 try { 
     stage('Git Checkout'){checkout scm}
@@ -76,12 +55,12 @@ try {
         archiveArtifacts 'pipeline-achernak-${BUILD_NUMBER}.tar.gz'}
    
     
-    stage ('Push to Nexus'){withEnv(["PATH+GROOVY_HOME=${tool 'groovy4'}/bin"]){push()}}
+    stage ('Push to Nexus'){withEnv(["PATH+GROOVY_HOME=${tool 'groovy4'}/bin"]){sh 'groovy push.groovy'}}
          
     stage('Approval')
         {timeout(time: 120, unit: 'SECONDS')input message: 'Pull and deploy?', ok: 'pull and deploy'}   
     
-    stage ('Pull from Nexus'){withEnv(["PATH+GROOVY_HOME=${tool 'groovy4'}/bin"]){pull()}}
+    stage ('Pull from Nexus'){withEnv(["PATH+GROOVY_HOME=${tool 'groovy4'}/bin"]){sh 'groovy pull.groovy'}}
         
     stage ('Deploy'){
         sh 'tar xvf *${BUILD_NUMBER}.tar.gz'
