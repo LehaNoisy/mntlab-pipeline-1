@@ -17,6 +17,7 @@ node("${SLAVE}") {
       cleanWs()
       echo "Git branch Clone"
       git branch: STUDENT_NAME, url: GITHUB_REPOSITORY
+      checkout scm
   }
   stage ("Building code") {
       echo "Starting Build section"
