@@ -1,3 +1,19 @@
+
+
+//def thread = Thread.currentThread()
+//def build = thread.executable
+/*
+def thread = Thread.currentThread()
+def build = thread.executable
+// Get build parameters
+def buildVariablesMap = build.buildVariables 
+// Get all environment variables for the build
+def buildEnvVarsMap = build.envVars
+String jobName = buildEnvVarsMap?.JOB_NAME
+*/
+
+node("${SLAVE}") {
+    
 import hudson.FilePath
 import jenkins.model.*
 import hudson.model.*
@@ -6,9 +22,9 @@ import hudson.console.HyperlinkNote
 import java.util.concurrent.CancellationException
 import groovy.json.JsonSlurper
 
-//def build = Thread.currentThread().executable
-//def thr = Thread.currentThread()
-//def build = thr?.executable
+def build = Thread.currentThread().executable
+def thr = Thread.currentThread()
+def build = thr?.executable
 
 def BUILD_NUMBER = build.environment.get("BUILD_NUMBER")
 def WORKSPACE = build.environment.get("WORKSPACE")
@@ -22,23 +38,18 @@ if (manager.build.workspace.isRemote()){
     channel = manager.build.workspace.channel
     manager.listener.logger.println  "I AM REMOTE!!"
 }
-
-
-//def thread = Thread.currentThread()
-//def build = thread.executable
-/*
-def thread = Thread.currentThread()
-def build = thread.executable
-// Get build parameters
-def buildVariablesMap = build.buildVariables 
-// Get all environment variables for the build
-def buildEnvVarsMap = build.envVars
-String jobName = buildEnvVarsMap?.JOB_NAME
-*/if(build.workspace.isRemote()){channel = build.workspace.channel}
+if(build.workspace.isRemote()){channel = build.workspace.channel}
         String fp = build.workspace.toString()
         println fp
-
-node("${SLAVE}") {
+            
+            
+            
+            
+            
+            
+            
+            
+            
     //git branch: 'achernak', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
     stage('Git Checkout'){checkout scm}
     //checkout([$class: 'GitSCM', branches: [[name: '*/achernak']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline']]])}
