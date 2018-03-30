@@ -95,11 +95,12 @@ node("${SLAVE}") {
           echo ${WORKSPACE}
           ls -la
           
-           tool name: 'groovy4', type: 'hudson.plugins.groovy.GroovyInstallation'
+          
+          groovy pushpull.groovy push pipeline-amatiev-${BUILD_NUMBER}.tar.gz'''  
+      tool name: 'groovy4', type: 'hudson.plugins.groovy.GroovyInstallation'
 
          withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin", "PATH+GROOVY_HOME=${tool 'groovy4'}/bin"]){inf()}
           
-          groovy pushpull.groovy push pipeline-amatiev-${BUILD_NUMBER}.tar.gz'''             
     }
     stage ('Asking for manual approval'){
         timeout(time: 20, unit: 'SECONDS') {
