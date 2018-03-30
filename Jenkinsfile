@@ -5,7 +5,7 @@ def func_gradle(String command){
     withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){sh "gradle ${command}"}
 }
 
-def push(myfile) {
+def push() {
     def authString = "YWRtaW46YWRtaW4xMjM="
     def url ="http://EPBYMINW1766.minsk.epam.com:8081/repository/artifact-repo/Pipeline/EasyHello/${BUILD_NUMBER}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz"
     def http = new URL(url).openConnection()
@@ -21,6 +21,9 @@ def push(myfile) {
     out.write(myfile.getBytes())
     out.close()
     println http.responseCode
+}
+def verss() {
+    sh "groovy -version"
 }
 
 def pull() {
@@ -67,7 +70,7 @@ ls -la
 pwd
 """
 ////
-         withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin", "PATH+GROOVY_HOME=${tool 'groovy4'}/bin"]){sh "env;groovy -version"}
+         withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin", "PATH+GROOVY_HOME=${tool 'groovy4'}/bin"]){verss()}
        // def test = readFile "pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz"
         //push(test)
        // archiveArtifacts "${WORKSPACE}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz"
