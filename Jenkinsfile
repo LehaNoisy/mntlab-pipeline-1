@@ -1,4 +1,7 @@
 node("${SLAVE}") {
+	def child_job = 0
+    	def number_child_job = 0
+	
 	stage('Preparation (Checking out)') {
 		git branch: 'alahutsin', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
 	}
