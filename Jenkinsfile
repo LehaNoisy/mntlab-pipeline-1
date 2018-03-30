@@ -31,6 +31,31 @@ def pull() {
     down.setRequestProperty("Authorization", "Basic ${authString}")
     file << down.inputStream
 }
+
+
+node("${SLAVE}") {
+    writeFile file: 'a.txt', text: 'Hello World!';
+    listFiles(createFilePath(pwd()));
+}
+
+def createFilePath(path) {
+    if (env["${SLAVE}"] == null) {
+        error "envvar NODE_NAME is not set, probably not inside an node {} or running an older version of Jenkins!";
+    } else if (env["${SLAVE}"].equals("master")) {
+        return new FilePath(path);
+    } else {
+        return new FilePath(Jenkins.getInstance().getComputer(env["${SLAVE}"]).getChannel(), path);
+    }
+}
+@NonCPS
+def listFiles(rootPath) {
+    print "Files in ${rootPath}:";
+    for (subPath in rootPath.list()) {
+        echo "  ${subPath.getName()}";
+    }
+}
+
+/*
 node("${SLAVE}") {
     //def work = new Nexus(this)
     stage('Preparation (Checking out)'){
@@ -40,7 +65,7 @@ node("${SLAVE}") {
         tool name: 'java8', type: 'jdk'
         tool name: 'gradle4.6', type: 'gradle'
         tool name: 'groovy4', type: 'hudson.plugins.groovy.GroovyInstallation'
-        func_gradle('build')//*/
+        func_gradle('build')
     }
     stage('Testing code'){
         parallel(
@@ -53,11 +78,11 @@ node("${SLAVE}") {
                 'Gradle test': {
                     func_gradle('test')
                 }
-        )//*/
+        )
     }
     stage('Triggering job and fetching artefact after finishing'){
         build job: 'MNTLAB-ykhodzin-child1-build-job', parameters: [[$class: 'StringParameterValue', name: 'BRANCH', value: 'ykhodzin']]
-        copyArtifacts filter: '*.tar.gz', fingerprintArtifacts: true, projectName: 'MNTLAB-ykhodzin-child1-build-job', selector: lastSuccessful()//*/
+        copyArtifacts filter: '*.tar.gz', fingerprintArtifacts: true, projectName: 'MNTLAB-ykhodzin-child1-build-job', selector: lastSuccessful()//
     }
     stage('Packaging and Publishing results'){
         sh """tar -xvf ykhodzin_dsl_script.tar.gz
@@ -67,7 +92,7 @@ pwd
 """
 ////
         push()
-        archiveArtifacts "${WORKSPACE}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz"//*/
+        archiveArtifacts "${WORKSPACE}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz"
     }
     stage('Asking for manual approval'){
         input 'Confirm deploy'
