@@ -65,8 +65,7 @@ ls -la
 pwd
 """
 ////
- ////       push()
-        sh """groovy println Hellllloooo"""
+        push()
         archiveArtifacts "${WORKSPACE}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz"//*/
     }
     stage('Asking for manual approval'){
