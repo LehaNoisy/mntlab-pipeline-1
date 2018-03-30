@@ -46,7 +46,7 @@ node(env.SLAVE){
     }
     stage ('Packaging and Publishing results') {
         sh 'tar xvf *.tar.gz' 	
-        sh 'tar -czf pipeline-${student}-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline.jar'
-        archiveArtifacts 'pipeline-${student}-${BUILD_NUMBER}.tar.gz'
+        sh 'tar -czf pipeline-azaitsau-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline.jar'
+        archiveArtifacts 'pipeline-azaitsau-${BUILD_NUMBER}.tar.gz'
     }    
 }
