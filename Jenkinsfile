@@ -52,7 +52,7 @@ try {
         notifyStarted()
         tool name: 'gradle4.6', type: 'gradle'
         tool name: 'java8', type: 'jdk'
-        tool name: 'groovy', type: 'hudson.plugins.groovy.GroovyInstallation'
+        tool name: 'groovy4', type: 'hudson.plugins.groovy.GroovyInstallation'
         withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){
         sh 'gradle build'}}
     stage('Test') {
@@ -76,12 +76,12 @@ try {
         archiveArtifacts 'pipeline-achernak-${BUILD_NUMBER}.tar.gz'}
    
     
-    stage ('Push to Nexus'){withEnv(["PATH+GROOVY_HOME=${tool 'groovy'}/bin"]){push()}}
+    stage ('Push to Nexus'){withEnv(["PATH+GROOVY_HOME=${tool 'groovy4'}/bin"]){push()}}
          
     stage('Approval')
         {timeout(time: 120, unit: 'SECONDS')input message: 'Pull and deploy?', ok: 'pull and deploy'}   
     
-    stage ('Pull from Nexus'){withEnv(["PATH+GROOVY_HOME=${tool 'groovy'}/bin"]){pull()}}
+    stage ('Pull from Nexus'){withEnv(["PATH+GROOVY_HOME=${tool 'groovy4'}/bin"]){pull()}}
         
     stage ('Deploy'){
         sh 'tar xvf *${BUILD_NUMBER}.tar.gz'
