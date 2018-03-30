@@ -11,8 +11,9 @@ def NameJob(pattern) {
     }
     return matchedJobs[0].name
 }
-
 def pull() {
+sh """groovy 
+
     def Credles = "Yarm:Yarm"
     def Repository = "Pipeline"
     def nexus = "http://EPBYMINW2473.minsk.epam.com:8081"
@@ -31,7 +32,7 @@ def pull() {
     def writer = new DataOutputStream(connection.outputStream)
     writer.write(Artifact)
     writer.close()
-    println connection.responseCode
+    println connection.responseCode"""
 }
 
 tests["Unit Tests"] = {
@@ -84,7 +85,7 @@ node("${SLAVE}") {
         sh 'tar -czf pipeline-ayarmalovich-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ ${JOB_BASE_NAME}.jar'
         archiveArtifacts 'pipeline-ayarmalovich-${BUILD_NUMBER}.tar.gz'
         withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin", "PATH+GROOVY_HOME=${tool 'groovy4'}/bin"]){
-            sh "groovy -e '${pull()}'"
+            pull()
         }
     }
     stage ('Asking for manual approval'){
