@@ -63,7 +63,7 @@ node("${SLAVE}") {
    }
    stage("Pull_Nexus")
    {
-	   sh 'groovy pull_script.groovy ${BUILD_NUMBER} ${WORKSPACE} ${target_arch}'
+	   sh 'groovy pull_script.groovy ${BUILD_NUMBER} ${WORKSPACE} deploy_app.tar.gz'
    }
    stage("deploy")
    {
