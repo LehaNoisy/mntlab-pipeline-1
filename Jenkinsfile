@@ -23,7 +23,7 @@ import groovy.json.JsonSlurper
 import hudson.FilePath;
 import jenkins.model.Jenkins;
 def check(){
-  build.workspace.isRemote()
+  manager.build.workspace.isRemote()
 }
 node("${SLAVE}") { 
     echo "Hello MNT-Lab"
