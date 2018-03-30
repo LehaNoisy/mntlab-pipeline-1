@@ -31,7 +31,7 @@ def push(String name){
     println connect.responseCode
 }
 
-node(${SLAVE}) {
+node("${SLAVE}") {
     stage('Hello'){
         step([$class: 'WsCleanup'])
         echo 'Hello World'
