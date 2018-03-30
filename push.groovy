@@ -1,5 +1,5 @@
 def BN = args[0]
-def cred = "amVua2luczpqZW5raW5z"
+def cred = "YWRtaW46YWRtaW4xMjM"
 def File = new File("pipeline-achernak-${BN}.tar.gz").getBytes()
 def connection = new URL( "http://EPBYMINW6122.minsk.epam.com:8081/repository/tomcat/appbackup/pipeline-achernak/${BN}/pipeline-achernak-${BN}.tar.gz").openConnection()
 connection.setRequestMethod("PUT")
