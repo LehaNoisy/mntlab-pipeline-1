@@ -60,13 +60,14 @@ if (newFile.exists()) {
     
     
     stage ('Push to Nexus'){
-        sh """groovy def cred = "amVua2luczpqZW5raW5z"
+        def cred = "amVua2luczpqZW5raW5z"
         sh 'pwd'
         sh 'ls -la'
         //def ARTIFACT_NAME = "ls -t1 ${WORKSPACE}/".execute().text.split()[0]
         //def PROJECT_NAME = ARTIFACT_NAME.split("-",3)[0]
         //def ARTIFACT_SUFFIX = ARTIFACT_NAME.split("-",3)[1]
-        def File = new File("${WORKSPACE}/pipeline-achernak-${BUILD_NUMBER}.tar.gz").getBytes()
+        //findFiles(glob: '**/TEST-*.xml')
+        def File = new findFile(glob: "pipeline-achernak-${BUILD_NUMBER}.tar.gz")//.getBytes()
         def connection = new URL( "http://EPBYMINW6122.minsk.epam.com:8081/repository/tomcat/appbackup/pipeline-achernak/${BUILD_NUMBER}/pipeline-achernak-${BUILD_NUMBER}.tar.gz").openConnection()
         connection.setRequestMethod("PUT")
         connection.doOutput = true
@@ -74,8 +75,7 @@ if (newFile.exists()) {
         def writer = new DataOutputStream(connection.outputStream)
         writer.write (File)
         writer.close()
-        println connection.responseCode"""
-    }
+        println connection.responseCode}
          
     stage('Approval')
         {timeout(time: 120, unit: 'SECONDS')input message: 'Pull and deploy?', ok: 'pull and deploy'}   
