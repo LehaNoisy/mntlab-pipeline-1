@@ -94,8 +94,8 @@ node("${SLAVE}") {
     }
     stage('Deployment'){
         pull()
-        sh """tar -xvf download.tar.gz
-        java -jar mntlab-ci-pipeline.jar"""
+        sh """tar -xvf download.tar.gz"""
+        //java -jar mntlab-ci-pipeline.jar"""
     }
 }
 
