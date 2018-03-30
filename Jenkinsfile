@@ -138,7 +138,7 @@ node("${SLAVE}") {
 	
 	stage ('Sending status'){
 		try {
-			sendStatus()
+			//sendStatus()
 			sendStatus('fsadghadfhadfhadfhadfhadfhadfghasdtgahaehastashqe')
 		}
 		catch (Exception e) {
