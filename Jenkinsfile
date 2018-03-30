@@ -22,7 +22,6 @@ import groovy.json.JsonBuilder
 import groovy.json.JsonSlurper
 import hudson.FilePath;
 import jenkins.model.Jenkins;
-@NonCPS
 def check(){
   build.workspace.isRemote()
 }
