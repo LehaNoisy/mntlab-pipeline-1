@@ -12,3 +12,14 @@ if (args[0] == 'download'){
           out << url.inputStream
       }
 }
+else {
+    def url = new URL("http://10.6.205.119:8081/repository/test/repository/PROD/REL/PIPELINE/${version}/PIPELINE-${version}-APP.tar.gz").openConnection()
+    url.doOutput = true
+    url.setRequestMethod("PUT")
+    url.setRequestProperty("Authorization", "Basic ${authString}")
+    url.setRequestProperty("Content-Type", "application/x-gzip")
+    def out = new DataOutputStream(url.outputStream)
+    out.write(new File ("PIPELINE-${version}-APP.tar.gz").getBytes())
+    out.close()
+    println url.responseCode
+}
