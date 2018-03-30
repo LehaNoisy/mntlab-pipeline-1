@@ -2,9 +2,7 @@ import jenkins.*
 import jenkins.model.*
 import hudson.*
 import hudson.model.*
-import groovy.lang.*
-    
-def date = new Date()
+
 def namestage = ""
 def emailfailure (status, namestage){
     if(status=="FAILURE") {
@@ -12,7 +10,6 @@ def emailfailure (status, namestage){
                 to: 'vospitanarbyzami@gmail.com',
                 subject: "Jenkins Task11 - ${JOB_BASE_NAME}",
             body: """${currentBuild.fullDisplayName} 
-            Date of FAILURE - ${date}
             Stage Name - ${namestage} Result status - ${status}"""
         )
     }
