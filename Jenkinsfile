@@ -7,18 +7,22 @@ node(env.SLAVE){
     git branch: "${student}", url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
     downGradle = tool 'gradle4.6' 
     downJava = tool 'java8'
-    }
-    stage('Build') {
-      if (isUnix()) {
-         sh "'${downGradle}/bin/gradle' build"
-      } else {
-         bat(/"${downGradle}\bin\gradle" build/)
-      }
-   }
+    withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){
+    sh 'gradle build'}}
+        
+
+    //stage('Build') {
+    //  if (isUnix()) {
+     //    sh "'${downGradle}/bin/gradle' build"
+    //  } else {
+    //     bat(/"${downGradle}\bin\gradle" build/)
+     // }
+   //}
    stage('Results') {
       archive 'target/*.jar'
    }
    stage ('Testing') {
+       withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){
     	parallel (
     		cucumber: {
     			stage ('cucumber') {
@@ -36,6 +40,7 @@ node(env.SLAVE){
     			}
     		}
     	)
+       }
    }
      stage("Triggering job and fetching artefact after finishing") {
         sh 'rm -rf *.tar.gz'
