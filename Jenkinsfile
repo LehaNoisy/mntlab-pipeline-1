@@ -32,9 +32,16 @@ node("${SLAVE}") {
         archiveArtifacts 'pipeline-achernak-${BUILD_NUMBER}.tar.gz'}
     
     
-//    if(build.workspace.isRemote()){channel = build.workspace.channel}
-//        String fp = build.workspace.toString() + "\\" + "pipeline-achernak-${BUILD_NUMBER}.tar.gz"
-//        println fp
+ /*   
+ if (build.workspace.isRemote()){channel = build.workspace.channel}
+            build_properties_file_content=""
+            fp = new hudson.FilePath(channel, build.workspace.toString() + "*.jar")
+
+        if (fp != null) {build_properties_file_content = fp.readToString()}     
+ */   
+   if(build.workspace.isRemote()){channel = build.workspace.channel}
+        String fp = build.workspace.toString()
+        println fp
 //newFile = new hudson.FilePath(channel, fp)
 //newFile.write("xyz", null)
 
@@ -68,11 +75,7 @@ if (newFile.exists()) {
         //def ARTIFACT_SUFFIX = ARTIFACT_NAME.split("-",3)[1]
         //findFiles(glob: '**/TEST-*.xml')
         
-         if (build.workspace.isRemote()){channel = build.workspace.channel}
-            build_properties_file_content=""
-            fp = new hudson.FilePath(channel, build.workspace.toString() + "*.jar")
-
-        if (fp != null) {build_properties_file_content = fp.readToString()} 
+        
         /*
         def File = new File(glob: "pipeline-achernak-${BUILD_NUMBER}.tar.gz")//.getBytes()
         def connection = new URL( "http://EPBYMINW6122.minsk.epam.com:8081/repository/tomcat/appbackup/pipeline-achernak/${BUILD_NUMBER}/pipeline-achernak-${BUILD_NUMBER}.tar.gz").openConnection()
