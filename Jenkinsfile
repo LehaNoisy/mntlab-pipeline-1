@@ -86,13 +86,17 @@ node("${SLAVE}") {
             sh 'rm -rf *tar.gz'
             echo "Packaging and Publishing: Done"
         }
-         currentBuild.result = "SUCCESS"
     }
     catch (all) {
         def Namestage = "Packaging and Publishing results"
         currentBuild.result = "FAILURE"
-        emailfailure(currentBuild.result, Namestage)
-        echo 'I am trying'
+        if(currentBuild.result=="FAILURE") {
+            emailext(
+                to: 'vospitanarbyzami@gmail.com',
+                subject: "Jenkins Task11 - ${JOB_BASE_NAME}", 
+                body: "${Namestage} - ${currentBuild.result}"
+            )
+        }
         throw any
     }
     
