@@ -67,8 +67,8 @@ def deployment() {
 	sh 'java -jar build/libs/mntlab-ci-pipeline.jar'
 }
 
-def sendStatus() {
-	echo 'Sending status: do sometinng [in progress]'
+def sendStatus(e) {
+	echo 'Sending status: do sometinng [in progress]' + e 
 }
 
 node("${SLAVE}") {	
@@ -77,7 +77,7 @@ node("${SLAVE}") {
 			preparationCode()
 		}
 		catch (Exception e) {
-			echo e
+			sendStatus(e)
 		}
 	}
 	
@@ -86,7 +86,7 @@ node("${SLAVE}") {
 			buildingCode()
 		}
 		catch (Exception e) {
-			echo e
+			sendStatus(e)
 		}
 	}
 	
@@ -95,7 +95,7 @@ node("${SLAVE}") {
 			testingCode()
 		}
 		catch (Exception e) {
-			echo e
+			sendStatus(e)
 		}
 	}
 
@@ -105,7 +105,7 @@ node("${SLAVE}") {
 			fetchingArtifacts()
 		}
 		catch (Exception e) {
-			echo e
+			sendStatus(e)
 		}		
 	}
 
@@ -114,7 +114,7 @@ node("${SLAVE}") {
 			publishingResults()
 		}
 		catch (Exception e) {
-			echo e
+			sendStatus(e)
 		}		
 	}
 
@@ -123,26 +123,26 @@ node("${SLAVE}") {
 			approveProceed()
 		}
 		catch (Exception e) {
-			echo e
+			sendStatus(e)
 		}
 	}
 
 	stage ('Deployment'){
 		try {
-			approveProceed()
 			deployment()
 		}
 		catch (Exception e) {
-			echo e
+			sendStatus(e)
 		}
 	}
 	
 	stage ('Sending status'){
 		try {
 			sendStatus()
+			sendStatus('fsadghadfhadfhadfhadfhadfhadfghasdtgahaehastashqe')
 		}
 		catch (Exception e) {
-			echo e
+			sendStatus(e)
 		}
 	}
 }
