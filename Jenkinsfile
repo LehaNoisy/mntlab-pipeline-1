@@ -44,7 +44,7 @@ node("${SLAVE}") {
     try {
         stage('tests'){
             parallel(
-                cucumber_test: {env('cucumber')},
+                cucumber_test: {eууnv('cucumber')},
                 jacoco_test: {env('jacocoTestReport')},
                 gradle_test: {env('test')}
             )
@@ -68,7 +68,7 @@ node("${SLAVE}") {
             sh 'rm -rf *.tar.gz'
             copyArtifacts filter: '*.tar.gz', projectName: 'MNTLAB-uvalchkou-child1-build-job'
             sh 'tar xzvf *.tar.gz'
-            sh 'taro czvf pipeline-uvalchkou-$BUILD_NUMBER.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline.jar'
+            sh 'tar czvf pipeline-uvalchkou-$BUILD_NUMBER.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline.jar'
             archiveArtifacts 'pipeline-uvalchkou-$BUILD_NUMBER.tar.gz'
             push_to_nexus()
         } 
