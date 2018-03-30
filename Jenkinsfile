@@ -60,15 +60,22 @@ def approveProceed() {
 }
 
 def deployment() { 
-	//http://10.6.205.119:8081/repository/test/repository/PROD/REL/PIPELINE/48/PIPELINE-48-APP.tar.gz
+	/*
 	def pull_url ="http://10.6.205.119:8081/repository/test/repository/PROD/REL/PIPELINE/48/PIPELINE-48-APP.tar.gz"
    	new File("PIPELINE-48-APP.tar.gz").withOutputStream { out ->
         def url = new URL(pull_url.toString()).openConnection()
         url.setRequestProperty("Authorization", "Basic ${authString}")
         out << url.inputStream
-}
-	
-	sh 'ls && java -jar build/libs/mntlab-ci-pipeline.jar'
+	*/
+	withEnv(["JAVA_HOME=${ tool 'java8' }", 
+		 "PATH_GRADLE=${ tool 'gradle4.6'}/bin", 
+		 "PATH_GROOVY_HOME=${ tool 'groovy4'}/bin"]) {
+			sh "groovy slave.groovy download ${BUILD_NUMBER}"
+		}
+        //sh """tar -xvf download-${BUILD_NUMBER}.tar.gz
+        //java -jar mntlab-ci-pipeline.jar"""
+	}
+	//sh 'ls && java -jar build/libs/mntlab-ci-pipeline.jar'
 }
 
 def sendStatus(e) {
