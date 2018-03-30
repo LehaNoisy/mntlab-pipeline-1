@@ -62,7 +62,7 @@ node("${SLAVE}") {
     }
     stage('Packaging and Publishing results'){
         sh """tar -xvf ykhodzin_dsl_script.tar.gz
-        sudo tar -czf ${WORKSPACE}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline.jar
+        tar -czf ${WORKSPACE}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline.jar
 ls -la
 pwd
 """
