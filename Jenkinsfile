@@ -21,7 +21,7 @@ def env(String action){
 node("${SLAVE}") {
     tool name: 'gradle4.6', type: 'gradle'
     tool name: 'java8', type: 'jdk'
-    tool name: 'groovy4', type: 'groovy'
+    tool name: 'groovy4', type: 'hudson.plugins.groovy.GroovyInstallation'
     
     stage('git') {
         checkout scm
