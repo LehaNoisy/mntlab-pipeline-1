@@ -1,6 +1,4 @@
 
-import hudson.model.*
-import hudson.util.*
 
 node("${SLAVE}") {
     //git branch: 'achernak', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
@@ -40,7 +38,7 @@ node("${SLAVE}") {
 //newFile = new hudson.FilePath(channel, fp)
 //newFile.write("xyz", null)
 
-
+/*
 manager.listener.logger.println manager.build.project.getWorkspace()
 manager.listener.logger.println manager.build.workspace
 
@@ -56,13 +54,13 @@ if (newFile.exists()) {
         manager.listener.logger.println "FILE EXISTS!!!"
         def perfData = newFile.read().getText('UTF-8')
         manager.listener.logger.println perfData
-}
+}*/
     
     
     
     
     stage ('Push to Nexus'){
-        def cred = "amVua2luczpqZW5raW5z"
+        sh """groovy def cred = "amVua2luczpqZW5raW5z"
         sh 'pwd'
         sh 'ls -la'
         //def ARTIFACT_NAME = "ls -t1 ${WORKSPACE}/".execute().text.split()[0]
@@ -76,7 +74,8 @@ if (newFile.exists()) {
         def writer = new DataOutputStream(connection.outputStream)
         writer.write (File)
         writer.close()
-        println connection.responseCode}
+        println connection.responseCode"""
+    }
          
     stage('Approval')
         {timeout(time: 120, unit: 'SECONDS')input message: 'Pull and deploy?', ok: 'pull and deploy'}   
