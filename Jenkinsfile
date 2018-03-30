@@ -1,21 +1,19 @@
-def student = "ashumilau"
-
-node("${SLAVE}"){ 
-    def downGradle
-    def downJava
-    stage ('Checking out') {
-    git branch: "${student}", url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
-    downGradle = tool 'gradle4.6' 
-    downJava = tool 'java8'
-    }
-    stage('Build') {
-      if (isUnix()) {
-         sh "${downGradle}/bin/gradle build"
-      } else {
-         bat(/"${downGradle}\bin\gradle" build/)
-      }
-   }
-   stage('Results') {
-      archive 'target/*.jar'
+node("${SLAVE}") {
+try { 
+    stage('Git Checkout'){checkout scm}
+     
+    stage ('Build') {
+        notifyStarted()
+        tool name: 'gradle4.6', type: 'gradle'
+        tool name: 'java8', type: 'jdk'
+        tool name: 'groovy4', type: 'hudson.plugins.groovy.GroovyInstallation'
+        withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){
+        sh 'gradle build'}}
+    stage('Test') {
+    withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){
+        parallel (
+                'Unit Tests': {sh 'gradle test' },
+                'Jacoco Tests': {sh 'gradle jacocoTestReport' },
+                'Cucumber Tests': {sh 'gradle cucumber' }, )}}
 }
 }
