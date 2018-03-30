@@ -4,7 +4,7 @@ node(env.SLAVE){
     def downGradle
     def downJava
     stage ('Checking out') {
-    git branch: "${student}", url: 'https://github.com/aliaksandrzaitsau/Test-pipeline.git'
+    git branch: "${student}", url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
     downGradle = tool 'gradle4.6' 
     downJava = tool 'java8'
     }
