@@ -50,8 +50,6 @@ node("${SLAVE}") {
         sh 'tar xzvf *.tar.gz'
         sh 'tar czvf pipeline-uvalchkou-$BUILD_NUMBER.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline.jar'
         archiveArtifacts 'pipeline-uvalchkou-$BUILD_NUMBER.tar.gz'
-        sh 'ls'
-        sh 'ls /var/server/jenkins/slave/workspace/EPBYMINW2471/mntlab-ci-pipeline/'
         push_to_nexus()
     }
     
@@ -60,7 +58,9 @@ node("${SLAVE}") {
     }
     
     stage('pull'){
+        sh 'ls $WORKSPACE'
         sh 'ls'
+        
         pull_from_nexus()
     }
     
