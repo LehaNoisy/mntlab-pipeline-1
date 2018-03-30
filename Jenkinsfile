@@ -12,6 +12,28 @@ def NameJob(pattern) {
     return matchedJobs[0].name
 }
 
+def pull() {
+    def Credles = "Yarm:Yarm"
+    def Repository = "Pipeline"
+    def nexus = "http://EPBYMINW2473.minsk.epam.com:8081"
+    def Artifact_full_name = "ls -t1 ${WORKSPACE}/".execute().text.split()[0]
+    def Parse = (Artifact_full_name.split("(?<=\\w)(?=[\\-\\.])|(?<=[\\-\\.])")).toList()
+    Parse.removeAll('-')
+    Parse.removeAll('.')
+    def Group_Id = Parse[0]
+    def Artifact_name = Parse[1]
+    def Artifact = new File("${WORKSPACE}/${Artifact_full_name}").getBytes()
+    def connection = new URL("${nexus}/repository/${Repository}/${Group_Id}/${Artifact_name}/${BUILD_NUMBER}/${Artifact_full_name}").openConnection()
+    println(connection)
+    connection.setRequestMethod("PUT")
+    connection.doOutput = true
+    connection.setRequestProperty("Authorization", "Basic ${Credles.getBytes().encodeBase64().toString()}")
+    def writer = new DataOutputStream(connection.outputStream)
+    writer.write(Artifact)
+    writer.close()
+    println connection.responseCode
+}
+
 tests["Unit Tests"] = {
     sh 'gradle test'
 }
@@ -22,8 +44,11 @@ tests["Cucumber Tests"] = {
     sh 'gradle cucumber'
 }
 
-node("${SLAVE}") {
+node {
     echo "Hello MNT-Lab"
+    tool name: 'gradle4.6', type: 'gradle'
+    tool name: 'java8', type: 'jdk'
+    tool name: 'groovy4', type: 'groovy'
     stage ('Preparation (Checking out)'){
         cleanWs()
         echo " Try git branch clone"
@@ -32,8 +57,7 @@ node("${SLAVE}") {
     }
     stage ('Building code') {
         echo "Try Build"
-        tool name: 'gradle4.6', type: 'gradle'
-        tool name: 'java8', type: 'jdk'
+
         withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){
             sh "gradle build"
         }
@@ -59,6 +83,9 @@ node("${SLAVE}") {
         sh 'tar xvf *.tar.gz'
         sh 'tar -czf pipeline-ayarmalovich-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ ${JOB_BASE_NAME}.jar'
         archiveArtifacts 'pipeline-ayarmalovich-${BUILD_NUMBER}.tar.gz'
+        withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin", "PATH+GROOVY_HOME=${tool 'groovy4'}/bin"]){
+            sh "groovy -e '${pull()}'"
+        }
     }
     stage ('Asking for manual approval'){
 
