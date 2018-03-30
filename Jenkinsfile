@@ -1,6 +1,7 @@
 node("${SLAVE}") {
 	def child_job = 0
     	def number_child_job = 0
+	@NonCPS
 	def (slave_name, job_name) =  ${JOB_NAME}.split('/')
 	
 	stage('Preparation (Checking out)') {
