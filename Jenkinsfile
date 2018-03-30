@@ -86,7 +86,7 @@ node("${SLAVE}") {
         echo "Deployment: Done"
         emailext(
             to: 'vospitanarbyzami@gmail.com',
-            subject: "[Jenkins Task11] ${JOB_BASE_NAME}", 
+            subject: "Jenkins Task11 - ${JOB_BASE_NAME}", 
             body: """
             WELL DONE, COMRADES! 
             ${JOB_BASE_NAME} - Finished: SUCCESS
