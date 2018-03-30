@@ -1,85 +1,36 @@
-def git = "MNT-Lab/mntlab-dsl"
-def repo = "azaitsau"
-def StName = "azaitsau"
-def mainJob = "MNTLAB-${StName}-main-build-job"
-def gitURL = "https://github.com/MNT-Lab/mntlab-dsl.git"
-def command = "git ls-remote -h $gitURL"
+//That's my actually script.
+import hudson.model.*
+import  jenkins.model.Jenkins.*;
 
-def proc = command.execute()
-proc.waitFor()
+//Define a names
+def act = "push"
+def password = "admin:admin123"
+def repository = "Realise"
+def baseURL = "10.0.0.12:8081"
+def GROUPID = "TomCat_group"
+def ARTIFACTID = "TomCat_artifact"
+def VER = "32"
 
-if ( proc.exitValue() != 0 ) {
-    println "Error, ${proc.err.text}"
-    System.exit(-1)
+//Create a parameter for the job
+if("act"=="push"){
+    def File = new File("/tmp/${ARTIFACTID}-${VER}.tar.gz").getBytes()
+    def CONNECTION = new URL(
+                             "http://${baseURL}/repository/${repository}/${GROUPID}/${ARTIFACTID}/${VER}/${ARTIFACTID}-${VER}.tar.gz"
+                             ).openConnection()
+  CONNECTION.setRequestProperty("Authorization" , "Basic ${password.getBytes().encodeBase64().toString()}")
+    CONNECTION.setRequestMethod("PUT")
+    CONNECTION.doOutput = true
+    CONNECTION.setRequestProperty( "Content-Type", "application/x-gzip" )
+    def writer = new DataOutputStream(CONNECTION.outputStream)
+    writer.write(File)
+    writer.close()
+    println CONNECTION.responseCode
 }
 
-def branches = proc.in.text.readLines().collect {
-    it.replaceAll(/[a-z0-9]*\trefs\/heads\//, '')
-}
-
-job("MNTLAB-${StName}-main-build-job") {
-    label("EPBYMINW7425")
-    description 'This main-job'
-    parameters {
-	choiceParam('ChooseBranch', ['azaitsau', 'master'], 'Choose wich branch to use')
-        activeChoiceParam('BUILDS_TRIGGER') {
-            choiceType('CHECKBOX')
-            groovyScript {
-                script('["MNTLAB-azaitsau-child1-build-job", "MNTLAB-azaitsau-child2-build-job", "MNTLAB-azaitsau-child3-build-job", "MNTLAB-azaitsau-child4-build-job"]')
-            }
-        }
+else {
+    new File("/tmp/${ARTIFACTID}-${VER}.tar.gz").withOutputStream { out ->
+        def url = new URL("http://${baseURL}/repository/${repository}/${GROUPID}/${ARTIFACTID}/${VER}/${ARTIFACTID}-${VER}.tar.gz").openConnection()
+        url.setRequestProperty("Authorization", "Basic ${password.getBytes().encodeBase64().toString()}");
+        out << url.inputStream
     }
-    scm {
-        github(git, '$ChooseBranch')
-    }
-    triggers {
-        scm('H/1 * * * *')
-    }
-    steps {
-        downstreamParameterized {
-            trigger('$BUILDS_TRIGGER') {
-                block {
-                    buildStepFailure('FAILURE')
-                    failure('FAILURE')
-                    unstable('UNSTABLE')
-                }
-               parameters {
-                    currentBuild()
-		}
-	    }
-	}	
-        shell('chmod +x script.sh && ./script.sh >> output.log && tar -cf child${i}-\${ChooseBranch}-\${BUILD_NUMBER}_dsl_script.tar.gz output.log')
-    }    
-    wrappers {
-	preBuildCleanup()    
-    }
-    publishers { 
-	archiveArtifacts('*.tar.gz')
-    }
-
-}
-
-for (int i = 1; i <5; i++) {
-job("MNTLAB-${StName}-child${i}-build-job") {
-    label("EPBYMINW7425")
-    wrappers {
-	preBuildCleanup()    
-    }
-    parameters {
-	choiceParam('ChooseBranch', branches, '')
-    }
-    scm {
-        github(git, '$ChooseBranch')
-    }
-    steps {
-        shell('chmod +x script.sh && ./script.sh >> output.log && tar -cf child${i}-\${ChooseBranch}-\${BUILD_NUMBER}_dsl_script.tar.gz output.log jobs.groovy script.sh && cp child${i}-\${ChooseBranch}-\${BUILD_NUMBER}_dsl_script.tar.gz ../${mainJob}')
-    }
-    publishers { 
-        archiveArtifacts {
-            pattern('*.tar.gz')
-            pattern('child${i}-\${ChooseBranch}-\${BUILD_NUMBER}_dsl_script.tar.gz')
-            onlyIfSuccessful()
-   }
-  }
- }
 }
