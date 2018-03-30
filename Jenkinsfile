@@ -56,7 +56,6 @@ node("${SLAVE}") {
    stage("Push_Nexus")
    {
 	   sh 'groovy script.groovy ${BUILD_NUMBER} ${WORKSPACE}'
-    //nexusArtifactUploader artifacts: [[artifactId: 'PIPELINE', classifier: 'APP', file: 'pipeline-vpeshchanka-${BUILD_NUMBER}.tar.gz', type: 'tar.gz']], credentialsId: 'nexus-creds', groupId: 'pipeline-vpeshchanka', nexusUrl: '10.6.204.96:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'new_repo', version: '${BUILD_NUMBER}'
    }
    stage("approve")
    {
@@ -71,6 +70,7 @@ node("${SLAVE}") {
        sh "rm -rf build"
        sh "tar -xvf nexus.tar.gz"
        sh "java -jar build/libs/mntlab-ci-pipeline.jar"
+       emailext body: 'Deploy has done successfully!', subject: 'mntlab-ci-pipeline', to: 'vospitanarbyzami@gmail.com'
    }
 }
 
