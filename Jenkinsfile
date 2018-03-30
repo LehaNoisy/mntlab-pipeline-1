@@ -1,7 +1,7 @@
 def test = ["cucumber" : {gradle("cucumber")}, "jacocoTestReport": {gradle("jacocoTestReport")}, "test": {gradle("test")}]
 def STUDENT_NAME = "kklimov"
 def JOB_NAME = "MNTLAB-${STUDENT_NAME}-child1-build-job"
-def GITHUB_REPOSITORY = "https://github.com/klmov/Jenkinsfile"
+def GITHUB_REPOSITORY = "https://github.com/MNT-Lab/mntlab-pipeline"
 def gradle(c) {
     return withEnv(["JAVA_HOME=${ tool 'java8'}", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){
         sh "gradle ${c}"
@@ -16,7 +16,7 @@ node("${SLAVE}") {
   stage ("Preparation (Checking out)"){
       cleanWs()
       echo "Git branch Clone"
-      git branch: 'master', url: GITHUB_REPOSITORY
+      git branch: STUDENT_NAME, url: GITHUB_REPOSITORY
   }
   stage ("Building code") {
       echo "Starting Build section"
