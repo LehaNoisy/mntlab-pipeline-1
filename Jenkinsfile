@@ -1,11 +1,11 @@
-import hudson.FilePath
+/*import hudson.FilePath
 import jenkins.model.*
 import hudson.model.*
 import hudson.AbortException
 import hudson.console.HyperlinkNote
 import java.util.concurrent.CancellationException
 import groovy.json.JsonSlurper
-
+*/
 //def thread = Thread.currentThread()
 //def build = thread.executable
 /*
@@ -19,7 +19,7 @@ String jobName = buildEnvVarsMap?.JOB_NAME
 */
 
 node("${SLAVE}") {
-    
+/*    
 def build = Thread.currentThread().executable
 
 def BUILD_NUMBER = build.environment.get("BUILD_NUMBER")
@@ -33,7 +33,7 @@ if (build.workspace.isRemote()){channel = build.workspace.channel}
 if (manager.build.workspace.isRemote()){
     channel = manager.build.workspace.channel
     manager.listener.logger.println  "I AM REMOTE!!"
-}
+}*/
 if(build.workspace.isRemote()){channel = build.workspace.channel}
         String fp = build.workspace.toString()
         println fp
