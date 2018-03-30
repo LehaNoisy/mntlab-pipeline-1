@@ -28,8 +28,8 @@ node("${SLAVE}") {
         check321out scm
     }
     } catch (e) {
-        println currentStage.result
-        currentStage.result = 'FAILURE'
+        //println currentStage.result
+        currentBuild.result = 'FAILURE'
         email_notification('git')
     }
     
