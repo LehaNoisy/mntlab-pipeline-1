@@ -1,7 +1,6 @@
 node("${SLAVE}") {
     //git branch: 'achernak', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
-    stage('Git Checkout'){
-    checkout scm
+    stage('Git Checkout'){checkout scm}
     //checkout([$class: 'GitSCM', branches: [[name: '*/achernak']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/MNT-Lab/mntlab-pipeline']]])}
     
     stage ('Build') {
