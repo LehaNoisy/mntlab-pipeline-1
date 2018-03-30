@@ -29,7 +29,7 @@ node("${SLAVE}") {
             check321out scm
         } catch (exc) {
         email_notification('git')
-    }
+             }}
     
     stage('build'){
         env("build")
