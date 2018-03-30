@@ -53,8 +53,7 @@ node("${SLAVE}") {
     }
     stage('Packaging and Publishing results'){
         sh """tar -xvf ykhodzin_dsl_script.tar.gz
-        pwd && ls -la build/libs/
-        tar -czf pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ ${JOB_NAME}.jar"""
+        tar -czf pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline.jar"""
         push()
         archiveArtifacts "pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz"//*/
     }
@@ -64,6 +63,6 @@ node("${SLAVE}") {
     stage('Deployment'){
         pull()
         sh """tar -xvf download.tar.gz
-        java -jar ${JOB_NAME}.jar"""
+        java -jar mntlab-ci-pipeline.jar"""
     }
 }
