@@ -22,7 +22,7 @@ import groovy.json.JsonBuilder
 import groovy.json.JsonSlurper
 @NonCPS
 def pull(){
-    def cred = "amVua2luczpqZW5raW5z"
+    def authString = "amVua2luczpqZW5raW5z"
     def PROJECT_NAME='pipeline'
     def ARTIFACT_SUFFIX='achernak'
     def BUILD_NUMBER='96'
