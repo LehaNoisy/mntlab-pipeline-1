@@ -31,8 +31,8 @@ node("${SLAVE}") {
         }} catch (e) {
             currentBuild.result = "FAILURE"
             if (currentBuild.result=="FAILURE"){
-                emailext attachLog: true, body: '', subject: 'Build successful', to: 'tarantino459@gmail.com'}
-        //email_notification('git')
+                email_notification('git')}
+        throw any
         
          }
     
