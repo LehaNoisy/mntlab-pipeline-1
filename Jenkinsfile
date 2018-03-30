@@ -75,51 +75,14 @@ if(build.workspace.isRemote()){channel = build.workspace.channel}
         sh 'tar xvf *.tar.gz' 	
         sh 'tar -czf pipeline-achernak-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline.jar'
         archiveArtifacts 'pipeline-achernak-${BUILD_NUMBER}.tar.gz'}
-    
-    
- /*   
- if (build.workspace.isRemote()){channel = build.workspace.channel}
-            build_properties_file_content=""
-            fp = new hudson.FilePath(channel, build.workspace.toString() + "*.jar")
-
-        if (fp != null) {build_properties_file_content = fp.readToString()}     
- */   
-
-//newFile = new hudson.FilePath(channel, fp)
-//newFile.write("xyz", null)
-
-/*
-manager.listener.logger.println manager.build.project.getWorkspace()
-manager.listener.logger.println manager.build.workspace
-
-if (manager.build.workspace.isRemote()){
-    channel = manager.build.workspace.channel
-    manager.listener.logger.println  "I AM REMOTE!!"
-}
-
-fp = manager.build.workspace.toString()
-newFile = new hudson.FilePath(channel, fp)
-
-if (newFile.exists()) {
-        manager.listener.logger.println "FILE EXISTS!!!"
-        def perfData = newFile.read().getText('UTF-8')
-        manager.listener.logger.println perfData
-}*/
-    
-    
-    
-    
-    stage ('Push to Nexus'){
+   
+   /* stage ('Push to Nexus'){
         def cred = "amVua2luczpqZW5raW5z"
         sh 'pwd'
         sh 'ls -la'
-        //def ARTIFACT_NAME = "ls -t1 ${WORKSPACE}/".execute().text.split()[0]
-        //def PROJECT_NAME = ARTIFACT_NAME.split("-",3)[0]
-        //def ARTIFACT_SUFFIX = ARTIFACT_NAME.split("-",3)[1]
-        //findFiles(glob: '**/TEST-*.xml')
-        
-        
-        /*
+        def ARTIFACT_NAME = "ls -t1 ${WORKSPACE}/".execute().text.split()[0]
+        def PROJECT_NAME = ARTIFACT_NAME.split("-",3)[0]
+        def ARTIFACT_SUFFIX = ARTIFACT_NAME.split("-",3)[1]
         def File = new File(glob: "pipeline-achernak-${BUILD_NUMBER}.tar.gz")//.getBytes()
         def connection = new URL( "http://EPBYMINW6122.minsk.epam.com:8081/repository/tomcat/appbackup/pipeline-achernak/${BUILD_NUMBER}/pipeline-achernak-${BUILD_NUMBER}.tar.gz").openConnection()
         connection.setRequestMethod("PUT")
@@ -128,13 +91,12 @@ if (newFile.exists()) {
         def writer = new DataOutputStream(connection.outputStream)
         writer.write (File)
         writer.close()
-        println connection.responseCode
-        */}
+        println connection.responseCode}*/
          
     stage('Approval')
         {timeout(time: 120, unit: 'SECONDS')input message: 'Pull and deploy?', ok: 'pull and deploy'}   
     
-    stage ('Pull from Nexus'){
+ /*   stage ('Pull from Nexus'){
         def cred = "amVua2luczpqZW5raW5z"
         def ARTIFACT_NAME = "ls -t1 ${WORKSPACE}/".execute().text.split()[0]
         def PROJECT_NAME = ARTIFACT_NAME.split("-",3)[0]
@@ -143,7 +105,7 @@ if (newFile.exists()) {
         url.setRequestProperty("Authorization" , "Basic ${cred}")
         def file = new File("${WORKSPACE}/${ARTIFACT_NAME}")
         file << url.inputStream
-        println url.responseCode}
+        println url.responseCode}*/
         
     stage ('Deploy'){
         sh 'tar xvf *${BUILD_NUMBER}.tar.gz'
