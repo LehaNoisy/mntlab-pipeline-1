@@ -72,11 +72,11 @@ def deployment() {
 }
 
 def sendStatus(e) {
-	echo 'Sending status: do sometinng [in progress send bad status to email]' + e 
+	echo 'Sending status: do sometinng [in progress send bad status to email] ' + e 
 }
 
 def sendReport() {
-	echo 'Sending status: do sometinng [in progress send good status to email]' 
+	echo 'Sending status: do sometinng [in progress send good status to email] ' 
 }
 
 node("${SLAVE}") {
