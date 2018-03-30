@@ -32,5 +32,5 @@ else {
     def out = new DataOutputStream(url.outputStream)
     out.write(new File ("pipeline-ykhodzin-${rev}.tar.gz").getBytes())
     out.close()
-    println http.responseCode
+    println url.responseCode
 }
