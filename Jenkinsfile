@@ -38,6 +38,7 @@ node("${SLAVE}") {
      
 	stage ('Packaging and Publishing results'){
 		sh 'tar -xf child1_' + number_child_job + '_dsl_do.tar.gz'
+		sh 'pwd'
 		sh 'ls'
 		sh 'tar -czf pipeline-alahutsin-"${BUILD_NUMBER}".tar.gz jobs.groovy Jenkinsfile -C build/libs/ pipeline.jar'
 		nexusArtifactUploader artifacts: [[artifactId: 'PIPELINE', classifier: 'APP', file: 'pipeline-alahutsin-${BUILD_NUMBER}.tar.gz', type: 'tar.gz']], credentialsId: 'b4e27ed2-dbbb-4efe-ba2e-c0952ae2d77e', groupId: 'REL', nexusUrl: 'epbyminw2467.minsk.epam.com:8081/repository/test/', nexusVersion: 'nexus3', protocol: 'http', repository: 'PROD', version: '${BUILD_NUMBER}'
