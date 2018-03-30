@@ -14,7 +14,7 @@ def push() {
     http.setRequestProperty("Authorization", "Basic ${authString}")
     http.setRequestProperty("Content-Type", "application/x-gzip")
     def path = "${WORKSPACE}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz";//////
-    def lalala = new FilePath(Jenkins.getInstance().getComputer(env["${SLAVE}"]).getChannel(), path);////
+    def lalala = new FilePath(Jenkins.getInstance().getComputer(env['EPBYMINW1766']).getChannel(), path);////
     def out = new DataOutputStream(http.outputStream)
     def test = new File(lalala)
     out.write(test.getBytes())
