@@ -41,10 +41,7 @@ try{
     			stage ('unit test') {
     				sh "'${downGradle}/bin/gradle' test"
     			}
-    		}
-    	)
-       }
-   } 
+    		})}} 
 }
 catch(exception)
    {
