@@ -10,7 +10,7 @@ def NexusPush() {
         file: 'pipeline-hkavaliova-$BUILD_NUMBER.tar.gz', 
         type: 'tar.gz']], 
         //credentialsId: '32eaa40f-beb1-4af6-a21d-3dffaf6abfe6',
-        credentialsId: 'nexus-creds'
+        credentialsId: 'nexus-creds',
         groupId: 'PipelineGroup', 
         nexusUrl: 'epbyminw7423.minsk.epam.com:8081', 
         nexusVersion: 'nexus3', 
