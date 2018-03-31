@@ -8,7 +8,7 @@ def notifySuccessful() {
             attachLog: true,
             subject: "SUCCESSFUL: Job '${JOB_BASE_NAME} [${BUILD_NUMBER}]'",
             body: """SUCCESSFUL: Job '${JOB_BASE_NAME} [${BUILD_NUMBER}]':
-        Check console output at """,
+        Check console output at in attached file""",
             to: "igarok.fil9@gmail.com"
     )
 }
@@ -38,7 +38,7 @@ node("${SLAVE}") {
         stage(stage_list.get(1)) {
             tool name: 'java8', type: 'jdk'
             tool name: 'gradle4.6', type: 'gradle'
-            git branch: 'ifilimonau', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
+            git branch: 'ifilimonau', url: 'https://github.com/MNT-Lab/mntlab-pipeline.gitb'
         }
     } catch (e) {
         notifyFailed(stage_list.get(1))
