@@ -1,16 +1,22 @@
 def student = "ashumilau"
 
 node(env.SLAVE){
+	try{
+        	def downGradle
+        	def downJava
 	
-        def downGradle
-        def downJava
-	
-        stage ('Checking out') {
-        git branch: "${student}", url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
-        downGradle = tool 'gradle4.6' 
-        downJava = tool 'java8'
-        withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){
-        sh 'gradle build'}}
+        	stage ('Checking out') {
+        	git branch: "${student}", url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
+        	downGradle = tool 'gradle4.6' 
+        	downJava = tool 'java8'
+        	withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){
+        	sh 'gradle build'}}
+	}
+	catch(exception)
+   	{
+       		emailext body: 'Fail!', subject: 'Checking out fail!"', to: 'shumilovy@mail.ru'
+		throw any
+	}
 	
 	
         
