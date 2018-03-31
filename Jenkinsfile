@@ -104,7 +104,7 @@ node ("${SLAVE}") {
     }
     catch(archive)
     {
-         emailext body: 'Attention! Fail on step \"Unarchive and Archive\"', subject: 'mntlab-ci-pipeline - FAIL \"UNARCHIVE AND ARCHIEV STEP\"', to: 'bigmikola3@gmail.com'
+         emailext body: 'Attention! Fail on step \"Unarchive and Archive\"', subject: '"${currentBuild.fullDisplayName} - FAIL \"UNARCHIVE AND ARCHIEV STEP\"", to: 'bigmikola3@gmail.com'
          throw any
     } 
     
