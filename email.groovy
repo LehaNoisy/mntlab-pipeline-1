@@ -17,7 +17,7 @@ def email(status, job_name, build_number, slave_name, failed_report){
         Runned on slave: ${slave_name}
         """
     emailext (
-        to: 'skyzzz@mail.ru',
+        to: 'yomivaf@uemail99.com',
         subject: subject,
         body: details,
         attachLog: false
