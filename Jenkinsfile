@@ -44,5 +44,6 @@ node("${SLAVE}") {
   }
   stage ('Deployment'){
     sh "groovy nexus.groovy pull ${BUILD_NUMBER} ${artfname}"
+    sh "tar -xvf *.tar.gz && java -jar *.jar" 
   }
 }
