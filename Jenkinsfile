@@ -11,6 +11,7 @@ def artfname = "pipeline-${STUDENT_NAME}-${BUILD_NUMBER}.tar.gz"
 StageName = ""
 
 def SendEmail(status){
+    status = status ?: 'SUCCESS' //If status var is null set to SUCCESS
     def log = currentBuild.rawBuild.getLog(20).join('\n\t\t')
     //def ConsoleOutputURL = new URL("${env.BUILD_URL}consoleText")
     //Date: ${currentBuild.rawBuild.getTimestampString()}
@@ -20,6 +21,9 @@ def SendEmail(status){
     def MailBody = """Project: ${env.JOB_NAME}
         Stage: ${StageName}
         Runned on slave: ${env.SLAVE}
+        Date: ${currentBuild.rawBuild.getTimestampString()}
+        Duration : ${currentBuild.rawBuild.getDurationString()}
+        
         Last 20 lines in log:
         ${log}"""
     emailext (
