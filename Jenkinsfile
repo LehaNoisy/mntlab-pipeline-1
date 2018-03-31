@@ -9,18 +9,17 @@ def gradle(c) {
 }
 def artfname = "pipeline-${STUDENT_NAME}-${BUILD_NUMBER}.tar.gz"
 StageName = ""
+
 def SendEmail(status){
-    def build = currentBuild.rawBuild
     def log = currentBuild.rawBuild.getLog(20).join('\n\t\t')
-    def ConsoleOutputURL = new URL("${env.BUILD_URL}consoleText")
+    //def ConsoleOutputURL = new URL("${env.BUILD_URL}consoleText")
     //Date: ${currentBuild.rawBuild.getTimestampString()}
     //Duration : ${currentBuild.rawBuild.getDurationString()}
-    def EmailSubject = "'${env.JOB_NAME} - Build # ${env.BUILD_NUMBER} - ${status}'"
-    //def Cause = "Cause: ${build.getCauses()}"
+    def EmailSubject = "${env.JOB_NAME} - Build # ${env.BUILD_NUMBER} - ${status}"
+    //def Cause = "Cause: ${currentBuild.rawBuild.getCauses()}"
     def MailBody = """Project: ${env.JOB_NAME}
         Stage: ${StageName}
         Runned on slave: ${env.SLAVE}
-        Console output at: ${ConsoleOutputURL}
         Last 20 lines in log:
         ${log}"""
     emailext (
