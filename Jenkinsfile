@@ -56,12 +56,16 @@ node("${SLAVE}"){
        sh "java -jar *.jar"   
     }
    
-     stage ('Email notification') { 
+     stage ("Email notification") { 
         emailext attachLog: true, body: 
-           """ JOB_NAME="${env.JOB_NAME}"
-               ARCHIVE_NAME=pipeline-${STUDENT}-${BUILD_NUMBER}.tar.gz ;
-               BUILD_NUMBER=${BUILD_NUMBER} """,
-               subject: "Jenkins-job", to: "nikbuzin97@gmail.com"
+           """ JOB_NAME="${env.JOB_NAME}" ------ Started by: "${userName}"
+           Created archive:
+           ARCHIVE_NAME=pipeline-${STUDENT}-${BUILD_NUMBER}.tar.gz ;
+           BUILD_NUMBER=${BUILD_NUMBER} 
+           STATUS:
+           ${status} 
+           ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""",
+           subject: "Jenkins-job", to: "nikbuzin97@gmail.com"
     }
    
    
