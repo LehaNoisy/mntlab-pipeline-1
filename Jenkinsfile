@@ -17,15 +17,17 @@ def SendEmail(status){
     //Date: ${currentBuild.rawBuild.getTimestampString()}
     //Duration : ${currentBuild.rawBuild.getDurationString()}
     def EmailSubject = "${env.JOB_NAME} - Build # ${env.BUILD_NUMBER} - ${status}"
-    //def Cause = "Cause: ${currentBuild.rawBuild.getCauses()}"
     def MailBody = """Project: ${env.JOB_NAME}
         Stage: ${StageName}
         Runned on slave: ${env.SLAVE}
         Date: ${currentBuild.rawBuild.getTimestampString()}
         Duration : ${currentBuild.rawBuild.getDurationString()}
-        
-        Last 20 lines in log:
+       """
+    if(status != "SUCCESS") {
+        MailBody += """\nLast 20 lines in log:
         ${log}"""
+    }
+    //def Cause = "Cause: ${currentBuild.rawBuild.getCauses()}"
     emailext (
         to: 'klimovkostya5@gmail.com',
         subject: EmailSubject,
