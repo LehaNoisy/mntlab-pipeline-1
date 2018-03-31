@@ -61,6 +61,6 @@ node(env.SLAVE){
     }
     
     stage ('Email notification') {
-        emailext body: 'Hello!  JOB_NAME=${BUILD_NUMBER}', subject: 'Message', to: 'shumilovy@mail.ru'
+        emailext body: 'Hello! JOB_NAME=pipeline-ashumilau-${BUILD_NUMBER}.tar.gz BUILD_NUMBER=${BUILD_NUMBER}', subject: 'Message', to: 'shumilovy@mail.ru'
     }
 }
