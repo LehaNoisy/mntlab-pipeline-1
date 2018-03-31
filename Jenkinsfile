@@ -70,7 +70,7 @@ node("${SLAVE}") {
        sh "rm -rf build"
 	   sh "tar -xvf ${target_arch}"
        sh "java -jar build/libs/mntlab-ci-pipeline.jar"
-       emailext body: 'Deploy has done successfully!', subject: 'mntlab-ci-pipeline', to: 'vospitanarbyzami@gmail.com'
+       emailext body: 'Deploy has done successfully!', subject: 'mntlab-ci-pipeline', to: 'valera.peshchenko@gmail.com'
    }
 }
 
