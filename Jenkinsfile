@@ -56,35 +56,34 @@ node("${SLAVE}"){
    catch(exception){
       emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" --- ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""" 
    }
-      
-    stage("Packaging and Publishing results") {
-       sh "tar -xvf *.tar.gz"
-       sh "cp build/libs/mntlab-ci-pipeline.jar ."
-       sh "tar -czf pipeline-${STUDENT}-${BUILD_NUMBER}.tar.gz mntlab-ci-pipeline.jar jobs.groovy Jenkinsfile"
-       sh "groovy push.groovy ${BUILD_NUMBER}"
-       sh "rm -rf *.tar.gz"
-       sh "rm -rf *.jar"
+    
+   
+   try{
+      stage("Packaging and Publishing results") {
+         sh "tar -xvf *.tar.gz"
+         sh "cp build/libs/mntlab-ci-pipeline.jar ."
+         sh "tar -czf pipeline-${STUDENT}-${BUILD_NUMBER}.tar.gz mntlab-ci-pipeline.jar jobs.groovy Jenkinsfile"
+         sh "groovy push.groovy ${BUILD_NUMBER}"
+         sh "rm -rf *.tar.gz"
+         sh "rm -rf *.jar"}
     }  
    
     stage("Asking for manual approval") {
       input "Do you want to Deploy?"
-    }   
+    }
+   catch(exception){
+      emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" --- ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""" 
+   }   
     
-    stage("Deployment") {
-       sh "groovy pull.groovy ${BUILD_NUMBER}"
-       sh "tar -xvf *.tar.gz"
-       sh "java -jar *.jar"   
-    }
    
-     stage ("Email notification") {
-        emailext attachLog: true, body: 
-           """ JOB_NAME="${env.JOB_NAME}" 
-           Created archive:
-           ARCHIVE_NAME=pipeline-${STUDENT}-${BUILD_NUMBER}.tar.gz ;
-           BUILD_NUMBER=${BUILD_NUMBER} 
-           ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""",
-           subject: "Jenkins-job", to: "nikbuzin97@gmail.com"
-    }
-   
+   try{
+      stage("Deployment") {
+         sh "groovy pull.groovy ${BUILD_NUMBER}"
+         sh "tar -xvf *.tar.gz"
+         sh "java -jar *.jar" }  
+   }
+   catch(exception){
+      emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" --- ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""" 
+   }   
    
 }
