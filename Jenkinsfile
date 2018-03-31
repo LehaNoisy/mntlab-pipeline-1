@@ -61,6 +61,6 @@ node(env.SLAVE){
     }
     
     stage ('Email notification') {
-        emailext body: 'Hello fron Jenkins!', 'JOB_NAME=${BUILD_NUMBER}' subject: '<--Pipline-message-->', to: 'shumilovy@mail.ru'
+        emailext body: 'Hello fron Jenkins! JOB_NAME=${BUILD_NUMBER}' subject: '<--Pipline-message-->', to: 'shumilovy@mail.ru'
     }
 }
