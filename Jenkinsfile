@@ -16,7 +16,7 @@ node ("${SLAVE}") {
          } 
      }
      catch(clean)
-     {
+     { // ${currentBuild.fullDisplayName} show in message "Pavel Kislouski » mntlab-ci-pipeline #$BUILD_NUMBER"
           emailext body: 'Attention! Fail on step \"Clean workspace before build\"', subject: "${currentBuild.fullDisplayName} FAIL CLEAN STEP", to: 'bigmikola3@gmail.com'
           throw any
      }
@@ -30,7 +30,7 @@ node ("${SLAVE}") {
      }
      catch(installion)
      {
-          emailext body: 'Attention! Fail on step \"installation\"', subject: 'mntlab-ci-pipeline - FAIL \"INSTALLATION STEP\"', to: 'bigmikola3@gmail.com'
+          emailext body: 'Attention! Fail on step \"installation\"', subject: "${currentBuild.fullDisplayName} FAIL INSTALLATION STEP", to: 'bigmikola3@gmail.com'
           throw any
      }
      
@@ -41,7 +41,7 @@ node ("${SLAVE}") {
      }
      catch(build)
      { 
-          emailext body: 'Attention! Fail on step \"build\"', subject: 'mntlab-ci-pipeline - FAIL \"BUILD STEP\"', to: 'bigmikola3@gmail.com'
+          emailext body: 'Attention! Fail on step \"build\"', subject: "${currentBuild.fullDisplayName} FAIL BUILD STEP", to: 'bigmikola3@gmail.com'
           throw any // throw any - stop pipeline if have a message
      }
      
@@ -68,7 +68,7 @@ node ("${SLAVE}") {
     }
     catch(test)
     {
-         emailext body: 'Attention! Fail on step \"testing\"', subject: 'mntlab-ci-pipeline - FAIL \"TESTING STEP\"', to: 'bigmikola3@gmail.com'
+         emailext body: 'Attention! Fail on step \"testing\"', subject: "${currentBuild.fullDisplayName} FAIL TESTING STEP", to: 'bigmikola3@gmail.com'
          throw any
     } 
      
@@ -79,7 +79,7 @@ node ("${SLAVE}") {
     }
     catch(child)
     {
-         emailext body: 'Attention! Fail on step \"Starting child job\"', subject: 'mntlab-ci-pipeline - FAIL \"CHILD JOB STEP\"', to: 'bigmikola3@gmail.com'
+         emailext body: 'Attention! Fail on step \"Starting child job\"', subject: "${currentBuild.fullDisplayName} FAIL CHILD JOB STEP", to: 'bigmikola3@gmail.com'
          throw any
     } 
   
@@ -91,7 +91,7 @@ node ("${SLAVE}") {
      }
      catch(copy)
      {
-          emailext body: 'Attention! Fail on step \"Copy artifact from job\"', subject: 'mntlab-ci-pipeline - FAIL \"COPY ARTIFACT STEP\"', to: 'bigmikola3@gmail.com'
+          emailext body: 'Attention! Fail on step \"Copy artifact from job\"', subject: "${currentBuild.fullDisplayName} FAIL COPY ARTIFACT STEP", to: 'bigmikola3@gmail.com'
           throw any
      } 
     
@@ -115,7 +115,7 @@ node ("${SLAVE}") {
     }
     catch (push)
     {
-         emailext body: 'Attention! Fail on step \"PUSH\"', subject: 'mntlab-ci-pipeline - FAIL \"PUSH STEP\"', to: 'bigmikola3@gmail.com'
+         emailext body: 'Attention! Fail on step \"PUSH\"', subject: "${currentBuild.fullDisplayName} FAIL PUSH STEP", to: 'bigmikola3@gmail.com'
          throw any
     }
      
@@ -126,7 +126,7 @@ node ("${SLAVE}") {
     }
     catch (approval)
     {
-         emailext body: 'Attention! Fail on step \"APPROVAL\"', subject: 'mntlab-ci-pipeline - FAIL \"APPROVAL STEP\"', to: 'bigmikola3@gmail.com'
+         emailext body: 'Attention! Fail on step \"APPROVAL\"', subject: "${currentBuild.fullDisplayName} FAIL APPROVAL STEP", to: 'bigmikola3@gmail.com'
          throw any
     }
      
@@ -137,12 +137,12 @@ node ("${SLAVE}") {
     }
     catch (pull)
     {
-         emailext body: 'Attention! Fail on step \"PULL\"', subject: 'mntlab-ci-pipeline - FAIL \"PULL STEP\"', to: 'bigmikola3@gmail.com'
+         emailext body: 'Attention! Fail on step \"PULL\"', subject: "${currentBuild.fullDisplayName} FAIL PULL STEP", to: 'bigmikola3@gmail.com'
          throw any
     }
      
     try {
-        stage ('Unarchive & Execute') { // ${currentBuild.fullDisplayName} show in message "Pavel Kislouski » mntlab-ci-pipeline #$BUILD_NUMBER
+        stage ('Unarchive & Execute') { 
             sh 'tar -xvf nexus.tar.gz'
             sh 'java -jar mntlab-ci-pipeline.jar'
             emailext body: 'Attention! Deploy SUCCESS', subject: "${currentBuild.fullDisplayName} SUCCESS", to: 'bigmikola3@gmail.com' 
@@ -150,7 +150,7 @@ node ("${SLAVE}") {
      }
      catch (All)
      {
-          emailext body: 'Attention! Fail on step \"PULL\"', subject: 'mntlab-ci-pipeline - FAIL \"FAIL\"', to: 'bigmikola3@gmail.com'
+          emailext body: 'Attention! Fail on step \"Execute\"', subject: "${currentBuild.fullDisplayName} FAIL EXECUTE STEP", to: 'bigmikola3@gmail.com'
           throw any
      }
 }    
