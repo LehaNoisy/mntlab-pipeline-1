@@ -16,6 +16,7 @@ node("${SLAVE}") {
    catch(exception)
    {
        emailext body: 'Attention! Fail on step Preparation or cannot download from git', subject: 'mntlab-ci-pipeline - FAIL \"PREPARATION STEP\"', to: 'valera.peshchenko@gmail.com'
+	throw any
    }
    
    //stage 3
@@ -30,6 +31,7 @@ node("${SLAVE}") {
    catch(exception)
    {
 	   emailext body: 'Attention! Fail on step \"BUILD\"', subject: 'mntlab-ci-pipeline - \"FAIL BUILD!\"', to: 'valera.peshchenko@gmail.com'
+	   throw any
    }
    try
    {
@@ -56,6 +58,7 @@ node("${SLAVE}") {
 	catch(exception)
 	{
 		emailext body: 'Attention! Fail on step Test of application', subject: 'mntlab-ci-pipeline - \"FAIL TEST!\"', to: 'valera.peshchenko@gmail.com'
+		throw any
 	}
       //stage 5
    try
@@ -68,6 +71,7 @@ node("${SLAVE}") {
    catch(exception)
    {
 	emailext body: 'Attention! Fail on step Child Job. Emerged some errors, when step \"CHILD JOB\" was running', subject: 'mntlab-ci-pipeline - FAIL Child Job!', to: 'valera.peshchenko@gmail.com'	
+	throw any
    }
    //stage 6
    try
@@ -85,6 +89,7 @@ node("${SLAVE}") {
    catch(exception)
    {
 	emailext body: 'Attention! Fail on step \"Form Artefact\"', subject: 'mntlab-ci-pipeline - FAIL \"FORM ARTEFACT\"!', to: 'valera.peshchenko@gmail.com'	
+	throw any
    }
    try
    {
@@ -96,6 +101,7 @@ node("${SLAVE}") {
    catch(exception)
    {
 	     emailext body: 'Attention! Fail on step \"Push_Nexus\"', subject: 'mntlab-ci-pipeline - FAIL \"PUSH NEXUS\"!', to: 'valera.peshchenko@gmail.com'
+	   throw any
    }
 	
    try 
@@ -108,6 +114,7 @@ node("${SLAVE}") {
    catch(exception)
    {
 	     emailext body: 'Abort Deploy application!', subject: 'mntlab-ci-pipeline - \"ABORT DEPLOY APPLICATION\"', to: 'valera.peshchenko@gmail.com'
+	   throw any
    }
 	
    try
@@ -120,6 +127,7 @@ node("${SLAVE}") {
    catch(exception)
    {
 		emailext body: 'Attention! Fail on step Pull_Nexus', subject: 'mntlab-ci-pipeline - FAIL \"PULL NEXUS\"', to: 'valera.peshchenko@gmail.com'
+	   throw any
    }
    try
    {
@@ -134,6 +142,7 @@ node("${SLAVE}") {
    catch(exception)
    {
 		emailext body: 'Attention! Fail on step \"Deploy application\"', subject: 'mntlab-ci-pipeline - FAIL \"DEPLOY APPLICATION\"', to: 'valera.peshchenko@gmail.com'
+	   throw any
    }
 }
 
