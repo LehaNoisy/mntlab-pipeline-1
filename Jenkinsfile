@@ -3,15 +3,15 @@ def notifyStarted() {
                subject: '$JOB_NAME $BUILD_NUMBER', to: 'ip.chernak@gmail.com'}
 
 def notifySuccessful() {
- /*   emailext attachLog: true, body: '$JOB_NAME $BUILD_NUMBER',
+   emailext attachLog: true, body: '$JOB_NAME $BUILD_NUMBER',
                subject: '$JOB_NAME $BUILD_NUMBER', to: 'ip.chernak@gmail.com'}
 
 
 def notifyFailed() {
-    //def log_20 = currentBuild.rawBuild.getLog(20).join('\n\t\t')*/
+    //def log_20 = currentBuild.rawBuild.getLog(20).join('\n\t\t')
     emailext attachLog: true, 
-             subject: "Failed Pipeline: ${JOB_NAME} ${BUILD_NUMBER}   ${currentBuild.fullDisplayName}", 
-             body: """Job ${JOB_NAME} build № ${BUILD_NUMBER} on ${stagename} is down.
+             subject: "Failed Pipeline: ${env.JOB_NAME} ${env.BUILD_NUMBER}   ${currentBuild.fullDisplayName}", 
+             body: """Job ${env.JOB_NAME} build № ${env.BUILD_NUMBER} on ${stagename} is down.
                   Something is wrong with ${env.BUILD_URL}"
                   Last stage was "${nst}"
                   See the job in address ${env.JOB_URL}
@@ -75,7 +75,6 @@ try {
         notifySuccessful()
 
 }catch (all) {
-    //currentBuild.result = 'FAILED'
-  //  notifyFailed()
-    throw all
-    }}
+    currentBuild.result = 'FAILED'
+    notifyFailed()
+}}
