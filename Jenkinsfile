@@ -75,10 +75,10 @@ def sendStatus(e, job_name) {
 
 def email(status, job_name, build_number, slave_name, failed_report){
     def details = """
-        STARTED: Job ${job_name} [${build_number}] + "\n"
-        Runned on slave: ${slave_name} + "\n"
-	Failed report: ${failed_report} + "\n"
-	Status: ${status} + "\n"
+        STARTED: Job ${job_name} [${build_number}] 
+        Runned on slave: ${slave_name} 
+	Failed report: ${failed_report} 
+	Status: ${status}
         """
     emailext (
         to: 'yomivaf@uemail99.com',
