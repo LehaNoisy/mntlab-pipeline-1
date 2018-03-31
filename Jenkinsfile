@@ -4,11 +4,16 @@ import jenkins.model.Jenkins
 def func_gradle(String command){
     withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){sh "gradle ${command}"}
 }
-def nStage = ''
+nStage = ''
+job = Jenkins.getInstance().getItemByFullName(env.JOB_BASE_NAME, Job.class)
+build = job.getBuildByNumber(env.BUILD_ID as int)
+userId = build.getCause(Cause.UserIdCause).getUserId()
+
 def email(String status){
     status = status ?: 'SUCCESS'
     def subject = "${status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
     def details = """STARTED: Job    ${env.JOB_NAME} [${env.BUILD_NUMBER}]
+        Started by: ${userId}
         Stage: ${nStage}
         Runned on slave: ${env.SLAVE}
         Check console output at: ${env.BUILD_URL}"""
