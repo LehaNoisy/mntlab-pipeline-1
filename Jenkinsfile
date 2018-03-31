@@ -7,7 +7,7 @@ node("${SLAVE}"){
    
 """PREPARATIN STAGE"""
    try{
-      stage("Preparation") {
+      stage("Preparation(Checking out)") {
          cleanWs()
          echo "Preparation - repo cloning"
          git branch: "${STUDENT}", url: "${GIT_URL}" }
@@ -21,7 +21,7 @@ node("${SLAVE}"){
    try{
       stage ("Building code") {
          echo "Starting Build"
-         tool name: "${GRADhLE}", type: "gradle"
+         tool name: "${GRADLE}", type: "gradle"
          tool name: "${JDK}", type: "jdk"
          withEnv(["JAVA_HOME=${ tool "${JDK}" }", "PATH+GRADLE=${tool "${GRADLE}"}/bin"]){
          sh "gradle build"
@@ -96,6 +96,19 @@ node("${SLAVE}"){
    catch(exception){
       emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" \n FAIL ON "Deployment" STAGE \n ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""", subject: "FAIL Jenkins-pipeline", to: "nikbuzin97@gmail.com" 
       throw any
-   }   
+   } 
+   
+"""EMAIL STAGE"""    
+   stage ("Email notification") {
+      emailext attachLog: true, body: 
+         """ JOB_NAME="${env.JOB_NAME}"
+         STATUS:
+         SUCCESSFULL !!!
+         Created archive:
+         ARCHIVE_NAME=pipeline-${STUDENT}-${BUILD_NUMBER}.tar.gz ;
+         BUILD_NUMBER=${BUILD_NUMBER} 
+         ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""",
+      subject: "Jenkins-pipeline", to: "nikbuzin97@gmail.com"
+    }
    
 }
