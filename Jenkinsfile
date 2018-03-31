@@ -11,7 +11,7 @@ node(env.SLAVE){
         downJava = tool 'java8'
         withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){
         sh 'gradle build'}}
-	}
+	
 	
         
    stage('Results') {
@@ -39,8 +39,7 @@ node(env.SLAVE){
     		}
     	)
        }
-   }
-   
+   } 
    
 	
      stage("Triggering job and fetching artefact after finishing") {
