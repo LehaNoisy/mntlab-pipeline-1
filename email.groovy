@@ -27,7 +27,6 @@ def email(status, job_name, build_number, slave_name, failed_report){
     emailext (
         to: 'yomivaf@uemail99.com',
         subject: "123",
-        body: "123",
-        attachLog: true
+        body: "123"
     )    
 }
