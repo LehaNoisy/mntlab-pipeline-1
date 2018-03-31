@@ -6,7 +6,7 @@ def ereport(String buildStatus) {
   // build status of null means successful
   //buildStatus = buildStatus ?: 'SUCCESS'
   def subj = "${buildStatus}: Job '${BUILD_TAG}]'"
-    def body = """Job ${JOB_NAME} build № ${BUILD_NUMBER} with commit '${GIT_COMMIT}' was ${buildStatus})
+    def body = """Job ${JOB_NAME} build № ${BUILD_NUMBER} was ${buildStatus})
              
   """
     
