@@ -13,15 +13,14 @@ def SendEmail(status){
     def build = currentBuild.rawBuild
     def log = currentBuild.rawBuild.getLog(20).join('\n\t\t')
     def ConsoleOutputURL = new URL("${env.BUILD_URL}consoleText")
+    //Date: ${currentBuild.rawBuild.getTimestampString()}
+    //Duration : ${currentBuild.rawBuild.getDurationString()}
     def EmailSubject = "'${env.JOB_NAME} - Build # ${env.BUILD_NUMBER} - ${status}'"
     //def Cause = "Cause: ${build.getCauses()}"
     def MailBody = """Project: ${env.JOB_NAME}
         Stage: ${StageName}
-        Date: ${currentBuild.rawBuild.getTimestampString()}
-        Duration : ${currentBuild.rawBuild.getDurationString()}
         Runned on slave: ${env.SLAVE}
         Console output at: ${ConsoleOutputURL}
-        
         Last 20 lines in log:
         ${log}"""
     emailext (
