@@ -1,24 +1,15 @@
 import hudson.FilePath
 import jenkins.model.Jenkins
-import jenkins.*
-import jenkins.model.*
-import hudson.*
-import hudson.model.*
 
 def func_gradle(String command){
     withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){sh "gradle ${command}"}
 }
-nStage = ''
-try {
-    userName = currentBuild.rawBuild.getCause(Cause.UserIdCause).getUserName()}
-catch(all){userName = 'an SCM change'}
-
+def nStage = ''
 def email(String status){
     status = status ?: 'SUCCESS'
     def subject = "${status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
     def details = """STARTED: Job    ${env.JOB_NAME} [${env.BUILD_NUMBER}]
-        Started by: ${userName}
-        Stage: ${nStage}
+        Stage: ${env.STAGE_NAME}
         Runned on slave: ${env.SLAVE}
         Check console output at: ${env.BUILD_URL}"""
     emailext (
