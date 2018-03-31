@@ -5,38 +5,7 @@ def func_gradle(String command){
     withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){sh "gradle ${command}"}
 }
 
-def push() {
-    sh """groovy 
-    def authString = "YWRtaW46YWRtaW4xMjM="
-    def url ="http://EPBYMINW1766.minsk.epam.com:8081/repository/artifact-repo/Pipeline/EasyHello/${BUILD_NUMBER}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz"
-    def http = new URL(url).openConnection()
-    println InetAddress.localHost.hostName    
-    http.doOutput = true
-    http.setRequestMethod("PUT")
-    http.setRequestProperty("Authorization", "Basic ${authString}")
-    http.setRequestProperty("Content-Type", "application/x-gzip")
-    def out = new DataOutputStream(http.outputStream)
-    out.write(new File ("${WORKSPACE}/pipeline-ykhodzin-39.tar.gz").getBytes())
-    out.close()
-    println http.responseCode"""
-    
-    
-}
-def verss() {
-    sh "groovy123 -version"
-}
-
-def pull() {
-    def authString = "YWRtaW46YWRtaW4xMjM="
-    def url = "http://EPBYMINW1766.minsk.epam.com:8081/repository/artifact-repo/Pipeline/EasyHello/62/pipeline-ykhodzin-62.tar.gz"
-    def file = new File("${WORKSPACE}/download.tar.gz")
-    def down = new URL(url).openConnection()
-    down.setRequestProperty("Authorization", "Basic ${authString}")
-    file << down.inputStream
-}
-
 node("${SLAVE}") {
-    //def work = new Nexus(this)
     stage('Preparation (Checking out)'){
         checkout scm
     }
@@ -44,7 +13,7 @@ node("${SLAVE}") {
         tool name: 'java8', type: 'jdk'
         tool name: 'gradle4.6', type: 'gradle'
         tool name: 'groovy4', type: 'hudson.plugins.groovy.GroovyInstallation'
-        func_gradle('build')//*/
+        func_gradle('build')
     }
     stage('Testing code'){
         parallel(
@@ -57,7 +26,7 @@ node("${SLAVE}") {
                 'Gradle test': {
                     func_gradle('test')
                 }
-        )//*/
+        )
     }
     stage('Triggering job and fetching artefact after finishing'){
         build job: 'MNTLAB-ykhodzin-child1-build-job', parameters: [[$class: 'StringParameterValue', name: 'BRANCH', value: 'ykhodzin']]
@@ -65,24 +34,15 @@ node("${SLAVE}") {
     }
     stage('Packaging and Publishing results'){
         sh """tar -xvf ykhodzin_dsl_script.tar.gz
-        tar -czf ${WORKSPACE}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline.jar
-ls -la
-pwd"""
-////
+        tar -czf ${WORKSPACE}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline.jar"""
         withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin", "PATH+GROOVY_HOME=${tool 'groovy4'}/bin"]){sh "groovy nex.groovy push ${BUILD_NUMBER}"}
-       // def test = readFile "pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz"
-        //push(test)
-        //archiveArtifacts "${WORKSPACE}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz"
-        //archiveArtifacts "${test}"
     }
     stage('Asking for manual approval'){
         input 'Confirm deploy'
     }
     stage('Deployment'){
         withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin", "PATH+GROOVY_HOME=${tool 'groovy4'}/bin"]){sh "groovy nex.groovy pull ${BUILD_NUMBER}"}
-        //pull()
         sh """tar -xvf download-${BUILD_NUMBER}.tar.gz
         java -jar mntlab-ci-pipeline.jar"""
     }
 }
-
