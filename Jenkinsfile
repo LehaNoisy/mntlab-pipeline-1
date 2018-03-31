@@ -1,7 +1,7 @@
 def student = "ashumilau"
 
 def push_to_nexus() {
-    nexusArtifactUploader credentialsId: '', groupId: 'Group', nexusUrl: '10.6.204.121', nexusVersion: 'nexus3', protocol: 'http', repository: 'Repo', version: 'Version'
+    nexusArtifactUploader credentialsId: '', groupId: 'Group', nexusUrl: '10.6.204.121:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'Repo', version: 'Version'
 }
 
 node(env.SLAVE){
