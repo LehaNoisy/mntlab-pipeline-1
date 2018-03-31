@@ -1,5 +1,9 @@
 def student = "ashumilau"
 
+def push_to_nexus() {
+    nexusArtifactUploader credentialsId: '', groupId: 'Group', nexusUrl: '10.6.204.121', nexusVersion: 'nexus3', protocol: 'http', repository: 'Repo', version: 'Version'
+}
+
 node(env.SLAVE){
     def downGradle
     def downJava
@@ -45,5 +49,6 @@ node(env.SLAVE){
         sh 'tar xvf *.tar.gz' 	
         sh 'tar -czf pipeline-ashumilau-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline.jar'
         archiveArtifacts 'pipeline-ashumilau-${BUILD_NUMBER}.tar.gz'
-    }
+        push_to_nexus()
+    }  
 }
