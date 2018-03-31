@@ -145,7 +145,7 @@ node ("${SLAVE}") {
         stage ('Unarchive & Execute') {
             sh 'tar -xvf nexus.tar.gz'
             sh 'java -jar mntlab-ci-pipeline.jar'
-            emailext body: 'Attention! Deploy SUCCESS', subject: 'mntlab-ci-pipeline - \"SUCCESS\"', to: 'bigmikola3@gmail.com' 
+            emailext body: 'Attention! Deploy SUCCESS', subject: 'Job ${currentBuild.fullDisplayName} SUCCESS', to: 'bigmikola3@gmail.com' 
             }
      }
      catch (All)
