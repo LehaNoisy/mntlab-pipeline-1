@@ -8,7 +8,7 @@ def slave_name = args[4]
 def failed_report = args[5]
 
 if (args[0] == 'email'){
-    def subject = "${status}: Job '${job_name} [${build_number}]'"
+    def subject = status + " " + job_name + " " +build_number
     def details = """STARTED: 
         Job  ${jobname} [${build_number}]
         Runned on slave: ${slave_name}
