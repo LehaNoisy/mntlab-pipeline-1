@@ -21,7 +21,7 @@ node("${SLAVE}"){
    try{
       stage ("Building code") {
          echo "Starting Build"
-         tool name: "${GRADLE}", type: "gradle"
+         tool name: "${GRADhLE}", type: "gradle"
          tool name: "${JDK}", type: "jdk"
          withEnv(["JAVA_HOME=${ tool "${JDK}" }", "PATH+GRADLE=${tool "${GRADLE}"}/bin"]){
          sh "gradle build"
