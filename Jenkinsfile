@@ -69,7 +69,7 @@ def deployment(job_name) {
 }
 
 def sendStatus(e, job_name) {
-	email('failed', job_name, ${BUILD_NUMBER}, ${SLAVE} , e)
+	email('failed', job_name, env.BUILD_NUMBER, env.SLAVE , e)
 
 }
 
@@ -87,7 +87,7 @@ def email(status, job_name, build_number, slave_name, failed_report){
 }
 
 def sendReport(job_name) {
-	email('success', job_name, ${BUILD_NUMBER}, ${SLAVE} , 'NONE')	
+	email('success', job_name, env.BUILD_NUMBER, env.SLAVE, 'NONE')	
 }
 
 node("${SLAVE}") {
