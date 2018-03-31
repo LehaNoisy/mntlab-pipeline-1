@@ -54,6 +54,10 @@ node("${SLAVE}"){
        sh "groovy pull.groovy ${BUILD_NUMBER}"
        sh "tar -xvf *.tar.gz"
        sh "java -jar *.jar"   
-    } 
+    }
+     stage ('Email notification') { 
+        emailext body: 'Hello! ARCHIVE_NAME=pipeline-${STUDENT}-${BUILD_NUMBER}.tar.gz BUILD_NUMBER=${BUILD_NUMBER}', subject: 'Message', to: 'nikbuzin97@gmail.com' 
+    }
+   
    
 }
