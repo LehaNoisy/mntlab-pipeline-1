@@ -1,6 +1,7 @@
 def student = "azaitsau"
 
 node("${SLAVE}"){
+    cleanWs()
     echo "Install java & gradle"
     def downGradle
     def downJava
