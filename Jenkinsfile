@@ -9,8 +9,8 @@ def NexusPush() {
         classifier: '', 
         file: 'pipeline-hkavaliova-$BUILD_NUMBER.tar.gz', 
         type: 'tar.gz']], 
-        credentialsId: '32eaa40f-beb1-4af6-a21d-3dffaf6abfe6',
-        //credentialsId: 'nexus-creds'
+        //credentialsId: '32eaa40f-beb1-4af6-a21d-3dffaf6abfe6',
+        credentialsId: 'nexus-creds'
         groupId: 'PipelineGroup', 
         nexusUrl: 'epbyminw7423.minsk.epam.com:8081', 
         nexusVersion: 'nexus3', 
@@ -31,13 +31,13 @@ def SuccessNotification(){
     to: 'Hanna_Kavaliova@epam.com'
     }
 
-//node ("${SLAVE}"){
-node {
+node ("${SLAVE}"){
+//node {
 	
 	try {
 	    stage('Preparation (Checking out)') {
-            //checkout scm
-		    git branch: 'hkavaliova', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
+                checkout scm
+		    //git branch: 'hkavaliova', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
 	        //def GRADLEPATH = tool 'gradle 4.6'
 	        //env.PATH = env.PATH + ":'${GRADLEPATH}/bin'"
 	        //def JAVAPATH = tool 'OracleJDKv8-161'
