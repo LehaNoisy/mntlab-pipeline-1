@@ -77,7 +77,7 @@ node("${SLAVE}"){
     try{ 
         stage("Triggering job and fetching artefact after finishing") {
             sh 'rm -rf *.tar.gz'
-            build job: "MNTLAB1-${student}-child1-build-job", parameters: [string(name: "ChooseBranch", value: "${student}")]
+            build job: "MNTLAB-${student}-child1-build-job", parameters: [string(name: "ChooseBranch", value: "${student}")]
             step ([$class: "CopyArtifact",
                 projectName: "MNTLAB-${student}-child1-build-job",
                 filter: "*.tar.gz"])
@@ -124,7 +124,7 @@ node("${SLAVE}"){
         stage ('Deploy'){
         sh "groovy pull.groovy ${BUILD_NUMBER}"
         sh 'tar xvf *${BUILD_NUMBER}.tar.gz'
-        sh 'java -jar mntlab-ci-pipeline.jar'
+        sh 'java1 -jar mntlab-ci-pipeline.jar'
         }
     }
     catch(exception)
