@@ -58,7 +58,7 @@ node("${SLAVE}"){
    
      stage ("Email notification") { 
         emailext attachLog: true, body: 
-           """ JOB_NAME="${env.JOB_NAME}" ------ Started by: "${userName}"
+           """ JOB_NAME="${env.JOB_NAME}" 
            Created archive:
            ARCHIVE_NAME=pipeline-${STUDENT}-${BUILD_NUMBER}.tar.gz ;
            BUILD_NUMBER=${BUILD_NUMBER} 
