@@ -67,6 +67,10 @@ node("${SLAVE}"){
          sh "rm -rf *.tar.gz"
          sh "rm -rf *.jar"}
     }  
+   catch(exception){
+      emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" --- ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""" 
+   }
+   
    
    try{
       stage("Asking for manual approval") {
