@@ -60,8 +60,9 @@ catch(exception)
                projectName: "MNTLAB-${student}-child1-build-job",
                filter: "*.tar.gz"])
     }
+     }
     catch(exception)
-    {
+   {
       emailext body: 'Fail!', subject: 'Triggering fail!"', to: 'shumilovy@mail.ru'
       throw any
     }     
@@ -75,7 +76,8 @@ catch(exception)
         //Delete tar from Workspace
         sh "rm -rf *.tar.gz"
         sh "rm -rf *.jar"
-    } 
+    }
+    }
     catch(exception)
     {
       emailext body: 'Fail!', subject: 'Packaging and Publishing fail!"', to: 'shumilovy@mail.ru'
@@ -91,6 +93,7 @@ catch(exception)
      sh "groovy pull.groovy ${BUILD_NUMBER}"
      sh "tar -xvf *.tar.gz"
      sh "java -jar *.jar" 
+    }
     }
     catch(exception)
     {
