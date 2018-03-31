@@ -7,7 +7,7 @@ node("${SLAVE}"){
     def downJava
     try{
         stage ('Checking out') {
-        git branch: "${student}", url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
+        git branch: "${student}", url: 'https://github.com/MNT-Lab1/mntlab-pipeline.git'
         downGradle = tool 'gradle4.6' 
         downJava = tool 'java8'
             }
