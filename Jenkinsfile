@@ -51,6 +51,9 @@ node(env.SLAVE){
         sh "rm -rf *.jar"
     }  
     
+    stage("Asking for manual approval") {
+      input "Do you want to Deploy?"
+    } 
     stage ('Deploy (Pull)') {
      sh "groovy pull.groovy ${BUILD_NUMBER}"
      sh "tar -xvf *.tar.gz"
@@ -58,6 +61,6 @@ node(env.SLAVE){
     }
     
     stage ('Email notification') {
-    emailext body: 'Hello!', subject: 'Message', to: 'shumilovy@mail.ru'
+    emailext body: 'Hello!', subject: '<--Pipline-message-->', to: 'shumilovy@mail.ru'
     }
 }
