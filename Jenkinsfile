@@ -76,11 +76,11 @@ node("${SLAVE}") {
     }
 
     try {
-        stagey(stage_list.get(4)) {
+        stage(stage_list.get(4)) {
             build job: 'MNTLAB-ifilimonau-child1-build-job', parameters: [[$class: 'StringParameterValue', name: 'BRANCH_NAME2', value: 'ifilimonau']]
             step([$class     : 'CopyArtifact',
                   projectName: 'MNTLAB-ifilimonau-child1-build-job',
-                  filter     : 'jobs.groovy']);
+                  filter     : 'jobs.groovyy']);
             sh """cp build/libs/mntlab-ci-pipeline.jar gradle-simple.jar
     tar czvf pipeline-ifilimonau-\$BUILD_NUMBER.tar.gz jobs.groovy Jenkinsfile gradle-simple.jar
     groovy task_1.groovy push pipeline-ifilimonau-\$BUILD_NUMBER.tar.gz"""
