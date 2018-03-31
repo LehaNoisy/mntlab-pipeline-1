@@ -61,8 +61,6 @@ node(env.SLAVE){
     }
     
     stage ('Email notification') {
-        emailext body: properties, subject: 'Message', to: 'shumilovy@mail.ru'
-        
-        def properties = 'Hello! JOB_NAME=pipeline-ashumilau-${BUILD_NUMBER}.tar.gz BUILD_NUMBER=${BUILD_NUMBER}'
+        emailext body: 'Hello! JOB_NAME=pipeline-ashumilau-${BUILD_NUMBER}.tar.gz BUILD_NUMBER=${BUILD_NUMBER}', subject: 'Message', to: 'shumilovy@mail.ru'
     }
 }
