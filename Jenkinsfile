@@ -7,7 +7,7 @@ node("${SLAVE}"){
     def downJava
     try{
         stage ('Checking out') {
-        git branch: "${student}", url: 'https://github.com/MNT-Lab1/mntlab-pipeline.git'
+        git branch: "${student}", url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
         downGradle = tool 'gradle4.6' 
         downJava = tool 'java8'
             }
@@ -17,15 +17,22 @@ node("${SLAVE}"){
        emailext body: 'Warning! Checking out to git was faild', subject: 'mntlab-ci-pipeline - FAIL', to: 'sashazaycev212@gmail.com'
 	throw any
     }
-    stage('Build') {
-      echo "Build is starting"
-      if (isUnix()) {
-         sh "'${downGradle}/bin/gradle' build"
+    try{ 
+        stage('Build') {
+        echo "Build is starting"
+        if (isUnix()) {
+            sh "'${downGradle}/bin/gradle' build"
       } else {
-         bat(/"${downGradle}\bin\gradle" build/)
-      }
-   }
-   stage('Results') {
+            bat(/"${downGradle}\bin\gradle" build/)
+             }
+        }
+    }
+    catch(exception)
+    {
+       emailext body: 'Warning! Build was faild', subject: 'mntlab-ci-pipeline - FAIL', to: 'sashazaycev212@gmail.com'
+	throw any
+    }
+    stage('Results') {
       archive 'target/*.jar'
    }
    stage ('Testing') {
