@@ -22,7 +22,7 @@ node ("${SLAVE}") {
      }
     
      try {
-          stage('installation') { 
+          stage('installation') { //download java & gradle with the same names as on the master
              git url: 'https://github.com/MNT-Lab/mntlab-pipeline.git', branch: 'pkislouski'   
              downGradle = tool 'gradle4.6'
              downJava = tool 'java8'
@@ -40,13 +40,13 @@ node ("${SLAVE}") {
          }
      }
      catch(build)
-     {
+     { 
           emailext body: 'Attention! Fail on step \"build\"', subject: 'mntlab-ci-pipeline - FAIL \"BUILD STEP\"', to: 'bigmikola3@gmail.com'
-          throw any
+          throw any // throw any - stop pipeline if have a message
      }
      
      try {
-         stage ('Testing') {
+         stage ('Testing') { // running parallel tests, can see parallel tests with a blue ocean plugin 
           parallel (
                cucumber: {
                     stage ('cucumber') {
@@ -84,7 +84,7 @@ node ("${SLAVE}") {
     } 
   
     try {
-         stage ('Copy artifact from job') {
+         stage ('Copy artifact from job') { // copy artifact with plugin
              step ([$class: 'CopyArtifact',
                     projectName: 'MNTLAB-Pavel__Kislouski-child1-build-job']);
          }
@@ -109,7 +109,7 @@ node ("${SLAVE}") {
     } 
     
     try { 
-        stage ('push nexus') {
+        stage ('push nexus') { // call function push
              push()
         }
     }
@@ -131,7 +131,7 @@ node ("${SLAVE}") {
     }
      
     try {
-        stage ('pull from nexus') {
+        stage ('pull from nexus') { // call function pull
             pull()
         }
     }
@@ -142,7 +142,7 @@ node ("${SLAVE}") {
     }
      
     try {
-        stage ('Unarchive & Execute') {
+        stage ('Unarchive & Execute') { // ${currentBuild.fullDisplayName} show in message "Pavel Kislouski » mntlab-ci-pipeline #$BUILD_NUMBER
             sh 'tar -xvf nexus.tar.gz'
             sh 'java -jar mntlab-ci-pipeline.jar'
             emailext body: 'Attention! Deploy SUCCESS', subject: "${currentBuild.fullDisplayName} SUCCESS", to: 'bigmikola3@gmail.com' 
