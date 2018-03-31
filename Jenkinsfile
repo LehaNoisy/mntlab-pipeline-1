@@ -88,9 +88,16 @@ node ("${SLAVE}") {
           emailext body: 'Attention! Fail on step \"PULL\"', subject: 'mntlab-ci-pipeline - FAIL \"PULL STEP\"', to: 'bigmikola3@gmail.com'
           throw any
      }
-    
-    stage ('Unarchive & Execute') {
-        sh 'tar -xvf nexus.tar.gz'
-        sh 'java -jar mntlab-ci-pipeline.jar'
-    }
+     try {
+         stage ('Unarchive & Execute') {
+             sh 'tar -xvf nexus.tar.gz'
+             sh 'java -jar mntlab-ci-pipeline.jar'
+             emailext body: 'Attention! Deploy SUCCESS', subject: 'mntlab-ci-pipeline - FAIL \"SUCCESS\"', to: 'bigmikola3@gmail.com' 
+             }
+     }
+     catch (All)
+     {
+          emailext body: 'Attention! Fail on step \"PULL\"', subject: 'mntlab-ci-pipeline - FAIL \"FAIL\"', to: 'bigmikola3@gmail.com'
+          throw any
+     }
 }    
