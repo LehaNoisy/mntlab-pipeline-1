@@ -139,7 +139,9 @@ node("${SLAVE}"){
 	       Status: SUCCESSFUL
                ARCHIVE_NAME=pipeline-${student}-${BUILD_NUMBER}.tar.gz """,
                subject: "Jenkins-job", to: 'sashazaycev212@gmail.com'
-}*/
+    }
+}	
+	
     
 
 
