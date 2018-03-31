@@ -1,5 +1,12 @@
 @Grab(group='org.codehaus.groovy.modules.http-builder', module='http-builder', version='0.7.1')
-import static groovyx.net.http.ContentType.*
+import static groovyx.net.http.ContentType.*  
+import jenkins.*
+import jenkins.model.*
+import hudson.*
+import hudson.model.*
+import javax.mail.internet.*
+import javax.mail.*
+import javax.activation.*
 
 def status = args[1]
 def job_name = args[2]
