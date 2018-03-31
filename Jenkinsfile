@@ -15,10 +15,10 @@ def SendEmail(status){
     def ConsoleOutputURL = new URL("${env.BUILD_URL}consoleText")
     def EmailSubject = "'${env.JOB_NAME} - Build # ${env.BUILD_NUMBER} - ${status}'"
     def Cause = "Cause: ${build.getCauses()}"
+    //Duration: ${currentBuild.durationString}
     def MailBody = """Project: ${env.JOB_NAME}
         Stage: ${StageName}
         Date: ${build.getTimestampString()}
-        Duration: ${currentBuild.durationString}
         Runned on slave: ${env.SLAVE}
         Console output at: ${ConsoleOutputURL}
         
