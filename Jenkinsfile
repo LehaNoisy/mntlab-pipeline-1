@@ -16,13 +16,13 @@ catch(all){userName = 'an SCM change'}
 def email(String status){
     status = status ?: 'SUCCESS'
     def log = currentBuild.rawBuild.getLog(20).join('\n\t\t')
-    String result = log.join(",")
     def subject = "${status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
+    def consURL = new URL(${env.BUILD_URL}/consoleText)
     def details = """STARTED: Job    ${env.JOB_NAME} [${env.BUILD_NUMBER}]
         Started by: ${userName}
         Stage: ${nStage}
         Runned on slave: ${env.SLAVE}
-        Check console output at: ${env.BUILD_URL}
+        Check console output at: ${consURL}
         
         Last 20 lines in log:
         ${log}"""
@@ -75,9 +75,9 @@ node("${SLAVE}") {
         }
         stage('Asking for manual approval'){
             nStage = 'Asking for manual approval'
-           // timeout(time: 10, unit: 'SECONDS') {
+            //timeout(time: 10, unit: 'SECONDS') {
                 input 'Confirm deploy'
-       // }
+            //}
         }
         stage('Deployment'){
             nStage = 'Deployment'
