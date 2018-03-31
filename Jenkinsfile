@@ -51,18 +51,7 @@ node ("${SLAVE}") {
     }
     
     stage ('push nexus') {
-        def authString = "cG5leHVzOnBuZXh1cw=="
-        def url ="http://EPBYMINW7296.minsk.epam.com:8081/repository/task11/pipeline/grarc/${BUILD_NUMBER}/pipeline-pkislouski-${BUILD_NUMBER}.tar.gz"
-        def http = new URL(url).openConnection()
-        http.doOutput = true
-        http.setRequestMethod("PUT")
-        http.setRequestProperty("Authorization", "Basic ${authString}")
-        http.setRequestProperty("Content-Type", "application/x-gzip")
-        def out = new DataOutputStream(http.outputStream)
-        def test = new File("${WORKSPACE}/pipeline-pkislouski-${BUILD_NUMBER}.tar.gz")
-        out.write(test.getBytes())
-        out.close()
-        println http.responseCode
+         sh 'groovy push.groovy ${BUILD_NUMBER} ${WORKSPACE}'
     }
     
     stage('Asking for manual approval'){
@@ -70,12 +59,7 @@ node ("${SLAVE}") {
     }
     
     stage ('pull from nexus') {
-        def authString = "cG5leHVzOnBuZXh1cw=="
-        def url ="http://EPBYMINW7296.minsk.epam.com:8081/repository/task11/pipeline/grarc/90/pipeline-pkislouski-90.tar.gz"
-        def file = new File("${WORKSPACE}/nexus.tar.gz")
-        def down = new URL(url).openConnection()
-        down.setRequestProperty("Authorization", "Basic ${authString}")
-        file << down.inputStream
+        sh 'groovy pull.groovy ${BUILD_NUMBER} ${WORKSPACE}'
     }
     
     stage ('Unarchive & Execute') {
