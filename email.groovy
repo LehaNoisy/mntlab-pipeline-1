@@ -24,6 +24,5 @@ def email(status, job_name, build_number, slave_name, failed_report){
         subject: subject,
         body: details,
         attachLog: false
-    ) 
-    
+    )   
 }
