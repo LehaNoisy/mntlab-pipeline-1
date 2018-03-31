@@ -68,9 +68,10 @@ node("${SLAVE}"){
          sh "rm -rf *.jar"}
     }  
    
-    stage("Asking for manual approval") {
-      input "Do you want to Deploy?"
-    }
+   try{
+      stage("Asking for manual approval") {
+         input "Do you want to Deploy?"}
+   }
    catch(exception){
       emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" --- ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""" 
    }   
