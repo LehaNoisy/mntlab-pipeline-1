@@ -40,8 +40,7 @@ try {
                             sh 'groovy push.groovy $BUILD_NUMBER'}
         
     stage('Approval'){stagename = 'Approval'
-         timeout(time: 40, unit: 'SECONDS')
-         input message: 'Pull and deploy?', ok: 'pull and deploy'}   
+                      timeout(time: 10, unit: 'SECONDS'){input message: 'Pull and deploy?', ok: 'pull and deploy'}} 
     
     stage ('Pull from Nexus'){stagename = 'Pull from Nexus'
                               sh 'groovy pull.groovy $BUILD_NUMBER'}
