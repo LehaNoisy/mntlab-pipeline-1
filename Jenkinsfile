@@ -5,10 +5,17 @@ node("${SLAVE}"){
     echo "Install java & gradle"
     def downGradle
     def downJava
-    stage ('Checking out') {
-    git branch: "${student}", url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
-    downGradle = tool 'gradle4.6' 
-    downJava = tool 'java8'
+    try{
+        stage ('Checking out') {
+        git branch: "${student}", url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
+        downGradle = tool 'gradle4.6' 
+        downJava = tool 'java8'
+            }
+        } 
+    catch(exception)
+    {
+       emailext body: 'Warning! Checking out to git was faild', subject: 'mntlab-ci-pipeline - FAIL', to: 'sashazaycev212@gmail.com'
+	throw any
     }
     stage('Build') {
       echo "Build is starting"
