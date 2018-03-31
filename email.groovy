@@ -12,7 +12,6 @@ if (args[0] == 'email'){
 
 def email(status, job_name, build_number, slave_name, failed_report){
     def subject = status + " " + job_name + " " + build_number
-    def details =  job_name + "STARTED " + "# " + build_number + "on: " + slave_name + " " + failed_report
     def details = """
         STARTED: Job ${job_name} [${build_number}]
         Runned on slave: ${slave_name}
