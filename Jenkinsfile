@@ -1,4 +1,4 @@
-node {
+node ("${SLAVE}") {
      def downGradle
      def downJava
      stage('Clean workspace before build') {
