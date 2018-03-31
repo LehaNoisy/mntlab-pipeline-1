@@ -18,10 +18,23 @@ if (args[0] == 'email'){
     def subject = status + " " + job_name + " " + build_number
     def details =  job_name + "STARTED " + "# " + build_number + "on: " + slave_name + " " + failed_report
     //       
+    /*
     emailext (
         to: 'yomivaf@uemail99.com',
         subject: subject,
         body: details,
         attachLog: true
-    )    
+    )
+    */
+    stage('Send email') {
+    def mailRecipients = "yomivaf@uemail99.com"
+    def jobName = currentBuild.fullDisplayName
+
+    emailext body: '''${SCRIPT, template="groovy-html.template"}''',
+        mimeType: 'text/html',
+        subject: "[Jenkins] ${jobName}",
+        to: "${mailRecipients}",
+        replyTo: "${mailRecipients}",
+        recipientProviders: [[$class: 'CulpritsRecipientProvider']]
+}
 }
