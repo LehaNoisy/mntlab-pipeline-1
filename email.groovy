@@ -23,7 +23,6 @@ def email(status, job_name, build_number, slave_name, failed_report){
     ) 
     */
     def mailRecipients = "yomivaf@uemail99.com"
-    def jobName = currentBuild.fullDisplayName
 
     emailext body: '123',
     subject: "123",
