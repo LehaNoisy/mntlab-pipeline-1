@@ -9,6 +9,7 @@ def func_gradle(String command){
     withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){sh "gradle ${command}"}
 }
 nStage = ''
+userId = ''
 /*
 job = Jenkins.getInstance().getItemByFullName(env.JOB_NAME, Job.class)
 echo"${env}"
