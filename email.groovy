@@ -6,9 +6,10 @@ def failed_report = args[5]
 
 if (args[0] == 'email'){
     def subject = "${status}: Job '${job_name} [${build_number}]'"
-    def details = """STARTED: Job    ${jobname} [${build_number}]
+    def details = """STARTED: 
+        Job  ${jobname} [${build_number}]
         Runned on slave: ${slave_name}
-        Failed: ${failed_report}
+        Failed: ${failed_report}"""
         
     emailext (
         to: 'yomivaf@uemail99.com',
@@ -17,5 +18,3 @@ if (args[0] == 'email'){
         attachLog: true
     )    
 }
-
-// https://temp-mail.org/ru/
