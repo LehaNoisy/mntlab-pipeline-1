@@ -5,7 +5,7 @@ def notifySuccessful() {
             attachLog: true,
             subject: "SUCCESSFUL: Job '${JOB_BASE_NAME} [${BUILD_NUMBER}]'",
             body: """SUCCESSFUL: Job '${JOB_BASE_NAME} [${BUILD_NUMBER}]':
-        Check console output in file attached""",
+        Check console output in the file attached""",
             to: "igarok.fil9@gmail.com"
     )
 }
@@ -16,7 +16,7 @@ def notifyFailed(String stage_failed) {
             attachLog: true,
             subject: "FAILED Job ${JOB_BASE_NAME} [${BUILD_NUMBER}] on stage: ${stage_failed}",
             body: """FAILED: Job '${JOB_BASE_NAME} [${BUILD_NUMBER}]':
-       Details on the following link ${JOB_URL} """,
+       Details on the following link: ${JOB_URL} """,
             to: "igarok.fil9@gmail.com"
     )
 }
