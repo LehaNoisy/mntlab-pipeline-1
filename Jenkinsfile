@@ -5,8 +5,7 @@
    def target_arch = "deploy_app.tar.gz"
 node("${SLAVE}") {
    //stage 1 && 2
-   try{
-           //emailext body: 'Stage Preparation start!', subject: 'mntlab-ci-pipeline - \"PREPARATION STEP\"', to: 'valera.peshchenko@gmail.com'	   
+   try{           
 	   stage('Preparation') { // for display purposes
 	      println "${SLAVE}"
 	      git url: 'https://github.com/MNT-Lab/mntlab-pipeline.git', branch: 'vpeshchanka' 
