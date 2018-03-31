@@ -15,7 +15,7 @@ def SendEmail(status){
     def log = currentBuild.rawBuild.getLog(20).join('\n\t\t')
     def ConsoleOutputURL = new URL("${env.BUILD_URL}consoleText")
     def EmailSubject = "'${env.JOB_NAME} - Build # ${env.BUILD_NUMBER} - ${status}'"
-    def JobUrl = "<A href="${build.getUrl()}">${build.getUrl()}</A></td>"
+    def JobUrl = "<A href='${build.getUrl()}'>${build.getUrl()}</A></td>"
     def Cause = "Cause: ${build.getCauses()}"
     def MailBody = """${Image} Project: ${env.JOB_NAME}
         Stage: ${StageName}
