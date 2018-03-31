@@ -19,16 +19,33 @@ node ("${SLAVE}") {
           emailext body: 'Attention! Fail on step \"Clean workspace before build\"', subject: 'mntlab-ci-pipeline - FAIL \"CLEAN STEP\"', to: 'bigmikola3@gmail.com'
           throw any
      }
-    stage('installation') { 
-        git url: 'https://github.com/MNT-Lab/mntlab-pipeline.git', branch: 'pkislouski'   
-        downGradle = tool 'gradle4.6'
-        downJava = tool 'java8'
-    }
     
-    stage('Build') {
-        sh "'${downGradle}/bin/gradle' build"
-    }
-   
+     try{
+          stage('installation') { 
+             git url: 'https://github.com/MNT-Lab/mntlab-pipeline.git', branch: 'pkislouski'   
+             downGradle = tool 'gradle4.6'
+             downJava = tool 'java8'
+         }
+     }
+    
+     catch(installion)
+     {
+          emailext body: 'Attention! Fail on step \"installation\"', subject: 'mntlab-ci-pipeline - FAIL \"INSTALLATION STEP\"', to: 'bigmikola3@gmail.com'
+          throw any
+     }
+     
+     try{
+         stage('Build') {
+             sh "'${downGradle}/bin/gradle' build"
+         }
+     }
+     
+     catch(build)
+     {
+          emailext body: 'Attention! Fail on step \"build\"', subject: 'mntlab-ci-pipeline - FAIL \"BUILD STEP\"', to: 'bigmikola3@gmail.com'
+          throw any
+     }
+     
     stage ('Testing') {
     	parallel (
     		cucumber: {
