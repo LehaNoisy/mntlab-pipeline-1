@@ -1,7 +1,5 @@
-def notifySuccessful() {
-   emailext subject: """Job ${currentBuild.fullDisplayName} SUCCESS""", to: 'ip.chernak@gmail.com'}
-def notifyFailed() {
-   emailext subject: "Failed Pipeline: ${currentBuild.fullDisplayName}", 
+def notifySuccessful() {emailext subject: """Job ${currentBuild.fullDisplayName} SUCCESS""", to: 'ip.chernak@gmail.com'}
+def notifyFailed() {emailext subject: "Failed Pipeline: ${currentBuild.fullDisplayName}", 
              body: """${currentBuild.rawBuild.getLog(Integer.MAX_VALUE).take(1).join('\n\t\t')}
                 Job ${currentBuild.fullDisplayName} on ${stagename} stage is down.
                 Something is wrong with ${env.BUILD_URL}"
@@ -11,8 +9,7 @@ stagename = ''
 
 node("${SLAVE}") {
 try { 
-    stage('Git Checkout'){checkout scm
-                          stagename = "${env.STAGE_NAME}"}
+    stage('Git Checkout'){checkout scm;stagename = "${env.STAGE_NAME}"}
      
     stage ('Build') {
         stagename = 'Build'
@@ -21,7 +18,8 @@ try {
         tool name: 'groovy4', type: 'hudson.plugins.groovy.GroovyInstallation'
         withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){sh 'gradle build'}}
     
-    stage('Test') {withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){
+    stage('Test') {stagename = 'Test'
+       withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){
         parallel ('Unit Tests': {sh 'gradle test' },'Jacoco Tests': {sh 'gradle jacocoTestReport' },
                 'Cucumber Tests': {sh 'gradle cucumber' }, )}}
 
