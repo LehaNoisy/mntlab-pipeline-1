@@ -8,42 +8,79 @@ def gradle(c) {
     }
 }
 def artfname = "pipeline-${STUDENT_NAME}-${BUILD_NUMBER}.tar.gz"
-
+StageName = ""
+def SendEmail(status){
+    def build = currentBuild.rawBuild
+    def Image = "<img src='https://www.iconsdb.com/icons/preview/green/circle-xxl.png'>"
+    def log = currentBuild.rawBuild.getLog(20).join('\n\t\t')
+    def ConsoleOutputURL = new URL("${env.BUILD_URL}consoleText")
+    def EmailSubject = "'${env.JOB_NAME} - Build # ${env.BUILD_NUMBER} - ${status}'"
+    def JobUrl = "<A href="${build.getUrl()}">${build.getUrl()}</A></td>"
+    def Cause = "Cause: ${build.getCauses()}"
+    def MailBody = """${Image} Project: ${env.JOB_NAME}
+        Stage: ${StageName}
+        URL: ${JobUrl}
+        Date: ${build.timestampString()}
+        Duration: ${currentBuild.durationString}
+        Runned on slave: ${env.SLAVE}
+        Console output at: ${ConsoleOutputURL}
+        
+        Last 20 lines in log:
+        ${log}"""
+    emailext (
+        to: 'klimovkostya5@gmail.com',
+        subject: EmailSubject,
+        body: MailBody,
+        attachLog: true
+    )    
+}
 
 
 node("${SLAVE}") {
-  echo "Hello MNT-Lab"
+ try{
   stage ("Preparation (Checking out)"){
+      StageName = "Preparation (Checking out)"
       cleanWs()
       echo "Git branch Clone"
       //git branch: STUDENT_NAME, url: GITHUB_REPOSITORY
       checkout scm
   }
   stage ("Building code") {
-      echo "Starting Build section"
+      StageName = "Building code"
       tool name: 'gradle4.6', type: 'gradle'
       tool name: 'java8', type: 'jdk'
       gradle("build")
-      echo "Builded"
   }
   stage ("Testing code") {
-    parallel test
+      StageName = "Testing code"
+      parallel test
   }
-  stage ('Triggering job and fetching artefact after finishing'){
-    build job: JOB_NAME, parameters: [[$class: 'StringParameterValue', name: 'BRANCH_NAME', value: STUDENT_NAME]]
-    copyArtifacts filter: '*.tar.gz', fingerprintArtifacts: true, projectName: JOB_NAME, selector: lastSuccessful()
+  stage ("Triggering job and fetching artefact after finishing"){
+      StageName = "Triggering job and fetching artefact after finishing"
+      build job: JOB_NAME, parameters: [[$class: 'StringParameterValue', name: 'BRANCH_NAME', value: STUDENT_NAME]]
+      copyArtifacts filter: '*.tar.gz', fingerprintArtifacts: true, projectName: JOB_NAME, selector: lastSuccessful()
   }
-  stage ('Packaging and Publishing results'){
-    sh """ tar -xvf *tar.gz
-           tar -czf ${artfname} jobs.groovy Jenkinsfile  output.txt -C build/libs/ \$JOB_BASE_NAME.jar"""
-    sh "groovy nexus.groovy push ${BUILD_NUMBER} ${artfname}"
-    archiveArtifacts "${artfname}"
+  stage ("Packaging and Publishing results"){
+      StageName = "Packaging and Publishing results"
+      sh """ tar -xvf *tar.gz
+             tar -czf ${artfname} jobs.groovy Jenkinsfile  output.txt -C build/libs/ \$JOB_BASE_NAME.jar"""
+      sh "groovy nexus.groovy push ${BUILD_NUMBER} ${artfname}"
+      archiveArtifacts "${artfname}"
   }
-  stage ('Asking for manual approval'){
-    input 'Deploy?'
+  stage ("Asking for manual approval"){
+      StageName = "Asking for manual approval"
+      input 'Deploy?'
   }
-  stage ('Deployment'){
-    sh "groovy nexus.groovy pull ${BUILD_NUMBER} ${artfname}"
-    sh "tar -xvf pulled*.tar.gz && java -jar *.jar" 
+  stage ("Deployment"){
+      StageName = "Deployment"
+      sh "groovy nexus.groovy pull ${BUILD_NUMBER} ${artfname}"
+      sh "tar -xvf pulled*.tar.gz && java -jar *.jar" 
   }
+ }
+ catch(all){
+    currentBuild.result = 'FAILED'
+ }
+ finally{  
+    SendEmail(currentBuild.result)
+ }
 }
