@@ -1,6 +1,14 @@
 node ("${SLAVE}") {
      def downGradle
      def downJava
+     def push()
+     {
+          sh 'groovy push.groovy ${BUILD_NUMBER} ${WORKSPACE}'
+     }
+     def pull()
+     {
+          sh 'groovy pull.groovy ${BUILD_NUMBER} ${WORKSPACE}'
+     }
      try{
           stage('Clean workspace before build') {
              step([$class: 'WsCleanup'])
@@ -58,7 +66,7 @@ node ("${SLAVE}") {
     
      try { 
          stage ('push nexus') {
-              sh 'groovy push.groovy ${BUILD_NUMBER} ${WORKSPACE}'
+              push()
          }
      }
      catch (push)
@@ -72,7 +80,7 @@ node ("${SLAVE}") {
      
      try {
          stage ('pull from nexus') {
-             sh 'groovy pull.groovy ${BUILD_NUMBER} ${WORKSPACE}'
+             pull()
          }
      }
      catch (pull)
