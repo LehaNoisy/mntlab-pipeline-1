@@ -47,4 +47,10 @@ node(env.SLAVE){
         archiveArtifacts 'pipeline-ashumilau-${BUILD_NUMBER}.tar.gz'
         sh "groovy push.groovy ${BUILD_NUMBER}"
     }  
+    
+    stage ('Deploy (Pull)') {
+     sh "groovy pull.groovy ${BUILD_NUMBER}"
+     sh "tar -xvf *.tar.gz"
+     sh "java -jar *.jar" 
+    }
 }
