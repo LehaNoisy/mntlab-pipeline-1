@@ -1,18 +1,18 @@
 def student = "ashumilau"
 def downGradle
 def downJava
-withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){
-        	sh 'gradle build'}}
+downGradle = tool 'gradle4.6' 
+downJava = tool 'java8'
 
 node(env.SLAVE){
 	try{
-        	def downGradle
-        	def downJava
+        	//def downGradle
+        	//def downJava
 	
         	stage ('Checking out') {
         	git branch: "${student}", url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
-        	downGradle = tool 'gradle4.6' 
-        	downJava = tool 'java8'
+        	//downGradle = tool 'gradle4.6' 
+        	//downJava = tool 'java8'
         	withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){
         	sh 'gradle build'}}
 	}
