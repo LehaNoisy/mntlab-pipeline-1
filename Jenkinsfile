@@ -5,7 +5,7 @@ def notifySuccessful() {
             attachLog: true,
             subject: "SUCCESSFUL: Job '${JOB_BASE_NAME} [${BUILD_NUMBER}]'",
             body: """SUCCESSFUL: Job '${JOB_BASE_NAME} [${BUILD_NUMBER}]':
-        Check console output at in attached file""",
+        Check console output in file attached""",
             to: "igarok.fil9@gmail.com"
     )
 }
@@ -13,9 +13,10 @@ def notifySuccessful() {
 
 def notifyFailed(String stage_failed) {
     emailext (
-            subject: "FAILED Job ${JOB_BASE_NAME} on stage: '${stage_failed} [${BUILD_NUMBER}]'",
-            body: """FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':
-       Check console output at """,
+            attachLog: true,
+            subject: "FAILED Job ${JOB_BASE_NAME} [${BUILD_NUMBER}] on stage: ${stage_failed}",
+            body: """FAILED: Job '${JOB_BASE_NAME} [${BUILD_NUMBER}]':
+       Details on the following link ${JOB_URL} """,
             to: "igarok.fil9@gmail.com"
     )
 }
@@ -80,7 +81,7 @@ node("${SLAVE}") {
             build job: 'MNTLAB-ifilimonau-child1-build-job', parameters: [[$class: 'StringParameterValue', name: 'BRANCH_NAME2', value: 'ifilimonau']]
             step([$class     : 'CopyArtifact',
                   projectName: 'MNTLAB-ifilimonau-child1-build-job',
-                  filter     : 'jobs.groovyy']);
+                  filter     : 'jobs.groovy']);
             sh """cp build/libs/mntlab-ci-pipeline.jar gradle-simple.jar
     tar czvf pipeline-ifilimonau-\$BUILD_NUMBER.tar.gz jobs.groovy Jenkinsfile gradle-simple.jar
     groovy task_1.groovy push pipeline-ifilimonau-\$BUILD_NUMBER.tar.gz"""
