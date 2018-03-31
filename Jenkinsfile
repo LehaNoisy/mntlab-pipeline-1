@@ -132,12 +132,12 @@ node("${SLAVE}"){
         emailext body: 'Deploy was faild', subject: 'mntlab-ci-pipeline - FAIL', to: 'sashazaycev212@gmail.com'
 	throw any
         }
-}
-    /*stage ('Email notification') { 
+
+    stage ('Email notification') { 
         emailext attachLog: true, body: 
-           """ JOB_NAME="${env.JOB_NAME}"
-               ARCHIVE_NAME=pipeline-${student}-${BUILD_NUMBER}.tar.gz ;
-               BUILD_NUMBER=${BUILD_NUMBER} """,
+           """ JOB_NAME="${env.JOB_NAME}"\n
+	       Status: SUCCESSFUL
+               ARCHIVE_NAME=pipeline-${student}-${BUILD_NUMBER}.tar.gz """,
                subject: "Jenkins-job", to: 'sashazaycev212@gmail.com'
 }*/
     
