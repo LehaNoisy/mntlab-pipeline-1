@@ -56,7 +56,8 @@ node("${SLAVE}"){
        sh "java -jar *.jar"   
     }
    
-     stage ("Email notification") { 
+     stage ("Email notification") {
+        status = status ?: "SUCCESS"
         emailext attachLog: true, body: 
            """ JOB_NAME="${env.JOB_NAME}" 
            Created archive:
