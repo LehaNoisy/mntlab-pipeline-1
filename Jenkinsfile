@@ -40,8 +40,7 @@ node("${SLAVE}"){
     stage ('Asking for manual approval'){
         timeout(time: 20, unit: 'SECONDS') {
             input message: 'Asking for deploy approval', ok: 'Deploy'}
-    }
-        sh'''rm -rf *tar.gz'''
+       sh'''rm -rf *tar.gz'''
     }
 
     stage ('Deployment'){
