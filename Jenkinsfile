@@ -72,7 +72,7 @@ node("${SLAVE}") {
         stage('Packaging and Publishing results'){
             nStage = 'Packaging and Publishing results'
             sh """tar -xvf ykhodzin_dsl_script.tar.gz
-            tar -czf ${WORKSPACE}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline*.jar"""
+            tar -czf ${WORKSPACE}/pipeline-ykhodzin-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline.jar"""
             withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin", "PATH+GROOVY_HOME=${tool 'groovy4'}/bin"]){sh "groovy nex.groovy push ${BUILD_NUMBER}"}
         }
         stage('Asking for manual approval'){
@@ -84,7 +84,7 @@ node("${SLAVE}") {
             nStage = 'Deployment'
             withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin", "PATH+GROOVY_HOME=${tool 'groovy4'}/bin"]){sh "groovy nex.groovy pull ${BUILD_NUMBER}"}
             sh """tar -xvf download-${BUILD_NUMBER}.tar.gz
-            java -jar mntlab-ci-pipeline*.jar"""
+            java -jar mntlab-ci-pipeline.jar"""
         }
         stage('Sending status'){
             nStage = 'Sending status'
