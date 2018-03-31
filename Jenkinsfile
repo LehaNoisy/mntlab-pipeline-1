@@ -102,12 +102,12 @@ node("${SLAVE}"){
    stage ("Email notification") {
       emailext attachLog: true, body: 
          """ JOB_NAME="${env.JOB_NAME}"
-         STATUS:
-         SUCCESSFULL !!!
-         Created archive:
-         ARCHIVE_NAME=pipeline-${STUDENT}-${BUILD_NUMBER}.tar.gz ;
-         BUILD_NUMBER=${BUILD_NUMBER} 
-         ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""",
+             STATUS:
+             SUCCESSFUL !!!
+             Created archive:
+             ARCHIVE_NAME=pipeline-${STUDENT}-${BUILD_NUMBER}.tar.gz ;
+             BUILD_NUMBER=${BUILD_NUMBER} 
+             ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""",
       subject: "Jenkins-pipeline", to: "nikbuzin97@gmail.com"
     }
    
