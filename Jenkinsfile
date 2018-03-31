@@ -20,7 +20,8 @@ def SendEmail(status){
     def MailBody = """Project: ${env.JOB_NAME}
         Stage: ${StageName}
         Runned on slave: ${env.SLAVE}
-        Date: ${currentBuild.rawBuild.getTimestampString()}
+        ${currentBuild.rawBuild.getLog(Integer.MAX_VALUE).take(1).join('\t\n\n')}
+        Date: ${currentBuild.rawBuild.getTimestampString2()}
         Duration : ${currentBuild.rawBuild.getDurationString()}
        """
     if(status != "SUCCESS") {
