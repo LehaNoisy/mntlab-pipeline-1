@@ -1,6 +1,7 @@
 def student = "ashumilau"
 
 node(env.SLAVE){
+	try{ 
         def downGradle
         def downJava
 	
@@ -10,7 +11,12 @@ node(env.SLAVE){
         downJava = tool 'java8'
         withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){
         sh 'gradle build'}}
-    		
+	}
+	catch(exception)
+   	{
+       		emailext body: 'Attention!', subject: 'Checking out fail"', to: 'shumilovy@mail.ru'
+		throw any
+	}
         
    stage('Results') {
       archive 'target/*.jar'
@@ -56,6 +62,7 @@ node(env.SLAVE){
     stage("Asking for manual approval") {
       input "Do you want to Deploy?"
     } 
+	
     stage ('Deploy (Pull)') {
      sh "groovy pull.groovy ${BUILD_NUMBER}"
      sh "tar -xvf *.tar.gz"
