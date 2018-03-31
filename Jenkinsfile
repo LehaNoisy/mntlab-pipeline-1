@@ -6,6 +6,7 @@
 node("${SLAVE}") {
    //stage 1 && 2
    try{
+           //emailext body: 'Stage Preparation start!', subject: 'mntlab-ci-pipeline - \"PREPARATION STEP\"', to: 'valera.peshchenko@gmail.com'	   
 	   stage('Preparation') { // for display purposes
 	      println "${SLAVE}"
 	      git url: 'https://github.com/MNT-Lab/mntlab-pipeline.git', branch: 'vpeshchanka' 
@@ -23,6 +24,8 @@ node("${SLAVE}") {
    try
    {	 
 	   stage('Build') {
+	       checkout scm
+	       sh 'rm -rf *tar.gz'
 	       withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){
 			sh "gradle build"
 		}
@@ -83,7 +86,7 @@ node("${SLAVE}") {
 			projectName: 'MNTLAB-vpeshchanka-child1-build-job']);
 	       sh "tar -xvf vpeshchanka_dsl_script.tar.gz"
 	       //sh "java -jar build/libs/example_2.jar > pipeline_output.log"
-		   sh "tar -cf ${WORKSPACE}/pipeline-vpeshchanka-${BUILD_NUMBER}.tar.gz jobs.groovy log.txt build/libs/mntlab-ci-pdeletemeipeline.jar"
+		   sh "tar -cf ${WORKSPACE}/pipeline-vpeshchanka-${BUILD_NUMBER}.tar.gz jobs.groovy log.txt build/libs/mntlab-ci-pipeline.jar"
 	   }
    }
    catch(exception)
