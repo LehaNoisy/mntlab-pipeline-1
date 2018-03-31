@@ -4,7 +4,7 @@ def fgradle(String command) {
 
 def ereport(String buildStatus, nst) {
     def subj = "${buildStatus}: Job '${BUILD_TAG}]'"
-    def log_20 = currentBuild.rawBuild.getLog(20)
+    def log_20 = currentBuild.rawBuild.getLog(20).join('\n\t\t')
     def body = """Job ${JOB_NAME} build № ${BUILD_NUMBER} was ${buildStatus}.
                   Last stage was "${nst}"
                   See the job in address ${env.JOB_URL}
