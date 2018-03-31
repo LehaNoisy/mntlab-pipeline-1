@@ -53,7 +53,7 @@ node("${SLAVE}") {
             )
         }
         stage('Triggering job and fetching artefact after finishing'){
-            nStage = 'Triggering job and fetching artefact after finishing')
+            nStage = 'Triggering job and fetching artefact after finishing'
             build job: 'MNTLAB-ykhodzin-child1-build-job', parameters: [[$class: 'StringParameterValue', name: 'BRANCH', value: 'ykhodzin']]
             copyArtifacts filter: '*.tar.gz', fingerprintArtifacts: true, projectName: 'MNTLAB-ykhodzin-child1-build-job', selector: lastSuccessful()//
         }
