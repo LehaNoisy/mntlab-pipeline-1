@@ -38,7 +38,8 @@ node("${SLAVE}") {
         withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin", "PATH+GROOVY_HOME=${tool 'groovy4'}/bin"]){sh "groovy nex.groovy push ${BUILD_NUMBER}"}
     }
     stage('Asking for manual approval'){
-        input 'Confirm deploy'
+        timeout(time: 10, unit: 'SECONDS') {
+            input 'Confirm deploy'}
     }
     stage('Deployment'){
         withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin", "PATH+GROOVY_HOME=${tool 'groovy4'}/bin"]){sh "groovy nex.groovy pull ${BUILD_NUMBER}"}
