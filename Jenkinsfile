@@ -124,7 +124,7 @@ node("${SLAVE}"){
         stage ('Deploy'){
         sh "groovy pull.groovy ${BUILD_NUMBER}"
         sh 'tar xvf *${BUILD_NUMBER}.tar.gz'
-        sh 'java1 -jar mntlab-ci-pipeline.jar'
+        sh 'java -jar mntlab-ci-pipeline.jar'
         }
     }
     catch(exception)
