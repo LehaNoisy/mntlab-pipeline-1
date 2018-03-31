@@ -1,3 +1,6 @@
+import jenkins.model.*
+jenkins = Jenkins.instance
+
 def student = "azaitsau"
 def BUILD_NUMBER = args[0]
 def cred = "YWRtaW46YWRtaW4xMjM="
