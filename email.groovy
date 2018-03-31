@@ -1,5 +1,11 @@
 @Grab(group='org.codehaus.groovy.modules.http-builder', module='http-builder', version='0.7.1')
 import static groovyx.net.http.ContentType.*
+import hudson.FilePath
+import jenkins.model.Jenkins
+import jenkins.*
+import jenkins.model.*
+import hudson.*
+import hudson.model.*
 
 def status = args[1]
 def job_name = args[2]
