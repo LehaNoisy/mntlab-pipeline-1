@@ -2,7 +2,7 @@ def push()
      {
           sh 'groovy push.groovy ${BUILD_NUMBER} ${WORKSPACE}'
      }
-     def pull()
+def pull()
      {
           sh 'groovy pull.groovy ${BUILD_NUMBER} ${WORKSPACE}'
      }
