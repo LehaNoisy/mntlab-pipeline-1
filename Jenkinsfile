@@ -26,7 +26,7 @@ node("${SLAVE}"){
          sh "gradle build"
          echo "Finishing Build"}
        }
-   catch (exception){
+   catch(exception){
       emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" --- ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG"""
    }
      
@@ -41,7 +41,7 @@ node("${SLAVE}"){
                   )
          echo "Finishing Tests"}
    }
-   catch (exception){
+   catch(exception){
       emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" --- ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG"""      
    }
     
@@ -53,7 +53,7 @@ node("${SLAVE}"){
                projectName: "MNTLAB-${STUDENT}-child1-build-job",
                filter: "*.tar.gz"])}
    }
-   catch (exception){
+   catch(exception){
       emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" --- ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""" 
    }
       
