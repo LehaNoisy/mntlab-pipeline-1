@@ -10,7 +10,7 @@ def NEXUS_URL = "http://EPBYMINW2033.minsk.epam.com:8081/repository/${repository
 println NEXUS_URL
 
 if (args[0] == 'pull'){
-    new File("download-${version}.tar.gz").withOutputStream { out ->
+    new File("pulled-${version}.tar.gz").withOutputStream { out ->
         def url = new URL(NEXUS_URL.toString()).openConnection()
         url.setRequestProperty("Authorization", "Basic ${authString}")
         out << url.inputStream
