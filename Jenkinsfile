@@ -24,7 +24,7 @@ node("${SLAVE}"){
          tool name: "${JDK}", type: "jdk"
          withEnv(["JAVA_HOME=${ tool "${JDK}" }", "PATH+GRADLE=${tool "${GRADLE}"}/bin"]){
          sh "gradle build"
-         echo "Finishing Build"}
+            echo "Finishing Build"}} 
        }
    catch(exception){
       emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" --- ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG"""
