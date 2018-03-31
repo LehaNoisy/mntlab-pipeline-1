@@ -46,6 +46,9 @@ node(env.SLAVE){
         sh 'tar -czf pipeline-ashumilau-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline.jar'
         archiveArtifacts 'pipeline-ashumilau-${BUILD_NUMBER}.tar.gz'
         sh "groovy push.groovy ${BUILD_NUMBER}"
+        //Delete tar from Workspace
+        sh "rm -rf *.tar.gz"
+        sh "rm -rf *.jar"
     }  
     
     stage ('Deploy (Pull)') {
