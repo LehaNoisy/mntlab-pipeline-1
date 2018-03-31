@@ -68,20 +68,26 @@ def deployment(job_name) {
 	sh "tar -xvf PIPELINE-${BUILD_NUMBER}-APP.tar.gz && java -jar build/libs/" + job_name + ".jar"
 }
 
-def sendStatus(e) {
-	tool name: 'gradle4.6', type: 'gradle'
-	tool name: 'java8', type: 'jdk'
-	withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin", "PATH+GROOVY_HOME=${ tool 'groovy4'}/bin"]){
-		sh "groovy email.groovy email failed ${job_name} ${BUILD_NUMBER} ${SLAVE} ${e}"
-	}
+def sendStatus(e, job_name) {
+	email('failed' job_name, ${BUILD_NUMBER}, ${SLAVE} ,${e})
+
+}
+
+def email(status, job_name, build_number, slave_name, failed_report){
+    def details = """
+        STARTED: Job ${job_name} [${build_number}]
+        Runned on slave: ${slave_name}
+        """
+    emailext (
+        to: 'yomivaf@uemail99.com',
+        subject: "JOB",
+        body: details,
+        attachLog: false
+    )   
 }
 
 def sendReport(job_name) {
-	tool name: 'gradle4.6', type: 'gradle'
-	tool name: 'java8', type: 'jdk'
-	withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin", "PATH+GROOVY_HOME=${ tool 'groovy4'}/bin"]){
-		sh "groovy email.groovy email success ${job_name} ${BUILD_NUMBER} ${SLAVE} NONE"
-	}	
+	email('success' job_name, ${BUILD_NUMBER}, ${SLAVE} ,${e})	
 }
 
 node("${SLAVE}") {
@@ -112,6 +118,6 @@ node("${SLAVE}") {
 		}
 	}
 	catch (Exception e) {
-		sendStatus(e)
+		sendStatus(e, job_name)
 	}
 }
