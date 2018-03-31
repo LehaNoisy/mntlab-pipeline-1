@@ -106,8 +106,9 @@ node ("${SLAVE}"){
             copyArtifacts filter: '*tar.gz', projectName: 'MNTLAB-hkavaliova-child1-build-job'
             //target: '${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_NUMBER}'
             sh 'tar -xzvf *.tar.gz'
-            sh 'tar -czvf pipeline-hkavaliova-$BUILD_NUMBER.tar.gz jobs.groovy Jenkinsfile -C build/libs/ $JOB_NAME.jar'
-            NexusPush()
+            sh 'tar -czvf pipeline-hkavaliova-$BUILD_NUMBER.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline.jar'
+            archiveArtifacts 'pipeline-hkavaliova-$BUILD_NUMBER.tar.gz'
+	    NexusPush()
         }
     }
     catch (all){
