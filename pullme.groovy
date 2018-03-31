@@ -10,7 +10,7 @@ new File("${artfile}").withOutputStream { out ->
     def AuthEncoded = "YWtvOmFrbw=="
     def version = artfile.substring(artfile.lastIndexOf("-")+1, artfile.indexOf("."))
     def opened = new URL("${NEXUS_URL}/repository/${REPO_NAME}/${GROUP}/${ARTEFACT}/${version}/${ARTEFACT}-${version}.${TYPE}").openConnection()
-    opened.setRequestProperty("Authorization", authorization);
-    out << opened2.inputStream
+    opened.setRequestProperty("Authorization", AuthEncoded);
+    out << opened.inputStream
 }
 println artfile.responseCode
