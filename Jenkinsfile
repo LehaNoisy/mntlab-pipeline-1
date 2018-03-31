@@ -1,7 +1,6 @@
 def NexusPull() {
     tool name: 'gradle4.6', type: 'gradle'
     tool name: 'java8', type: 'jdk'
-    tool name: 'groovy4', type: 'hudson.plugins.groovy.GroovyInstallation'
     withEnv(["JAVA_HOME=${tool 'java8'}", "PATH+GRADLE=${tool 'gradle4.6'}/bin", "PATH+GROOVY_HOME=${tool 'groovy4'}/bin"])
         {sh 'groovy pullme.groovy $BUILD_NUMBER'}    
     }
@@ -9,7 +8,6 @@ def NexusPush() {
 	sh 'groovy -version'
     tool name: 'gradle4.6', type: 'gradle'
     tool name: 'java8', type: 'jdk'
-    tool name: 'groovy4', type: 'hudson.plugins.groovy.GroovyInstallation'
     withEnv(["JAVA_HOME=${tool 'java8'}", "PATH+GRADLE=${tool 'gradle4.6'}/bin", "PATH+GROOVY_HOME=${tool 'groovy4'}/bin"])
 	{sh 'groovy pushme.groovy $BUILD_NUMBER'}
     }
