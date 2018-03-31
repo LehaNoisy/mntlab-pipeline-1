@@ -22,7 +22,6 @@ if("$actions"=="push") {
     writer.close()
     println connection.responseCode
 }
-
 if("$actions"=="pull"){
     def Artifact = new File("${Artifact_full_name}")
     def connection = new URL("${nexus}/repository/${Repository}/${Group_Id}/${Artifact_name}/${Vers}/${Artifact_full_name}").openConnection()
