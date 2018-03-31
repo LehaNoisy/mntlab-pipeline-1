@@ -1,3 +1,10 @@
+import hudson.FilePath
+import jenkins.model.Jenkins
+import jenkins.*
+import jenkins.model.*
+import hudson.*
+import hudson.model.*
+    
 def status = args[1]
 def job_name = args[2]
 def build_number = args[3]
