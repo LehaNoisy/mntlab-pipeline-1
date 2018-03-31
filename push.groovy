@@ -5,7 +5,7 @@ def authString = "cG5leHVzOnBuZXh1cw=="
         def http = new URL(url).openConnection()
         http.doOutput = true
         http.setRequestMethod("PUT")
-        http.setRequestProperty("Authorization", "Basic" + authString)
+        http.setRequestProperty("Authorization", "Basic " + authString)
         http.setRequestProperty("Content-Type", "application/x-gzip")
         def out = new DataOutputStream(http.outputStream)
         def test = new File(WORKSPACE + "/pipeline-pkislouski-" + BUILD_NUMBER + ".tar.gz")
