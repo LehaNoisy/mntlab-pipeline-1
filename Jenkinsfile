@@ -69,10 +69,16 @@ node ("${SLAVE}") {
     stage('Asking for manual approval'){
         input 'Deploy'
     }
-    
-    stage ('pull from nexus') {
-        sh 'groovy pull.groovy ${BUILD_NUMBER} ${WORKSPACE}'
-    }
+     
+     try {
+         stage ('pull from nexus') {
+             sh 'groovy pull.groovy ${BUILD_NUMBER} ${WORKSPACE}'
+         }
+     catch (pull)
+     {
+          emailext body: 'Attention! Fail on step \"PULL\"', subject: 'mntlab-ci-pipeline - FAIL \"PULL STEP\"', to: 'bigmikola3@gmail.com'
+          throw any
+     }
     
     stage ('Unarchive & Execute') {
         sh 'tar -xvf nexus.tar.gz'
