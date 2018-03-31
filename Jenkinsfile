@@ -3,6 +3,16 @@
    def downJava
    def Child_Job
    def target_arch = "deploy_app.tar.gz"
+def pull_from_nexus{
+	withEnv(["PATH+GROOVY_HOME=${tool 'groovy4'}/bin"]){
+        sh 'groovy pull_script.groovy ${BUILD_NUMBER} ${WORKSPACE} deploy_app.tar.gz'
+	} 
+}
+def push_to_nexus{
+	withEnv(["PATH+GROOVY_HOME=${tool 'groovy4'}/bin"]){
+        sh 'groovy script.groovy ${BUILD_NUMBER} ${WORKSPACE}'
+	} 
+}
 node("${SLAVE}") {
    //stage 1 && 2
    try{           
@@ -97,7 +107,7 @@ node("${SLAVE}") {
    {
 	   stage("Push_Nexus")
 	   {
-		   sh 'groovy script.groovy ${BUILD_NUMBER} ${WORKSPACE}'
+		   push_to_nexus()
 	   }
    }
    catch(exception)
@@ -122,8 +132,8 @@ node("${SLAVE}") {
    try
    {
 	   stage("Pull_Nexus")
-	   {
-		   sh 'groovy pull_script.groovy ${BUILD_NUMBER} ${WORKSPACE} deploy_app.tar.gz'
+	   {		   
+		   pull_from_nexus()
 	   }
    }
    catch(exception)
