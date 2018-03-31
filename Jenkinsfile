@@ -9,7 +9,7 @@ def email(String status){
     status = status ?: 'SUCCESS'
     def subject = "${status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
     def details = """STARTED: Job    ${env.JOB_NAME} [${env.BUILD_NUMBER}]
-        Stage: ${env.STAGE_NAME}
+        Stage: ${nStage}
         Runned on slave: ${env.SLAVE}
         Check console output at: ${env.BUILD_URL}"""
     emailext (
