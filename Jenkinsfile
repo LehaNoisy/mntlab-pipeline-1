@@ -3,8 +3,8 @@ def NexusPull() {
         {sh 'groovy pullme.groovy $BUILD_NUMBER'}    
     }
 def NexusPush() {
-    withEnv(["PATH+GROOVY_HOME=${tool 'groovy4'}/bin"])
-        {sh 'groovy pushme.groovy $BUILD_NUMBER'}
+    //withEnv(["PATH+GROOVY_HOME=${tool 'groovy4'}/bin"])
+        sh 'groovy pushme.groovy $BUILD_NUMBER'
     }
 def EmailOut(stage_name){
     emailext attachLog: true, 
