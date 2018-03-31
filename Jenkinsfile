@@ -15,12 +15,16 @@ catch(all){userName = 'an SCM change'}
 
 def email(String status){
     status = status ?: 'SUCCESS'
+    def log = currentBuild.rawBuild.getLog(20)
     def subject = "${status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
     def details = """STARTED: Job    ${env.JOB_NAME} [${env.BUILD_NUMBER}]
         Started by: ${userName}
         Stage: ${nStage}
         Runned on slave: ${env.SLAVE}
-        Check console output at: ${env.BUILD_URL}"""
+        Check console output at: ${env.BUILD_URL}
+        
+        Last 20 lines in log:
+        ${log}"""
     emailext (
         to: 'mushtarda@gmail.com',
         subject: subject,
