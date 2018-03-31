@@ -17,7 +17,7 @@ node ("${SLAVE}") {
      }
      catch(clean)
      {
-          emailext body: 'Attention! Fail on step \"Clean workspace before build\"', subject: 'mntlab-ci-pipeline - FAIL \"CLEAN STEP\"', to: 'bigmikola3@gmail.com'
+          emailext body: 'Attention! Fail on step \"Clean workspace before build\"', subject: "${currentBuild.fullDisplayName} FAIL CLEAN STEP", to: 'bigmikola3@gmail.com'
           throw any
      }
     
