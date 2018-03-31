@@ -38,11 +38,18 @@ node("${SLAVE}"){
     }
     
     stage("Packaging and Publishing results") {
-        sh "tar -xvf *.tar.gz"
-        sh "cp build/libs/mntlab-ci-pipeline.jar ."
-        sh "tar -czf pipeline-${STUDENT}-${BUILD_NUMBER}.tar.gz mntlab-ci-pipeline.jar jobs.groovy Jenkinsfile"
-    }    
-    stage("Push to Nexus") {
+       sh "tar -xvf *.tar.gz"
+       sh "cp build/libs/mntlab-ci-pipeline.jar ."
+       sh "tar -czf pipeline-${STUDENT}-${BUILD_NUMBER}.tar.gz mntlab-ci-pipeline.jar jobs.groovy Jenkinsfile"
        sh "groovy push.groovy $BUILD_NUMBER"
-    } 
+    }  
+   
+    stage("Asking for manual approval") {
+      input "Do you want to Deploy?"
+    }   
+    
+    //stage("Deployment") {
+      // sh "groovy pull.groovy $BUILD_NUMBER"
+       
+    //} 
 }
