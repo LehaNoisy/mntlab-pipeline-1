@@ -80,7 +80,7 @@ node("${SLAVE}"){
     stage('Send email') {
     def mailRecipients = "sashazaycev212@gmail.com"
     def jobName = currentBuild.fullDisplayName
-    emailext body: '''${SCRIPT, template="my-email.template"}''',
+    emailext body: '''${env.JOB_NAME} [${env.BUILD_NUMBER}]''',
     subject: "[Jenkins] ${jobName}",
     to: "${mailRecipients}",
     replyTo: "${mailRecipients}",
