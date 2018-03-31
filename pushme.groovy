@@ -1,3 +1,4 @@
+groovy -version
 def NUMBER = args[0]
 def AuthEncoded = "YWtvOmFrbw=="
 def NEXUS_URL = 'http://EPBYMINW7423.minsk.epam.com:8081'
