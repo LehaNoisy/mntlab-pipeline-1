@@ -20,7 +20,9 @@ node(env.SLAVE){
         
    stage('Results') {
       archive 'target/*.jar'
-   }
+   	}
+	
+   try{	
    stage ('Testing') {
        withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){
     	parallel (
@@ -42,6 +44,13 @@ node(env.SLAVE){
     	)
        }
    }
+   }
+   catch(exception)
+   	{
+       		emailext body: 'Attention!', subject: 'Tests"', to: 'shumilovy@mail.ru'
+		throw any
+	}
+	
      stage("Triggering job and fetching artefact after finishing") {
         sh 'rm -rf *.tar.gz'
         build job: "MNTLAB-${student}-child1-build-job", parameters: [string(name: "BRANCH_NAME", value: "${student}")]
