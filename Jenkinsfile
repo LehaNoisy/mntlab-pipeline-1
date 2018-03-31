@@ -36,7 +36,7 @@ node("${SLAVE}") {
         stage(stage_list.get(1)) {
             tool name: 'java8', type: 'jdk'
             tool name: 'gradle4.6', type: 'gradle'
-            git branch: 'ifilimonau', url: 'https://github.com/MNT-Lab/mntlab-pipeline.gitb'
+            git branch: 'ifilimonau', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
         }
     } catch (e) {
         notifyFailed(stage_list.get(1))
@@ -76,7 +76,7 @@ node("${SLAVE}") {
     }
 
     try {
-        stage(stage_list.get(4)) {
+        stagey(stage_list.get(4)) {
             build job: 'MNTLAB-ifilimonau-child1-build-job', parameters: [[$class: 'StringParameterValue', name: 'BRANCH_NAME2', value: 'ifilimonau']]
             step([$class     : 'CopyArtifact',
                   projectName: 'MNTLAB-ifilimonau-child1-build-job',
