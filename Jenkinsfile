@@ -9,17 +9,9 @@ def func_gradle(String command){
     withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){sh "gradle ${command}"}
 }
 nStage = ''
-//userId = ''
-/*
-job = Jenkins.getInstance().getItemByFullName(env.JOB_NAME, Job.class)
-echo"${env}"
-build = job.getBuildByNumber(env.BUILD_ID as int)
-echo "${build}"
-userId = build.getCause(Cause.UserIdCause).getUserName()
-echo "${userId}"
-*/ 
-userId = currentBuild.rawBuild.getCause(Cause.UserIdCause).getUserId()
-userName = currentBuild.rawBuild.getCause(Cause.UserIdCause).getUserName()
+try {
+    userName = currentBuild.rawBuild.getCause(Cause.UserIdCause).getUserName()}
+catch(all){userName = 'an SCM change'}
 
 def email(String status){
     status = status ?: 'SUCCESS'
