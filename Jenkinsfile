@@ -85,13 +85,6 @@ node("${SLAVE}"){
                BUILD_NUMBER=${BUILD_NUMBER} """,
                subject: "Jenkins-job", to: 'sashazaycev212@gmail.com'
 }*/
-    stage('Send email') {
-    def mailRecipients = "sashazaycev212@gmail.com"
-    def jobName = currentBuild.fullDisplayName
-    emailext body: '''${env.JOB_NAME} [${env.BUILD_NUMBER}]''',
-    subject: "[Jenkins] ${jobName}",
-    to: "${mailRecipients}",
-    replyTo: "${mailRecipients}",
-    recipientProviders: [[$class: 'CulpritsRecipientProvider']]
-}
+    
+
 }
