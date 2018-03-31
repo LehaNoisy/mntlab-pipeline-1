@@ -22,7 +22,6 @@ def email(status, job_name, build_number, slave_name, failed_report){
         attachLog: false
     ) 
     */
-    stage('Send email') {
     def mailRecipients = "yomivaf@uemail99.com"
     def jobName = currentBuild.fullDisplayName
 
@@ -31,5 +30,4 @@ def email(status, job_name, build_number, slave_name, failed_report){
     to: "${mailRecipients}",
     replyTo: "${mailRecipients}",
     recipientProviders: [[$class: 'CulpritsRecipientProvider']]
-}
 }
