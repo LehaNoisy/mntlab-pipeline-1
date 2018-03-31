@@ -8,12 +8,9 @@ def slave_name = args[4]
 def failed_report = args[5]
 
 if (args[0] == 'email'){
-    def subject = status + " " + job_name + " " +build_number
-    def details = """STARTED: 
-        Job  ${jobname} [${build_number}]
-        Runned on slave: ${slave_name}
-        Failed: ${failed_report}"""
-        
+    def subject = status + " " + job_name + " " + build_number
+    def details =  job_name + "STARTED " + "# " + build_number + "on: " + slave_name + " " + failed_report
+    //       
     emailext (
         to: 'yomivaf@uemail99.com',
         subject: subject,
