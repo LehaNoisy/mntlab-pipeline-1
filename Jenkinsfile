@@ -21,7 +21,7 @@ def SendEmail(status){
         Stage: ${StageName}
         Runned on slave: ${env.SLAVE}
         ${currentBuild.rawBuild.getLog(Integer.MAX_VALUE).take(1).join('\t\n\n')}
-        Date: ${currentBuild.rawBuild.getTimestampString2()}
+        Date: ${currentBuild.rawBuild.getTimestampString2().replaceAll('[T Z]',' ')}
         Duration : ${currentBuild.rawBuild.getDurationString()}
        """
     if(status != "SUCCESS") {
