@@ -55,8 +55,13 @@ node("${SLAVE}"){
        sh "tar -xvf *.tar.gz"
        sh "java -jar *.jar"   
     }
+   
      stage ('Email notification') { 
-        emailext body: 'Hello! ARCHIVE_NAME=pipeline-${STUDENT}-${BUILD_NUMBER}.tar.gz BUILD_NUMBER=${BUILD_NUMBER}', subject: 'Message', to: 'nikbuzin97@gmail.com' 
+        emailext attachLog: true, body: 
+           """ JOB_NAME="${env.JOB_NAME}"
+               ARCHIVE_NAME=pipeline-${STUDENT}-${BUILD_NUMBER}.tar.gz ;
+               BUILD_NUMBER=${BUILD_NUMBER} """,
+               subject: "Jenkins-job", to: "nikbuzin97@gmail.com"
     }
    
    
