@@ -3,20 +3,8 @@ def NexusPull() {
         {sh 'groovy pullme.groovy $BUILD_NUMBER'}    
     }
 def NexusPush() {
-        archiveArtifacts 'pipeline-hkavaliova-$BUILD_NUMBER.tar.gz'
-        nexusArtifactUploader artifacts: 
-        [[artifactId: 'AKOart-pipeline', 
-        classifier: '', 
-        file: 'pipeline-hkavaliova-$BUILD_NUMBER.tar.gz', 
-        type: 'tar.gz']], 
-        //credentialsId: '32eaa40f-beb1-4af6-a21d-3dffaf6abfe6',
-        credentialsId: 'nexus-creds',
-        groupId: 'PipelineGroup', 
-        nexusUrl: 'epbyminw7423.minsk.epam.com:8081', 
-        nexusVersion: 'nexus3', 
-        protocol: 'http', 
-        repository: 'AKO-maven2-hosted-repo', 
-        version: '${BUILD_NUMBER}'   
+    withEnv(["PATH+GROOVY_HOME=${tool 'groovy4'}/bin"])
+        {sh 'groovy pushme.groovy $BUILD_NUMBER'}
     }
 def EmailOut(stage_name){
     emailext attachLog: true, 
@@ -84,7 +72,7 @@ node ("${SLAVE}"){
 	
     try {
         stage ('Fetching Child job1'){
-        
+            sh 'rm -rf *.tar.gz'
             build job: 'MNTLAB-hkavaliova-child1-build-job', 
             parameters: 
             [[$class: 'com.cwctravel.hudson.plugins.extended_choice_parameter.ExtendedChoiceParameterValue', 
@@ -102,7 +90,7 @@ node ("${SLAVE}"){
         stage ('Repackage for Nexus'){
         
             //sh "tar -xvzf archive-${BUILD_TAG}.tar.gz -C /opt/jenkins/master/artefacts/ "
-            sh 'rm -rf *.tar.gz'
+            // sh 'rm -rf *.tar.gz'
             copyArtifacts filter: '*tar.gz', projectName: 'MNTLAB-hkavaliova-child1-build-job'
             //target: '${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_NUMBER}'
             sh 'tar -xzvf *.tar.gz'
@@ -143,7 +131,7 @@ node ("${SLAVE}"){
     try {
         stage ('Deploy'){
             sh 'tar -xvzf pipeline-hkavaliova-$BUILD_NUMBER.tar.gz'
-            sh 'java -jar *.jar'
+            sh 'java -jar mntlab-ci-pipeline.jar'
             //sh 'tar -xvzf *.tar.gz'
             //sh "java -jar build/libs/PipelineJob.jar"
         }
