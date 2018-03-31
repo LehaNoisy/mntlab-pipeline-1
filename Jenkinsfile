@@ -32,6 +32,7 @@ def email(String status){
 node("${SLAVE}") {
     try{
         stage('Preparation (Checking out)'){
+            cleanWs()
             nStage = 'Preparation (Checking out)'
             checkout scm
         }
