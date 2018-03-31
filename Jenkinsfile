@@ -2,8 +2,28 @@ def fgradle(String command){
     withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){sh "gradle ${command}"}
 }
 
-node("${SLAVE}"){
+def ereport(String buildStatus) {
+  // build status of null means successful
+  //buildStatus = buildStatus ?: 'SUCCESS'
+  def subj = "${buildStatus}: Job '${BUILD_TAG}]'"
+    def body = """Job ${JOB_NAME} build № ${BUILD_NUMBER} with commit '${GIT_COMMIT}' was ${buildStatus})
+             
+  """
     
+ // def details = """<p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+ //   <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>"""
+   emailext(
+                    to: 'smart.birdtrap@gmail.com',
+                    attachLog: true,
+                    subject: subj,
+                    body: body
+            )
+    }
+
+
+
+node("${SLAVE}"){
+    try {
     stage ('Building code'){
         checkout scm
         sh '''rm -rf *tar.gz'''
@@ -52,7 +72,13 @@ node("${SLAVE}"){
     }
 
     stage ('Sending status'){
-       
+       ereport('SUCCESS')
+    }
+        
+    }
+    catch (all) {
+    // If there was an exception thrown, the build failed
+    ereport('FAILED')
     }
 }
 
