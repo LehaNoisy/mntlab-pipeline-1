@@ -1,8 +1,5 @@
 def stage_list = ['Hello', 'Prep', 'Building', 'Testing', 'Starting child job', 'Approval', 'Deployment']
 
-emailext (attachLog: true, body: 'some', subject: 'some', to: 'igarok.fil9@gmail.com')
-
-
 def notifySuccessful() {
     emailext(
             attachLog: true,
@@ -32,6 +29,7 @@ node("${SLAVE}") {
         }
     } catch (e) {
         notifyFailed(stage_list.get(0))
+        throw any
     }
 
     try {
@@ -42,6 +40,7 @@ node("${SLAVE}") {
         }
     } catch (e) {
         notifyFailed(stage_list.get(1))
+        throw any
     }
 
     try {
@@ -52,6 +51,7 @@ node("${SLAVE}") {
         }
     } catch (e) {
         notifyFailed(stage_list.get(2))
+        throw any
     }
 
     try {
@@ -72,6 +72,7 @@ node("${SLAVE}") {
         }
     } catch (e) {
         notifyFailed(stage_list.get(3))
+        throw any
     }
 
     try {
@@ -86,6 +87,7 @@ node("${SLAVE}") {
         }
     } catch (e) {
         notifyFailed(stage_list.get(4))
+        throw any
     }
 
     try {
@@ -95,6 +97,7 @@ node("${SLAVE}") {
         }
     } catch (e) {
         notifyFailed(stage_list.get(5))
+        throw any
     }
 
     try {
@@ -105,6 +108,7 @@ node("${SLAVE}") {
         }
     } catch (e) {
         notifyFailed(stage_list.get(6))
+        throw any
     } finally {
         notifySuccessful()
     }
