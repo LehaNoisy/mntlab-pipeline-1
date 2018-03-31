@@ -13,13 +13,11 @@ StageName = ""
 def SendEmail(status){
     status = status ?: 'SUCCESS' //If status var is null set to SUCCESS
     def log = currentBuild.rawBuild.getLog(20).join('\n\t\t')
-    //def ConsoleOutputURL = new URL("${env.BUILD_URL}consoleText")
-    //Date: ${currentBuild.rawBuild.getTimestampString()}
-    //Duration : ${currentBuild.rawBuild.getDurationString()}
     def EmailSubject = "${env.JOB_NAME} - Build # ${env.BUILD_NUMBER} - ${status}"
     def MailBody = """Project: ${env.JOB_NAME}
         Stage: ${StageName}
         Runned on slave: ${env.SLAVE}
+        Caused by: ${currentBuild.rawBuild.getCauses()}
         ${currentBuild.rawBuild.getLog(Integer.MAX_VALUE).take(1).join('\t\n\n')}
         Date: ${currentBuild.rawBuild.getTimestampString2().replaceAll('[T Z]',' ')}
         Duration : ${currentBuild.rawBuild.getDurationString()}
@@ -28,7 +26,6 @@ def SendEmail(status){
         MailBody += """\nLast 20 lines in log:
         ${log}"""
     }
-    //def Cause = "Cause: ${currentBuild.rawBuild.getCauses()}"
     emailext (
         to: 'klimovkostya5@gmail.com',
         subject: EmailSubject,
@@ -66,7 +63,7 @@ node("${SLAVE}") {
       StageName = "Packaging and Publishing results"
       sh """ tar -xvf *tar.gz
              tar -czf ${artfname} jobs.groovy Jenkinsfile  output.txt -C build/libs/ \$JOB_BASE_NAME.jar"""
-      sh "groovy nexus.groovyy push ${BUILD_NUMBER} ${artfname}"
+      sh "groovy nexus.groovy push ${BUILD_NUMBER} ${artfname}"
       archiveArtifacts "${artfname}"
   }
   stage ("Asking for manual approval"){
