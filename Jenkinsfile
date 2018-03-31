@@ -1,22 +1,25 @@
 def stage_list = ['Hello', 'Prep', 'Building', 'Testing', 'Starting child job', 'Approval', 'Deployment']
 
+emailext (attachLog: true, body: 'some', subject: 'some', to: 'igarok.fil9@gmail.com')
 
-def notifySuccessful(String stage_failed) {
+
+def notifySuccessful() {
     emailext(
-            subject: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-            body: """<p>SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-        <p>Check console output at "<a href="${env.BUILD_URL}">${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>"</p>""",
-            recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+            attachLog: true,
+            subject: "SUCCESSFUL: Job '${JOB_BASE_NAME} [${BUILD_NUMBER}]'",
+            body: """SUCCESSFUL: Job '${JOB_BASE_NAME} [${BUILD_NUMBER}]':
+        Check console output at """,
+            to: "igarok.fil9@gmail.com"
     )
 }
 
 
 def notifyFailed(String stage_failed) {
     emailext (
-            subject: "FAILED Pipeline on stage: '${stage_failed} [${BUILD_NUMBER}]'",
-            body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-       <p>Check console output at "<a href="${env.BUILD_URL}">${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>"</p>""",
-            recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+            subject: "FAILED Job ${JOB_BASE_NAME} on stage: '${stage_failed} [${BUILD_NUMBER}]'",
+            body: """FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':
+       Check console output at """,
+            to: "igarok.fil9@gmail.com"
     )
 }
 
@@ -82,7 +85,7 @@ node("${SLAVE}") {
     groovy task_1.groovy push pipeline-ifilimonau-\$BUILD_NUMBER.tar.gz"""
         }
     } catch (e) {
-        notifyStarted(stage_list.get(4))
+        notifyFailed(stage_list.get(4))
     }
 
     try {
@@ -91,7 +94,7 @@ node("${SLAVE}") {
             sh "rm -f *tar.gz gradle-simple.jar"
         }
     } catch (e) {
-        notifyStarted(stage_list.get(5))
+        notifyFailed(stage_list.get(5))
     }
 
     try {
@@ -101,7 +104,7 @@ node("${SLAVE}") {
     java -jar gradle-simple.jar"""
         }
     } catch (e) {
-        stage(notifyStarted(stage_list.get(6)))
+        notifyFailed(stage_list.get(6))
     } finally {
         notifySuccessful()
     }
