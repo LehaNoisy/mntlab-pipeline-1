@@ -82,7 +82,7 @@ def email(status, job_name, build_number, slave_name, failed_report){
         """
     emailext (
         to: 'yomivaf@uemail99.com',
-        subject: "JOB:" job_name + " " +build_number,
+        subject: "JOB:" + job_name + " " +build_number,
         body: details,
         attachLog: false
     )   
