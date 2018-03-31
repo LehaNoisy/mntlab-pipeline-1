@@ -1,5 +1,9 @@
 import hudson.FilePath
 import jenkins.model.Jenkins
+import jenkins.*
+import jenkins.model.*
+import hudson.*
+import hudson.model.*
 
 def func_gradle(String command){
     withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){sh "gradle ${command}"}
