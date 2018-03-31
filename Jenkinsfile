@@ -1,4 +1,8 @@
 def student = "ashumilau"
+def downGradle
+def downJava
+withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){
+        	sh 'gradle build'}}
 
 node(env.SLAVE){
 	try{
