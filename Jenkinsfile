@@ -16,6 +16,7 @@ catch(all){userName = 'an SCM change'}
 def email(String status){
     status = status ?: 'SUCCESS'
     def log = currentBuild.rawBuild.getLog(20)
+    String result = stringList.join(",")
     def subject = "${status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
     def details = """STARTED: Job    ${env.JOB_NAME} [${env.BUILD_NUMBER}]
         Started by: ${userName}
@@ -24,7 +25,7 @@ def email(String status){
         Check console output at: ${env.BUILD_URL}
         
         Last 20 lines in log:
-        ${log}"""
+        ${result}"""
     emailext (
         to: 'mushtarda@gmail.com',
         subject: subject,
@@ -49,7 +50,6 @@ node("${SLAVE}") {
         }
         stage('Testing code'){
             nStage = 'Testing code'
-            /*
             parallel(
                 'Gradle cucumber': {
                     func_gradle('cucumber')
@@ -60,7 +60,7 @@ node("${SLAVE}") {
                 'Gradle test': {
                     func_gradle('test')
                 }
-            )*/
+            )
         }
         stage('Triggering job and fetching artefact after finishing'){
             nStage = 'Triggering job and fetching artefact after finishing'
