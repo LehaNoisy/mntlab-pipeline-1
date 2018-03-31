@@ -69,11 +69,19 @@ def deployment(job_name) {
 }
 
 def sendStatus(e) {
-	echo 'Sending status: do sometinng [in progress send bad status to email]' + ' ' + e 
+	tool name: 'gradle4.6', type: 'gradle'
+	tool name: 'java8', type: 'jdk'
+	withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin", "PATH+GROOVY_HOME=${ tool 'groovy4'}/bin"]){
+		sh "groovy email.groovy failed ${job_name} ${BUILD_NUMBER} ${SLAVE} ${e}"
+	}
 }
 
 def sendReport() {
-	echo 'Sending status: do sometinng [in progress send good status to email]' + ' ' 	
+	tool name: 'gradle4.6', type: 'gradle'
+	tool name: 'java8', type: 'jdk'
+	withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin", "PATH+GROOVY_HOME=${ tool 'groovy4'}/bin"]){
+		sh "groovy email.groovy success ${job_name} ${BUILD_NUMBER} ${SLAVE} NONE"
+	}	
 }
 
 node("${SLAVE}") {
