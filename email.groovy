@@ -14,7 +14,6 @@ if (args[0] == 'email'){
 }
 
 def email(status, job_name, build_number, slave_name, failed_report){
-    /*
     def subject = status + " " + job_name + " " + build_number
     def details = """
         STARTED: Job ${job_name} [${build_number}]
@@ -26,12 +25,5 @@ def email(status, job_name, build_number, slave_name, failed_report){
         body: details,
         attachLog: false
     ) 
-    */
-    def mailRecipients = "yomivaf@uemail99.com"
-
-    emailext body: '123',
-    subject: "123",
-    to: "${mailRecipients}",
-    replyTo: "${mailRecipients}",
-    recipientProviders: [[$class: 'CulpritsRecipientProvider']]
+    
 }
