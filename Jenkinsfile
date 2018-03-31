@@ -13,7 +13,7 @@ node("${SLAVE}"){
          git branch: "${STUDENT}", url: "${GIT_URL}" }
    }
    catch(exception){
-      emailext attachLog: true, body:"""JOB_NAME="${env.JOB_NAME}" --- FAIL ON "Preparation" STAGE --- ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""",  subject: "Jenkins-job", to: "nikbuzin97@gmail.com"
+      emailext attachLog: true, body:"""JOB_NAME="${env.JOB_NAME}" \n FAIL ON "Preparation" STAGE \n ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""",  subject: "FAIL Jenkins-pipeline", to: "nikbuzin97@gmail.com"
       throw any
    }
    
@@ -28,7 +28,7 @@ node("${SLAVE}"){
             echo "Finishing Build"}} 
        }
    catch(exception){
-      emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" --- FAIL On "Building code" STAGE --- ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""", subject: "Jenkins-job", to: "nikbuzin97@gmail.com"
+      emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" \n FAIL On "Building code" STAGE \n ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""", subject: "FAIL Jenkins-pipeline", to: "nikbuzin97@gmail.com"
       throw any 
    }
      
@@ -44,20 +44,20 @@ node("${SLAVE}"){
          echo "Finishing Tests"}
    }
    catch(exception){
-      emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" --- FAIL ON "Testing" STAGE --- ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""", subject: "Jenkins-job", to: "nikbuzin97@gmail.com"      
+      emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" \n FAIL ON "Testing" STAGE \n ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""", subject: "FAIL Jenkins-pipeline", to: "nikbuzin97@gmail.com"      
       throw any 
    }
     
 """TRIGGERING JOB STAGE"""      
    try{
       stage("Triggering job and fetching artefact after finishing") {
-         build job: "MNTLAB-${STUDENT}-child1-builds-job", parameters: [string(name: "BRANCH_NAME", value: "${STUDENT}")]
+         build job: "MNTLAB-${STUDENT}-child1-build-job", parameters: [string(name: "BRANCH_NAME", value: "${STUDENT}")]
          step ([$class: "CopyArtifact",
                projectName: "MNTLAB-${STUDENT}-child1-build-job",
                filter: "*.tar.gz"])}
    }
    catch(exception){
-      emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" --- FAIL On "Triggering job and fetching artefact after finishing" STAGE --- ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""", subject: "Jenkins-job", to: "nikbuzin97@gmail.com" 
+      emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" \n FAIL On "Triggering job and fetching artefact after finishing" STAGE \n ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""", subject: "FAIL Jenkins-pipeline", to: "nikbuzin97@gmail.com" 
       throw any 
    }
     
@@ -72,7 +72,7 @@ node("${SLAVE}"){
          sh "rm -rf *.jar"}
     }  
    catch(exception){
-      emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" --- FAIL On "Packaging and Publishing results" STAGE --- ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""", subject: "Jenkins-job", to: "nikbuzin97@gmail.com" 
+      emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" \n FAIL On "Packaging and Publishing results" STAGE \n ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""", subject: "FAIL Jenkins-pipeline", to: "nikbuzin97@gmail.com" 
       throw any  
    }
    
@@ -82,7 +82,7 @@ node("${SLAVE}"){
          input "Do you want to Deploy?"}
    }
    catch(exception){
-      emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" --- FAIL ON "Asking for manual approval" STAGE --- ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""", subject: "Jenkins-job", to: "nikbuzin97@gmail.com" 
+      emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" \n FAIL ON "Asking for manual approval" STAGE \n ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""", subject: "FAIL Jenkins-pipeline", to: "nikbuzin97@gmail.com" 
       throw any  
    }   
     
@@ -94,7 +94,7 @@ node("${SLAVE}"){
          sh "java -jar *.jar" }  
    }
    catch(exception){
-      emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" --- FAIL ON "Deployment" STAGE --- ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""", subject: "Jenkins-job", to: "nikbuzin97@gmail.com" 
+      emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" \n FAIL ON "Deployment" STAGE \n ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""", subject: "FAIL Jenkins-pipeline", to: "nikbuzin97@gmail.com" 
       throw any
    }   
    
