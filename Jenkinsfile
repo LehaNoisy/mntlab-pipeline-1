@@ -82,7 +82,7 @@ node("${SLAVE}"){
         
     }
     catch (all) {
-    ereport(currentBuild.currentResult, nstage)
+    ereport('FAILED', nstage)
     }
 }
 
