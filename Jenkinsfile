@@ -10,8 +10,11 @@ def func_gradle(String command){
 }
 nStage = ''
 job = Jenkins.getInstance().getItemByFullName(env.JOB_NAME, Job.class)
+echo"${env}"
 build = job.getBuildByNumber(env.BUILD_ID as int)
+echo "${build}"
 userId = build.getCause(Cause.UserIdCause).getUserId()
+echo "${userId}"
 
 def email(String status){
     status = status ?: 'SUCCESS'
