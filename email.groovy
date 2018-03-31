@@ -12,7 +12,7 @@ if (args[0] == 'email'){
     def details =  job_name + "STARTED " + "# " + build_number + "on: " + slave_name + " " + failed_report
     //       
     emailext (
-        to: 'yomivaf@uemail99.com',
+        to: 'klimovkostya5@gmail.com',
         subject: "sdsfgsd",
         body: "sdfsdfs",
         attachLog: true
