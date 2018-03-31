@@ -6,7 +6,7 @@ def GROUP = 'PipelineGroup'
 def TYPE = 'tar.gz'
 def ARTIFACT = 'AKOart-pipeline'
 def ARTFILE = "AKOart-pipeline-${NUMBER}.${TYPE}"
-def opened = new URL("${NEXUS_URL}/repository/${REPO_NAME}/pipeline/${GROUP}/${ARTIFACT}/${NUMBER}/${ARTFILE}").openConnection()
+def opened = new URL("${NEXUS_URL}/repository/${REPO_NAME}/${GROUP}/${ARTIFACT}/${NUMBER}/${ARTFILE}").openConnection()
 opened.setRequestProperty("Authorization", "Basic ${AuthEncoded}")
 def out = new File("${ARTFILE}")
 out << opened.inputStream
