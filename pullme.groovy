@@ -1,5 +1,5 @@
-def NUMBER = args[0]
-//def NUMBER = 33
+//def NUMBER = args[0]
+def NUMBER = 47
 def AuthEncoded = "YWtvOmFrbw=="
 def NEXUS_URL = 'http://EPBYMINW7423.minsk.epam.com:8081'
 def REPO_NAME = 'AKO-maven2-hosted-repo'
