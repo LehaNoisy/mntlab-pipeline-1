@@ -66,7 +66,7 @@ node("${SLAVE}") {
       StageName = "Packaging and Publishing results"
       sh """ tar -xvf *tar.gz
              tar -czf ${artfname} jobs.groovy Jenkinsfile  output.txt -C build/libs/ \$JOB_BASE_NAME.jar"""
-      sh "groovy nexus.groovy push ${BUILD_NUMBER} ${artfname}"
+      sh "groovy nexus.groovyy push ${BUILD_NUMBER} ${artfname}"
       archiveArtifacts "${artfname}"
   }
   stage ("Asking for manual approval"){
