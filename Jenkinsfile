@@ -2,10 +2,10 @@ def notifySuccessful() {
    emailext subject: """Job ${currentBuild.fullDisplayName} SUCCESS""", to: 'ip.chernak@gmail.com'}
 def notifyFailed() {
    emailext subject: "Failed Pipeline: ${currentBuild.fullDisplayName}", 
-             body: """${currentBuild.rawBuild.getLog(Integer.MAX_VALUE).take(1).join('</br>')}
+             body: """${currentBuild.rawBuild.getLog(Integer.MAX_VALUE).take(1).join('\n\t\t')}
                 Job ${currentBuild.fullDisplayName} on ${stagename} stage is down.
                 Something is wrong with ${env.BUILD_URL}"
-                Last log: ${currentBuild.rawBuild.getLog(20).join('</br>')}""",
+                Last log: ${currentBuild.rawBuild.getLog(20).join('\n\t\t')}""",
              to: 'ip.chernak@gmail.com'}
 stagename = ''
 
