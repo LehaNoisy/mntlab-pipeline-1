@@ -17,7 +17,7 @@ def email(String status){
     status = status ?: 'SUCCESS'
     def subject = "${status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
     def details = """STARTED: Job    ${env.JOB_NAME} [${env.BUILD_NUMBER}]
-        Started by: ${userId}    ${userName}
+        Started by: ${userName}
         Stage: ${nStage}
         Runned on slave: ${env.SLAVE}
         Check console output at: ${env.BUILD_URL}"""
