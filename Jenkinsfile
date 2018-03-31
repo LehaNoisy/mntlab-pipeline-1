@@ -11,9 +11,8 @@ def notifyFailed() {
     //def log_20 = currentBuild.rawBuild.getLog(20).join('\n\t\t')
     emailext attachLog: true, 
              subject: "Failed Pipeline: ${env.JOB_NAME} ${env.BUILD_NUMBER}   ${currentBuild.fullDisplayName}", 
-             body: """Job ${env.JOB_NAME} build № ${env.BUILD_NUMBER} on ${stagename} is down.
+             body: """Job ${env.JOB_NAME} build № ${env.BUILD_NUMBER} on ${stagename} stage is down.
                   Something is wrong with ${env.BUILD_URL}"
-                  Last stage was "${nst}"
                   See the job in address ${env.JOB_URL}
              
                   Last log: ${currentBuild.rawBuild.getLog(20).join('\n\t\t')}""",
