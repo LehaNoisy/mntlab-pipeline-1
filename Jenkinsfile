@@ -50,7 +50,7 @@ node("${SLAVE}"){
         archiveArtifacts 'pipeline-azaitsau-${BUILD_NUMBER}.tar.gz'
         //nexusArtifactUploader artifacts: [[artifactId: 'Pip-artifact', classifier: 'app', file: 'pipeline-azaitsau-${BUILD_NUMBER}.tar.gz', type: 'tar.gz']], credentialsId: 'nexus-creds', groupId: 'MNT-pipeline', nexusUrl: '10.6.204.75:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'Realise', version: '${BUILD_NUMBER}'
         //sh "groovy nexus.groovy pull pipeline-azaitsau-\$BUILD_NUMBER.tar.gz"
-        sh "groovy push.groovy ${BN}"
+        sh "groovy push.groovy ${BUILD_NUMBER}"
         sh "rm -rf *.tar.gz"
         sh "rm -rf *.jar"
     }
@@ -63,7 +63,7 @@ node("${SLAVE}"){
     }
     
     stage ('Deploy'){
-        sh "groovy pull.groovy ${BN}"
+        sh "groovy pull.groovy ${BUILD_NUMBER}"
         sh 'tar xvf *${BUILD_NUMBER}.tar.gz'
         sh 'java -jar mntlab-ci-pipeline.jar'
     }
