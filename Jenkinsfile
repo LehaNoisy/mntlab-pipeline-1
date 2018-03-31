@@ -5,7 +5,7 @@ def JDK = "java8"
    
 node("${SLAVE}"){ 
    
-   
+"""PREPARATIN STAGE"""
    try{
       stage("Preparation") {
          cleanWs()
@@ -16,7 +16,7 @@ node("${SLAVE}"){
       emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" --- ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG"""
    }
    
-   
+"""BUILDING CODE STAGE"""
    try{
       stage ("Building code") {
          echo "Starting Build"
@@ -30,7 +30,7 @@ node("${SLAVE}"){
       emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" --- ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG"""
    }
      
-      
+"""TESTING STAGE"""      
    try{
       stage("Testing") {
          echo "Starting Tests"
@@ -45,7 +45,7 @@ node("${SLAVE}"){
       emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" --- ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG"""      
    }
     
-      
+"""TRIGGERING JOB STAGE"""      
    try{
       stage("Triggering job and fetching artefact after finishing") {
          build job: "MNTLAB-${STUDENT}-child1-build-job", parameters: [string(name: "BRANCH_NAME", value: "${STUDENT}")]
@@ -57,7 +57,7 @@ node("${SLAVE}"){
       emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" --- ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""" 
    }
     
-   
+"""PACKAGING-PUBLISHING STAGE"""   
    try{
       stage("Packaging and Publishing results") {
          sh "tar -xvf *.tar.gz"
@@ -71,7 +71,7 @@ node("${SLAVE}"){
       emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" --- ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""" 
    }
    
-   
+"""APPROVAL STAGE"""  
    try{
       stage("Asking for manual approval") {
          input "Do you want to Deploy?"}
@@ -80,7 +80,7 @@ node("${SLAVE}"){
       emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" --- ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""" 
    }   
     
-   
+"""DEPLOYMENT STAGE"""   
    try{
       stage("Deployment") {
          sh "groovy pull.groovy ${BUILD_NUMBER}"
