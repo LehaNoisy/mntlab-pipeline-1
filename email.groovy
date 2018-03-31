@@ -13,8 +13,8 @@ if (args[0] == 'email'){
     //       
     emailext (
         to: 'yomivaf@uemail99.com',
-        subject: subject,
-        body: details,
+        subject: "sdsfgsd",
+        body: "sdfsdfs",
         attachLog: true
     )    
 }
