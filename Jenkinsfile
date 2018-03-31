@@ -79,7 +79,7 @@ node("${SLAVE}") {
 			projectName: 'MNTLAB-vpeshchanka-child1-build-job']);
 	       sh "tar -xvf vpeshchanka_dsl_script.tar.gz"
 	       //sh "java -jar build/libs/example_2.jar > pipeline_output.log"
-		   sh "tar -cf ${WORKSPACE}/pipeline-vpeshchanka-${BUILD_NUMBER}.tar.gz jobs.groovy log.txt build/libs/mntlab-ci-pipeline.jar"
+		   sh "tar -cf ${WORKSPACE}/pipeline-vpesanka-${BUILD_NUMBER}.tar.gz jobs.groovy log.txt build/libs/mntlab-ci-pipeline.jar"
 	   }
    }
    catch(exception)
