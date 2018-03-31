@@ -45,43 +45,71 @@ node ("${SLAVE}") {
           emailext body: 'Attention! Fail on step \"build\"', subject: 'mntlab-ci-pipeline - FAIL \"BUILD STEP\"', to: 'bigmikola3@gmail.com'
           throw any
      }
+     try{
+         stage ('Testing') {
+          parallel (
+               cucumber: {
+                    stage ('cucumber') {
+                         sh "'${downGradle}/bin/gradle' cucumber"
+                    }
+               },
+               jacoco: {
+                    stage ('jacoco') {
+                         sh "'${downGradle}/bin/gradle' jacocoTestReport"
+                    }
+               },
+               unit: {
+                    stage ('unit test') {
+                         sh "'${downGradle}/bin/gradle' test"
+                    }
+               }
+          )
+         }
+    }
+    
+    catch(test)
+     {
+          emailext body: 'Attention! Fail on step \"testing\"', subject: 'mntlab-ci-pipeline - FAIL \"TESTING STEP\"', to: 'bigmikola3@gmail.com'
+          throw any
+     } 
      
-    stage ('Testing') {
-    	parallel (
-    		cucumber: {
-    			stage ('cucumber') {
-    				sh "'${downGradle}/bin/gradle' cucumber"
-    			}
-    		},
-    		jacoco: {
-    			stage ('jacoco') {
-    				sh "'${downGradle}/bin/gradle' jacocoTestReport"
-    			}
-    		},
-    		unit: {
-    			stage ('unit test') {
-    				sh "'${downGradle}/bin/gradle' test"
-    			}
-    		}
-    	)
-    }
-    
-    stage ('Starting child job') {
-        build job: 'MNTLAB-Pavel__Kislouski-child1-build-job', parameters: [[$class: 'StringParameterValue', name: 'BRANCH_NAME', value: 'pkislouski']], quietPeriod: 2
-    }
+     try{
+         stage ('Starting child job') {
+             build job: 'MNTLAB-Pavel__Kislouski-child1-build-job', parameters: [[$class: 'StringParameterValue', name: 'BRANCH_NAME', value: 'pkislouski']], quietPeriod: 2
+         }
+     }
+     catch(child)
+     {
+          emailext body: 'Attention! Fail on step \"Starting child job\"', subject: 'mntlab-ci-pipeline - FAIL \"CHILD JOB STEP\"', to: 'bigmikola3@gmail.com'
+          throw any
+     } 
   
-    stage ('Copy artifact from job') {
-        step ([$class: 'CopyArtifact',
-               projectName: 'MNTLAB-Pavel__Kislouski-child1-build-job']);
-    }
+     try{
+         stage ('Copy artifact from job') {
+             step ([$class: 'CopyArtifact',
+                    projectName: 'MNTLAB-Pavel__Kislouski-child1-build-job']);
+         }
+     }
+     catch(copy)
+     {
+          emailext body: 'Attention! Fail on step \"Copy artifact from job\"', subject: 'mntlab-ci-pipeline - FAIL \"COPY ARTIFACT STEP\"', to: 'bigmikola3@gmail.com'
+          throw any
+     } 
     
-    stage ('Unarchive & Archive') {
-        sh 'cp build/libs/mntlab-ci-pipeline.jar .'
-        sh 'tar -xvf child1-*.tar.gz'
-         sh 'tar -czf ${WORKSPACE}/pipeline-pkislouski-${BUILD_NUMBER}.tar.gz mntlab-ci-pipeline.jar jobs.groovy'
-    }
+     try{
+         stage ('Unarchive & Archive') {
+             sh 'cp build/libs/mntlab-ci-pipeline.jar .'
+             sh 'tar -xvf child1-*.tar.gz'
+              sh 'tar -czf ${WORKSPACE}/pipeline-pkislouski-${BUILD_NUMBER}.tar.gz mntlab-ci-pipeline.jar jobs.groovy'
+         }
+     }
+     catch(archive)
+     {
+          emailext body: 'Attention! Fail on step \"Unarchive and Archive\"', subject: 'mntlab-ci-pipeline - FAIL \"UNARCHIVE AND ARCHIEV STEP\"', to: 'bigmikola3@gmail.com'
+          throw any
+     } 
     
-     try { 
+     try{ 
          stage ('push nexus') {
               push()
          }
@@ -91,9 +119,17 @@ node ("${SLAVE}") {
           emailext body: 'Attention! Fail on step \"PUSH\"', subject: 'mntlab-ci-pipeline - FAIL \"PUSH STEP\"', to: 'bigmikola3@gmail.com'
           throw any
      }
-    stage('Asking for manual approval'){
-        input 'Deploy'
-    }
+     
+     try{
+         stage('Asking for manual approval'){
+             input 'Deploy'
+         }
+     }
+     catch (approval)
+     {
+          emailext body: 'Attention! Fail on step \"APPROVAL\"', subject: 'mntlab-ci-pipeline - FAIL \"APPROVAL STEP\"', to: 'bigmikola3@gmail.com'
+          throw any
+     }
      
      try {
          stage ('pull from nexus') {
