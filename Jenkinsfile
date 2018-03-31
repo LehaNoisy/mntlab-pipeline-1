@@ -17,7 +17,6 @@ def SendEmail(status){
     def Cause = "Cause: ${build.getCauses()}"
     def MailBody = """Project: ${env.JOB_NAME}
         Stage: ${StageName}
-        URL: ${JobUrl}
         Date: ${build.getTimestampString()}
         Duration: ${currentBuild.durationString}
         Runned on slave: ${env.SLAVE}
