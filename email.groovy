@@ -22,8 +22,7 @@ def email(status, job_name, build_number, slave_name, failed_report){
     def details = """
         STARTED: Job ${job_name} [${build_number}]
         Runned on slave: ${slave_name}
-        Log:
-        ${log}"""
+        """
     emailext (
         to: 'yomivaf@uemail99.com',
         subject: "123",
