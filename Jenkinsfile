@@ -47,7 +47,7 @@ node ("${SLAVE}") {
     stage ('Unarchive & Archive') {
         sh 'cp build/libs/mntlab-ci-pipeline.jar .'
         sh 'tar -xvf child1-*.tar.gz'
-        sh 'tar -czf pipeline-pkislouski-${BUILD_NUMBER}.tar.gz mntlab-ci-pipeline.jar jobs.groovy'
+         sh 'tar -czf ${WORKSPACE}/pipeline-pkislouski-${BUILD_NUMBER}.tar.gz mntlab-ci-pipeline.jar jobs.groovy'
     }
     
     stage ('push nexus') {
