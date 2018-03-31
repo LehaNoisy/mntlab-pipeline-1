@@ -56,4 +56,8 @@ node(env.SLAVE){
      sh "tar -xvf *.tar.gz"
      sh "java -jar *.jar" 
     }
+    
+    stage ('Email notification') {
+    emailext body: 'Hello!', subject: 'Message', to: 'shumilovy@mail.ru'
+    }
 }
