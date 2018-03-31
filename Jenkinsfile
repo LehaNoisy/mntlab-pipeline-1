@@ -17,7 +17,7 @@ def email(String status){
     status = status ?: 'SUCCESS'
     def log = currentBuild.rawBuild.getLog(20).join('\n\t\t')
     def subject = "${status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
-    def consURL = new URL("${env.BUILD_URL}/consoleText")
+    def consURL = new URL("${env.BUILD_URL}consoleText")
     def details = """STARTED: Job    ${env.JOB_NAME} [${env.BUILD_NUMBER}]
         Started by: ${userName}
         Stage: ${nStage}
