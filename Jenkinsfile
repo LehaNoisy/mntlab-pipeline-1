@@ -1,18 +1,16 @@
-def fgradle(String command){
+def fgradle(String command) {
     withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]){sh "gradle ${command}"}
 }
 
 def ereport(String buildStatus, nst) {
-  // build status of null means successful
-  //buildStatus = buildStatus ?: 'SUCCESS'
-  def subj = "${buildStatus}: Job '${BUILD_TAG}]'"
-    def body = """Job ${JOB_NAME} build № ${BUILD_NUMBER} was ${buildStatus}
-             last stage was ${nst}
-  """
-    
- // def details = """<p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
- //   <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>"""
-   emailext(
+    def subj = "${buildStatus}: Job '${BUILD_TAG}]'"
+    def log_20 = currentBuild.rawBuild.getLog(20)
+    def body = """Job ${JOB_NAME} build № ${BUILD_NUMBER} was ${buildStatus}.
+                  Last stage was "${nst}"
+                  See the job in address ${env.JOB_URL}
+             
+                  LOG_20: ${log_20}"""
+    emailext(
                     to: 'smart.birdtrap@gmail.com',
                     attachLog: true,
                     subject: subj,
@@ -84,7 +82,6 @@ node("${SLAVE}"){
         
     }
     catch (all) {
-    // If there was an exception thrown, the build failed
     ereport(currentBuild.currentResult, nstage)
     }
 }
