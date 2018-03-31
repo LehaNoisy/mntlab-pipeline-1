@@ -1,3 +1,6 @@
+import jenkins.model.*
+jenkins = Jenkins.instance
+
 def BUILD_NUMBER = args[0]
 def cred = "YWRtaW46YWRtaW4xMjM="
 def File = new File("pipeline-nbuzin-${BUILD_NUMBER}.tar.gz").getBytes()
