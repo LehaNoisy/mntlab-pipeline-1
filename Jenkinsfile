@@ -44,6 +44,7 @@ node("${SLAVE}") {
         }
         stage('Testing code'){
             nStage = 'Testing code'
+            /*
             parallel(
                 'Gradle cucumber': {
                     func_gradle('cucumber')
@@ -54,7 +55,7 @@ node("${SLAVE}") {
                 'Gradle test': {
                     func_gradle('test')
                 }
-            )
+            )*/
         }
         stage('Triggering job and fetching artefact after finishing'){
             nStage = 'Triggering job and fetching artefact after finishing'
