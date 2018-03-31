@@ -7,16 +7,11 @@ def func_gradle(String command){
 def nStage = ''
 def email(String status){
     status = status ?: 'SUCCESS'
-    def color = 'RED'
-    def colorCode = '#FF0000'
     def subject = "${status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
-    def summary = "${subject} (${env.BUILD_URL})"
     def details = """STARTED: Job    ${env.JOB_NAME} [${env.BUILD_NUMBER}]
         Stage: ${env.STAGE_NAME}
         Runned on slave: ${env.SLAVE}
-        ${GIT_COMMIT}
-        Check console output at: ${env.BUILD_URL}
-        """
+        Check console output at: ${env.BUILD_URL}"""
     emailext (
         to: 'mushtarda@gmail.com',
         subject: subject,
