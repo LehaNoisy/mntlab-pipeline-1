@@ -1,6 +1,6 @@
 def student = "azaitsau"
 
-node(env.SLAVE){
+node("${SLAVE}"){
     def downGradle
     def downJava
     stage ('Checking out') {
