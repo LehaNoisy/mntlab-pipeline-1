@@ -1,7 +1,4 @@
-node ("${SLAVE}") {
-     def downGradle
-     def downJava
-     def push()
+def push()
      {
           sh 'groovy push.groovy ${BUILD_NUMBER} ${WORKSPACE}'
      }
@@ -9,6 +6,9 @@ node ("${SLAVE}") {
      {
           sh 'groovy pull.groovy ${BUILD_NUMBER} ${WORKSPACE}'
      }
+node ("${SLAVE}") {
+     def downGradle
+     def downJava    
      try{
           stage('Clean workspace before build') {
              step([$class: 'WsCleanup'])
