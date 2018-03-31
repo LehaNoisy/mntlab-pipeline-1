@@ -5,11 +5,17 @@
    def target_arch = "deploy_app.tar.gz"
 node("${SLAVE}") {
    //stage 1 && 2
-   stage('Preparation') { // for display purposes
-      println "${SLAVE}"
-      git url: 'https://github.com/MNT-Lab/mntlab-pipeline.git', branch: 'vpeshchanka' 
-      downGradle = tool 'gradle4.6'
-      downJava = tool 'java8'
+   try{
+	   stage('Preparation') { // for display purposes
+	      println "${SLAVE}"
+	      git url: 'https://github.com/MNT-Lab/mntlab-pipeline.git', branch: 'vpeshchanka' 
+	      downGradle = tool 'gradle4.6'
+	      downJava = tool 'java8'
+	   }
+	}
+   catch(exception)
+   {
+       emailext body: 'Attention! Fail on step Preparation', subject: 'mntlab-ci-pipeline - FAIL!', to: 'valera.peshchenko@gmail.com'
    }
    
    //stage 3
@@ -53,10 +59,16 @@ node("${SLAVE}") {
        //sh "java -jar build/libs/example_2.jar > pipeline_output.log"
 	   sh "tar -cf ${WORKSPACE}/pipeline-vpeshchanka-${BUILD_NUMBER}.tar.gz jobs.groovy log.txt build/libs/mntlab-ci-pipeline.jar"
    }
-   stage("Push_Nexus")
-   {
-	   sh 'groovy script.groovy ${BUILD_NUMBER} ${WORKSPACE}'
+   try{
+	   stage("Push_Nexus")
+	   {
+		   sh 'groovy script.groovy ${BUILD_NUMBER} ${WORKSPACE}'
+	   }
    }
+   catch(exception)
+	{
+	     emailext body: 'Attention! Fail on step Push_Nexus', subject: 'mntlab-ci-pipeline - FAIL!', to: 'valera.peshchenko@gmail.com'
+	}
    stage("approve")
    {
        input 'Deploy or Abort?'
