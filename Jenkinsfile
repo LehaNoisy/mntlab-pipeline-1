@@ -72,13 +72,13 @@ node("${SLAVE}"){
     }
 
     stage ('Sending status'){
-       ereport('SUCCESS')
+       ereport(currentBuild.currentResult)
     }
         
     }
     catch (all) {
     // If there was an exception thrown, the build failed
-    ereport('FAILED')
+    ereport(currentBuild.currentResult)
     }
 }
 
