@@ -1,5 +1,3 @@
-import hudson.FilePath
-import jenkins.model.Jenkins
 import jenkins.*
 import jenkins.model.*
 import hudson.*
