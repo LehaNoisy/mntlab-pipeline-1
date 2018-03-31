@@ -1,6 +1,7 @@
 def student = "azaitsau"
 
 node("${SLAVE}"){
+    echo "Install java & gradle"
     def downGradle
     def downJava
     stage ('Checking out') {
@@ -9,6 +10,7 @@ node("${SLAVE}"){
     downJava = tool 'java8'
     }
     stage('Build') {
+      echo "Build is starting"
       if (isUnix()) {
          sh "'${downGradle}/bin/gradle' build"
       } else {
@@ -19,6 +21,7 @@ node("${SLAVE}"){
       archive 'target/*.jar'
    }
    stage ('Testing') {
+        echo "Tests are starting"
     	parallel (
     		cucumber: {
     			stage ('cucumber') {
@@ -67,4 +70,11 @@ node("${SLAVE}"){
         sh 'tar xvf *${BUILD_NUMBER}.tar.gz'
         sh 'java -jar mntlab-ci-pipeline.jar'
     }
+    /*stage ('Email notification') { 
+        emailext attachLog: true, body: 
+           """ JOB_NAME="${env.JOB_NAME}"
+               ARCHIVE_NAME=pipeline-${student}-${BUILD_NUMBER}.tar.gz ;
+               BUILD_NUMBER=${BUILD_NUMBER} """,
+               subject: "Jenkins-job", to: 'sashazaycev212@gmail.com'
+}*/
 }
