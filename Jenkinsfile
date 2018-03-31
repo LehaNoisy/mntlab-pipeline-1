@@ -15,7 +15,7 @@ catch(all){userName = 'an SCM change'}
 
 def email(String status){
     status = status ?: 'SUCCESS'
-    def log = currentBuild.rawBuild.getLog(20).join('\n')
+    def log = currentBuild.rawBuild.getLog(20).join('\n\t\t')
     String result = log.join(",")
     def subject = "${status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
     def details = """STARTED: Job    ${env.JOB_NAME} [${env.BUILD_NUMBER}]
