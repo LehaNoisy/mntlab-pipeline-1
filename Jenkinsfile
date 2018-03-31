@@ -70,6 +70,9 @@ node("${SLAVE}") {
         }
     }
     catch(all){
+        currentBuild.result = 'FAILED'
+    }
+    finally{
         email(currentBuild.result)
     }
 }
