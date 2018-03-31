@@ -20,7 +20,7 @@ def SendEmail(status){
     def MailBody = """${Image} Project: ${env.JOB_NAME}
         Stage: ${StageName}
         URL: ${JobUrl}
-        Date: ${build.timestampString()}
+        Date: ${build.getTimestampString()}
         Duration: ${currentBuild.durationString}
         Runned on slave: ${env.SLAVE}
         Console output at: ${ConsoleOutputURL}
