@@ -1,30 +1,35 @@
 def notifyStarted() {
-    //emailext attachLog: true, body: 'Alarm', subject: '$env.BUILD_NUMBER'
-      emailext attachLog: true, body: 'STARTED: Job $JOB_NAME BUILD_NUMBER: $BUILD_NUMBER',
-               subject: 'STARTED: Job $JOB_NAME BUILD_NUMBER: $BUILD_NUMBER', to: 'ip.chernak@gmail.com'}
+    emailext attachLog: true, body: '$JOB_NAME $BUILD_NUMBER',
+               subject: '$JOB_NAME $BUILD_NUMBER', to: 'ip.chernak@gmail.com'}
 
-/*def notifySuccessful() {
-    //emailext attachLog: true, body: 'Alarm', subject: '$env.BUILD_NUMBER'
-      emailext (
-      subject: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-      body: """<p>SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-        <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
-      to: 'ip@chernak@gmail.com')}*/
+def notifySuccessful() {
+ /*   emailext attachLog: true, body: '$JOB_NAME $BUILD_NUMBER',
+               subject: '$JOB_NAME $BUILD_NUMBER', to: 'ip.chernak@gmail.com'}
 
-/*def notifyFailed() {
-    //emailext attachLog: true, body: 'Alarm', subject: '$env.BUILD_NUMBER'
-      emailext 
-      subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-      body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-        <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
-      to: 'ip@chernak@gmail.com'}*/
 
+def notifyFailed() {
+    //def log_20 = currentBuild.rawBuild.getLog(20).join('\n\t\t')*/
+    emailext attachLog: true, 
+             subject: "Failed Pipeline: ${JOB_NAME} ${BUILD_NUMBER}   ${currentBuild.fullDisplayName}", 
+             body: """Job ${JOB_NAME} build № ${BUILD_NUMBER} on ${stagename} is down.
+                  Something is wrong with ${env.BUILD_URL}"
+                  Last stage was "${nst}"
+                  See the job in address ${env.JOB_URL}
+             
+                  Last log: ${currentBuild.rawBuild.getLog(20).join('\n\t\t')}""",
+             to: 'ip.chernak@gmail.com'}
+
+stagename = ''
 
 node("${SLAVE}") {
 try { 
-    stage('Git Checkout'){checkout scm}
+    stage('Git Checkout'){checkout scm
+                         stagename = '$STAGE_NAME'//'Git Checkout'
+                          println (stagename)
+                         }
      
     stage ('Build') {
+        stagename = 'Build'
         notifyStarted()
         tool name: 'gradle4.6', type: 'gradle'
         tool name: 'java8', type: 'jdk'
@@ -38,35 +43,39 @@ try {
                 'Jacoco Tests': {sh 'gradle jacocoTestReport' },
                 'Cucumber Tests': {sh 'gradle cucumber' }, )}}
 
-    stage('Trigger job') {build job: 'MNTLAB-achernak-child1-build-job'
-//mail bcc: '', body: '', cc: '', from: '', replyTo: '', subject: '$BUILD_TAG', to: 'ip.chernak@gmail.com'}
+    stage('Trigger job') {stagename = 'Trigger job'
+        build job: 'MNTLAB-achernak-child1-build-job'
         sh 'rm -rf *.tar.gz'
         step([
             $class: 'CopyArtifact',
             filter: '*',
             projectName: 'MNTLAB-achernak-child1-build-job',])}
                         
-    stage ('Package artifact'){
+    stage ('Package artifact'){stagename = 'Package artifact'
         sh 'tar xvf *.tar.gz' 	
         sh 'tar -czf pipeline-achernak-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline.jar'
         archiveArtifacts 'pipeline-achernak-${BUILD_NUMBER}.tar.gz'}
    
     
-    stage ('Push to Nexus'){sh 'groovy push.groovy $BUILD_NUMBER'}
-         //timeout(time: 120, unit: 'SECONDS')
-    stage('Approval')
-        {input message: 'Pull and deploy?', ok: 'pull and deploy'}   
-    
-    stage ('Pull from Nexus'){sh 'groovy pull.groovy $BUILD_NUMBER'}
+    stage ('Push to Nexus'){
+        stagename = 'Push to Nexus'
+        sh 'groovy push.groovy $BUILD_NUMBER'}
         
-    stage ('Deploy'){
+    stage('Approval'){stagename = 'Approval'
+         timeout(time: 40, unit: 'SECONDS')
+         input message: 'Pull and deploy?', ok: 'pull and deploy'}   
+    
+    stage ('Pull from Nexus'){stagename = 'Pull from Nexus'
+                              sh 'groovy pull.groovy $BUILD_NUMBER'}
+        
+    stage ('Deploy'){stagename = 'v'
         sh 'tar xvf *${BUILD_NUMBER}.tar.gz'
         sh 'java -jar mntlab-ci-pipeline.jar'}
         
         notifySuccessful()
 
-}catch (e) {
-    currentBuild.result = "FAILED"
-    notifyFailed()
-    throw e
+}catch (all) {
+    //currentBuild.result = 'FAILED'
+  //  notifyFailed()
+    throw all
     }}
