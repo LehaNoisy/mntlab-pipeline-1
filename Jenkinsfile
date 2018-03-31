@@ -13,7 +13,8 @@ node("${SLAVE}"){
          git branch: "${STUDENT}", url: "${GIT_URL}" }
    }
    catch(exception){
-      emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" --- ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG"""
+      emailext attachLog: true, body:"""JOB_NAME="${env.JOB_NAME}" --- FAIL ON "Preparation" STAGE --- ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""",  subject: "Jenkins-job", to: "nikbuzin97@gmail.com"
+      throw any
    }
    
 """BUILDING CODE STAGE"""
@@ -27,7 +28,8 @@ node("${SLAVE}"){
             echo "Finishing Build"}} 
        }
    catch(exception){
-      emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" --- ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG"""
+      emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" --- FAIL On "Building code" STAGE --- ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""", subject: "Jenkins-job", to: "nikbuzin97@gmail.com"
+      throw any 
    }
      
 """TESTING STAGE"""      
@@ -42,7 +44,8 @@ node("${SLAVE}"){
          echo "Finishing Tests"}
    }
    catch(exception){
-      emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" --- ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG"""      
+      emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" --- FAIL ON "Testing" STAGE --- ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""", subject: "Jenkins-job", to: "nikbuzin97@gmail.com"      
+      throw any 
    }
     
 """TRIGGERING JOB STAGE"""      
@@ -54,7 +57,8 @@ node("${SLAVE}"){
                filter: "*.tar.gz"])}
    }
    catch(exception){
-      emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" --- ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""" 
+      emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" --- FAIL On "Triggering job and fetching artefact after finishing" STAGE --- ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""", subject: "Jenkins-job", to: "nikbuzin97@gmail.com" 
+      throw any 
    }
     
 """PACKAGING-PUBLISHING STAGE"""   
@@ -68,7 +72,8 @@ node("${SLAVE}"){
          sh "rm -rf *.jar"}
     }  
    catch(exception){
-      emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" --- ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""" 
+      emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" --- FAIL On "Packaging and Publishing results" STAGE --- ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""", subject: "Jenkins-job", to: "nikbuzin97@gmail.com" 
+      throw any  
    }
    
 """APPROVAL STAGE"""  
@@ -77,7 +82,8 @@ node("${SLAVE}"){
          input "Do you want to Deploy?"}
    }
    catch(exception){
-      emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" --- ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""" 
+      emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" --- FAIL ON "Asking for manual approval" STAGE --- ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""", subject: "Jenkins-job", to: "nikbuzin97@gmail.com" 
+      throw any  
    }   
     
 """DEPLOYMENT STAGE"""   
@@ -88,7 +94,8 @@ node("${SLAVE}"){
          sh "java -jar *.jar" }  
    }
    catch(exception){
-      emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" --- ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""" 
+      emailext attachLog: true, body:""" JOB_NAME="${env.JOB_NAME}" --- FAIL ON "Deployment" STAGE --- ADDITIONAL INFORMATION YOU CAN LOOK IN ATTACHED LOG""", subject: "Jenkins-job", to: "nikbuzin97@gmail.com" 
+      throw any
    }   
    
 }
