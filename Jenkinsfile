@@ -2,7 +2,7 @@ def notifySuccessful() {
    emailext subject: """Job ${currentBuild.fullDisplayName} SUCCESS""", to: 'ip.chernak@gmail.com'}
 def notifyFailed() {
    emailext subject: "Failed Pipeline: ${currentBuild.fullDisplayName}", 
-             body: """Job ${currentBuild.fullDisplayName} on ${stagename} stage is down.
+             body: """Job ${currentBuild.fullDisplayName} on ${env.STAGE_NAME} stage is down.
                 Something is wrong with ${env.BUILD_URL}"
                 Last log: ${currentBuild.rawBuild.getLog(20).join('\n\t\t')}""",
              to: 'ip.chernak@gmail.com'}
@@ -39,7 +39,7 @@ try {
     stage ('Push to Nexus'){stagename = 'Push to Nexus'
                             sh 'groovy push.groovy $BUILD_NUMBER'}
         
-    stage('Approval'){stagename = "${env.STAGE_NAME}"
+    stage('Approval'){stagename = 'Approval'
          timeout(time: 40, unit: 'SECONDS')
          input message: 'Pull and deploy?', ok: 'pull and deploy'}   
     
