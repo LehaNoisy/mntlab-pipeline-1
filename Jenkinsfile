@@ -72,7 +72,7 @@ def sendStatus(e) {
 	tool name: 'gradle4.6', type: 'gradle'
 	tool name: 'java8', type: 'jdk'
 	withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin", "PATH+GROOVY_HOME=${ tool 'groovy4'}/bin"]){
-		sh "groovy email.groovy failed ${job_name} ${BUILD_NUMBER} ${SLAVE} ${e}"
+		sh "groovy email.groovy email failed ${job_name} ${BUILD_NUMBER} ${SLAVE} ${e}"
 	}
 }
 
@@ -80,7 +80,7 @@ def sendReport(job_name) {
 	tool name: 'gradle4.6', type: 'gradle'
 	tool name: 'java8', type: 'jdk'
 	withEnv(["JAVA_HOME=${ tool 'java8' }", "PATH+GRADLE=${tool 'gradle4.6'}/bin", "PATH+GROOVY_HOME=${ tool 'groovy4'}/bin"]){
-		sh "groovy email.groovy success ${job_name} ${BUILD_NUMBER} ${SLAVE} NONE"
+		sh "groovy email.groovy email success ${job_name} ${BUILD_NUMBER} ${SLAVE} NONE"
 	}	
 }
 
