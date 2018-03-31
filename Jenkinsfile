@@ -41,15 +41,19 @@ node("${SLAVE}"){
        sh "tar -xvf *.tar.gz"
        sh "cp build/libs/mntlab-ci-pipeline.jar ."
        sh "tar -czf pipeline-${STUDENT}-${BUILD_NUMBER}.tar.gz mntlab-ci-pipeline.jar jobs.groovy Jenkinsfile"
-       sh "groovy push.groovy $BUILD_NUMBER"
+       sh "groovy push.groovy ${BUILD_NUMBER}"
+       sh "rm -rf *.tar.gz"
+       sh "rm -rf *.jar"
     }  
    
     stage("Asking for manual approval") {
       input "Do you want to Deploy?"
     }   
     
-    //stage("Deployment") {
-      // sh "groovy pull.groovy $BUILD_NUMBER"
-       
-    //} 
+    stage("Deployment") {
+       sh "groovy pull.groovy ${BUILD_NUMBER}"
+       sh "tar -xvf *.tar.gz"
+       sh "java -jar *.jar"   
+    } 
+   
 }
