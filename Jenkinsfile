@@ -37,7 +37,7 @@ tests["Jacoco Tests"] = {
 }
 tests["Cucumber Tests"] = {
     echo "Start Cucumber Test"
-    sh 'er!gradle cucumber'
+    sh 'gradle cucumber'
     echo "Cucumber Test: Done"
 }
 
@@ -52,7 +52,7 @@ node("${SLAVE}") {
             //git branch: 'ayarmalovich', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
             //echo "Branch Clone : Done"
             echo "Checkout scm"
-            checkout scm
+            checkout scm1
             stageresults.add('SUCCESS')
         }
         stage('Building code') {
