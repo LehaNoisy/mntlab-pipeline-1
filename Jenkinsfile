@@ -102,7 +102,7 @@ node ("${SLAVE}"){
             archiveArtifacts 'pipeline-hkavaliova-$BUILD_NUMBER.tar.gz'
 	    sh 'groovy -version'
 	    sh 'pwd'
-	    NexusPush()
+	    //NexusPush()
         }
     }
     catch (all){
