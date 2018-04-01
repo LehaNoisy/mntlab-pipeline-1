@@ -2,8 +2,8 @@ def NexusPull() {
     tool name: 'gradle4.6', type: 'gradle'
     tool name: 'java8', type: 'jdk'
     withEnv(["JAVA_HOME=${tool 'java8'}", "PATH+GRADLE=${tool 'gradle4.6'}/bin", "PATH+GROOVY_HOME=${tool 'groovy4'}/bin"])
-        //{sh 'groovy pullme.groovy $BUILD_NUMBER'}
-	${GROOVY,pullme.groovy = "return hudson.model.Hudson.instance.pluginManager.plugins"}
+        {sh './pullme.groovy $BUILD_NUMBER'}
+	//${GROOVY,pullme.groovy = "return hudson.model.Hudson.instance.pluginManager.plugins"}
     }
 def NexusPush() {
     tool name: 'gradle4.6', type: 'gradle'
