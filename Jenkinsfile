@@ -48,17 +48,15 @@ node("${SLAVE}") {
         tool name: 'java8', type: 'jdk'
         stage('Preparation (Checking out)') {
             cleanWs()
-            namestage = "Preparation (Checking out)"
             //echo " Try git branch clone"
             //git branch: 'ayarmalovich', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
             //echo "Branch Clone : Done"
             echo "Checkout scm"
-            checkout scm123
+            checkout scm
             stageresults.add('SUCCESS')
         }
         stage('Building code') {
             echo "Start Build"
-            namestage = "Testing code"
             withEnv(["JAVA_HOME=${tool 'java8'}", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]) {
                 sh "gradle build"
             }
@@ -67,7 +65,6 @@ node("${SLAVE}") {
         }
         stage('Testing code') {
             echo "Start Tests"
-            namestage = "Testing code"
             withEnv(["JAVA_HOME=${tool 'java8'}", "PATH+GRADLE=${tool 'gradle4.6'}/bin"]) {
                 parallel(tests)
             }
@@ -76,7 +73,6 @@ node("${SLAVE}") {
         }
         stage('Triggering job and fetching artefact after finishing') {
             echo "Start Triggering job"
-            namestage = "Triggering job and fetching artefact after finishing"
             echo "Find ${NameJob(job_pattern)} and Trigger it"
             build job: "${NameJob(job_pattern)}"
             step([
@@ -89,7 +85,6 @@ node("${SLAVE}") {
         }
         stage('Packaging and Publishing results') {
             echo "Start Packaging and Publishing"
-            namestage = "Packaging and Publishing results"
             sh 'tar -xvf *.tar.gz'
             sh 'tar -czf pipeline-ayarmalovich-${BUILD_NUMBER}.tar.gz jobs.groovy Jenkinsfile -C build/libs/ ${JOB_BASE_NAME}.jar'
             archiveArtifacts 'pipeline-ayarmalovich-${BUILD_NUMBER}.tar.gz'
@@ -103,7 +98,6 @@ node("${SLAVE}") {
         }
         stage('Deployment') {
             echo "Start Deployment"
-            namestage = "Deployment"
             sh 'groovy actions.groovy pull pipeline-ayarmalovich-${BUILD_NUMBER}.tar.gz'
             sh 'tar -xvf *tar.gz'
             sh 'java -jar ${JOB_BASE_NAME}.jar'
