@@ -11,19 +11,23 @@ println NEXUS_URL
 
 if (args[0] == 'pull'){
     new File("pulled-${version}.tar.gz").withOutputStream { out ->
-        def url = new URL(NEXUS_URL.toString()).openConnection()
-        url.setRequestProperty("Authorization", "Basic ${authString}")
-        out << url.inputStream
+        def connection = new URL(NEXUS_URL.toString()).openConnection()
+        connection.setRequestProperty("Authorization", "Basic ${authString}")
+        out << connection.inputStream
     }
 }
 else if (args[0] == 'push'){
-    def url = new URL(NEXUS_URL).openConnection()
-    url.doOutput = true
-    url.setRequestMethod("PUT")
-    url.setRequestProperty("Authorization", "Basic ${authString}")
-    url.setRequestProperty("Content-Type", "application/x-gzip")
-    def out = new DataOutputStream(url.outputStream)
-    out.write(new File ("${fileName}").getBytes())
-    out.close()
-    println url.responseCode
+    def connection = new URL(NEXUS_URL).openConnection()
+    connection.doOutput = true
+    connection.setRequestMethod("PUT")
+    connection.setRequestProperty("Authorization", "Basic ${authString}")
+    connection.setRequestProperty("Content-Type", "application/x-gzip")
+    def UploadFile = new DataOutputStream(connection.outputStream)
+    UploadFile.write(new File ("${fileName}").getBytes())
+    UploadFile.close()
+    if(connection.responseCode == 200) {
+        println "SUCCESS"
+    } else{
+        println "Upload failed. Response code ${connection.responseCode}"
+    }
 }
