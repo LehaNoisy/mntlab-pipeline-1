@@ -40,8 +40,9 @@ tests["Cucumber Tests"] = {
     sh 'gradle cucumber'
     echo "Cucumber Test: Done"
 }
-try {
-    node("${SLAVE}") {
+
+node("${SLAVE}") {
+        try {
         echo "Hello MNT-Lab"
         tool name: 'gradle4.6', type: 'gradle'
         tool name: 'java8', type: 'jdk'
