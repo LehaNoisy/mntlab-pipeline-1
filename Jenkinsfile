@@ -114,7 +114,6 @@ node("${SLAVE}") {
     catch (all) {
         stageresults.add('FAILURE')
         emailfailure(stageresults, namestage)
-        throw any
     }
     emailext(
             to: 'vospitanarbyzami@gmail.com',
