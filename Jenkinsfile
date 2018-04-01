@@ -14,7 +14,8 @@ def emailfailure (namestage, type){
             subject: "Jenkins Task11 - ${JOB_BASE_NAME}",
             body: """${currentBuild.fullDisplayName} 
 Date fail - ${datefail}
-Stage Name: ${namestage.join(" --- ${type} \n")} --- ${type} \n
+Stages  Name  -------------   Type  
+${namestage.join(" --- ${type} \n")} --- ${type} \n
 Log: ${Log_of_node}"""
     )
 }
@@ -123,7 +124,8 @@ We pulled the artifact from nexus!
 And deployed it!
 We deployed ${JOB_BASE_NAME}.jar
 Date of deploy ${date}
-Stage Name: ${namestage.join(" --- ${type} \n")} --- ${type} \n
+Stages  Name  -------------   Type
+${namestage.join(" --- ${type} \n")} --- ${type} \n
 Log: ${currentBuild.rawBuild.getLog(20).join('\n')}"""
     )
 }
