@@ -7,11 +7,13 @@ def namestage = []
 def type = "SUCCESS"
 def emailfailure (namestage, type){
     def Log_of_node = currentBuild.rawBuild.getLog(20).join('\n')
+    Date datefail = new Date()
     emailext(
             to: 'vospitanarbyzami@gmail.com',
             attachLog: true,
             subject: "Jenkins Task11 - ${JOB_BASE_NAME}",
             body: """${currentBuild.fullDisplayName} 
+Date fail - ${datefail}
 Stage Name: ${namestage.join(" --- ${type} \n")} --- ${type} \n
 Log: ${Log_of_node}"""
     )
@@ -103,6 +105,7 @@ node("${SLAVE}") {
             sh 'tar -xvf *tar.gz'
             sh 'java -jar ${JOB_BASE_NAME}.jar'
             echo "Deployment: Done"
+            Date date = new Date()
         }
     }
     catch (all) {
@@ -119,6 +122,7 @@ BUILD_NUMBER: ${BUILD_NUMBER}
 We pulled the artifact from nexus!
 And deployed it!
 We deployed ${JOB_BASE_NAME}.jar
+Date of deploy ${date}
 Stage Name: ${namestage.join(" --- ${type} \n")} --- ${type} \n
 Log: ${currentBuild.rawBuild.getLog(20).join('\n')}"""
     )
