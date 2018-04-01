@@ -11,7 +11,7 @@ def take = new URL("${NEXUS_URL}/repository/${REPO_NAME}/${GROUP}/${ARTIFACT}/${
 take.setRequestMethod("PUT")
 take.doOutput = true
 take.setRequestProperty("Authorization" , "Basic ${AuthEncoded}")
-def upload = new DataOutputStream(connection.outputStream)
+def upload = new DataOutputStream(take.outputStream)
 upload.write (art)
 upload.close()
 println take.responseCode
