@@ -4,7 +4,7 @@ import hudson.*
 import hudson.model.*
 
 def namestage = []
-def type = "FAILURE"
+def type = "SUCCESS"
 def emailfailure (namestage, type){
     def Log_of_node = currentBuild.rawBuild.getLog(20).join('\n')
     emailext(
@@ -106,7 +106,8 @@ node("${SLAVE}") {
         }
     }
     catch (all) {
-        emailfailure(namestage)
+        type = "FAILURE"
+        emailfailure(namestage,type)
         throw any
     }
 }
