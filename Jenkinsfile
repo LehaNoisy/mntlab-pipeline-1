@@ -106,5 +106,6 @@ node("${SLAVE}") {
     }
     catch (all) {
         emailfailure(namestage)
+        throw any
     }
 }
