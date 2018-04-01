@@ -1,18 +1,18 @@
-def NexusPull() {
+/*def NexusPull() {
     tool name: 'gradle4.6', type: 'gradle'
     tool name: 'java8', type: 'jdk'
     tool name: 'groovy4', type: 'hudson.plugins.groovy.GroovyInstallation'
     withEnv(["JAVA_HOME=${tool 'java8'}", "PATH+GRADLE=${tool 'gradle4.6'}/bin", "PATH+GROOVY_HOME=${tool 'groovy4'}/bin"])
         {sh 'groovy pullme.groovy $BUILD_NUMBER'}
     }
-def NexusPush() {
+  def NexusPush() {
     tool name: 'gradle4.6', type: 'gradle'
     tool name: 'java8', type: 'jdk'
     tool name: 'groovy4', type: 'hudson.plugins.groovy.GroovyInstallation'
     withEnv(["JAVA_HOME=${tool 'java8'}", "PATH+GRADLE=${tool 'gradle4.6'}/bin", "PATH+GROOVY_HOME=${tool 'groovy4'}/bin"])
 	{sh 'groovy pushme.groovy $BUILD_NUMBER'}
 	//${GROOVY,pullme.groovy = "return hudson.model.Hudson.instance.pluginManager.plugins"}
-    }
+    }*/
 def EmailOut(stage_name){
     emailext attachLog: true, 
     body: "Job failed at ${stage_name} stage, see attached log for more info", 
@@ -97,17 +97,15 @@ node ("${SLAVE}"){
         stage ('Repackage for Nexus'){
         
             //sh "tar -xvzf archive-${BUILD_TAG}.tar.gz -C /opt/jenkins/master/artefacts/ "
-            // sh 'rm -rf *.tar.gz'
+            //sh 'rm -rf *.tar.gz'
             copyArtifacts filter: '*tar.gz', projectName: 'MNTLAB-hkavaliova-child1-build-job'
             //target: '${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_NUMBER}'
             sh 'tar -xzvf *.tar.gz'
             sh 'tar -czvf pipeline-hkavaliova-$BUILD_NUMBER.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline.jar'
             archiveArtifacts 'pipeline-hkavaliova-$BUILD_NUMBER.tar.gz'
 	    //sh 'groovy -version'
-	    sh 'pwd'
-	    NexusPush()
-	    sh 'pwd'
-        }
+	    sh 'groovy pushme.groovy $BUILD_NUMBER'
+	}
     }
     catch (all){
         EmailOut('Repackage for Nexus')
