@@ -102,8 +102,9 @@ node ("${SLAVE}"){
             sh 'tar -czvf pipeline-hkavaliova-$BUILD_NUMBER.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline.jar'
             archiveArtifacts 'pipeline-hkavaliova-$BUILD_NUMBER.tar.gz'
 	    //sh 'groovy -version'
-	    //sh 'pwd'
+	    sh 'pwd'
 	    NexusPush()
+	    sh 'pwd'
         }
     }
     catch (all){
