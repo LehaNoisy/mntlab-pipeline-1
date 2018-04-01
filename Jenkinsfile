@@ -41,7 +41,7 @@ tests["Jacoco Tests"] = {
 }
 tests["Cucumber Tests"] = {
     echo "Start Cucumber Test"
-    sh '1gradle cucumber'
+    sh 'gradle cucumber'
     echo "Cucumber Test: Done"
 }
 
