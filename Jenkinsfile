@@ -53,7 +53,7 @@ node("${SLAVE}") {
             //git branch: 'ayarmalovich', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
             //echo "Branch Clone : Done"
             echo "Checkout scm"
-            checkout scm
+            checkout scm123
             stageresults.add('SUCCESS')
         }
         stage('Building code') {
