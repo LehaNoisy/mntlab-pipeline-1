@@ -110,8 +110,7 @@ node("${SLAVE}") {
         emailfailure(namestage,type)
         throw any
     }
-        }
-    emailext(
+        emailext(
             to: 'vospitanarbyzami@gmail.com',
             subject: "Jenkins Task11 - ${JOB_BASE_NAME}",
             body: """WELL DONE, COMRADES!
