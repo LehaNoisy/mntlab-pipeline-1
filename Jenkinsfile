@@ -100,7 +100,7 @@ node ("${SLAVE}"){
             sh 'tar -xzvf *.tar.gz'
             sh 'tar -czvf pipeline-hkavaliova-$BUILD_NUMBER.tar.gz jobs.groovy Jenkinsfile -C build/libs/ mntlab-ci-pipeline.jar'
             archiveArtifacts 'pipeline-hkavaliova-$BUILD_NUMBER.tar.gz'
-	    sh 'groovy -version'
+	    //sh 'groovy -version'
 	    sh 'pwd'
 	    //NexusPush()
         }
