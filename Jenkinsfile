@@ -126,7 +126,7 @@ node ("${SLAVE}"){
     try {
         stage('Download Artifact'){
         
-            sh "groovy pull.groovy ${BUILD_NUMBER}"
+            sh "groovy pullme.groovy ${BUILD_NUMBER}"
             //curl -X GET -u ako:ako "http://EPBYMINW7423.minsk.epam.com:8081/repository/AKO-maven2-hosted-repo/PipelineGroup/AKOart-pipeline/37/AKOart-pipeline-37.tar.gz"
             //sh "curl -v --user 'ako:ako' --upload-file ./pipeline-hkavaliova-$BUILD_NUMBER.tar.gz http://EPBYMINW7423.minsk.epam.com:8081/repository/AKO-maven2-hosted-repo/PipelineGroup/AKOart-pipeline/$BUILD_NUMBER/AKOart-pipeline-$BUILD_NUMBER.tar.gz"
         }
