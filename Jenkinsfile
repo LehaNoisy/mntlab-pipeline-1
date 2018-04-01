@@ -120,6 +120,6 @@ We pulled the artifact from nexus!
 And deployed it!
 We deployed ${JOB_BASE_NAME}.jar
 Stage Name: ${namestage.join(" --- ${type} \n")} --- ${type} \n
-Log: ${Log_of_node}"""
+Log: ${currentBuild.rawBuild.getLog(20).join('\n')}"""
     )
 }
