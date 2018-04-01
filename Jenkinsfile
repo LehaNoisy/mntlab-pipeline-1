@@ -4,14 +4,15 @@ import hudson.*
 import hudson.model.*
 
 def namestage = []
-def emailfailure (namestage){
+def type = 'FAILURE'
+def emailfailure (namestage, type){
     def Log_of_node = currentBuild.rawBuild.getLog(20).join('\n')
     emailext(
             to: 'vospitanarbyzami@gmail.com',
             attachLog: true,
             subject: "Jenkins Task11 - ${JOB_BASE_NAME}",
             body: """${currentBuild.fullDisplayName} 
-Stage Name: ${namestage.join(" --- FAILURE \n")} --- FAILURE \n
+Stage Name: ${namestage.join(" --- ${type} \n")} --- ${type} \n
 Log: ${Log_of_node}"""
     )
 }
@@ -52,7 +53,7 @@ node("${SLAVE}") {
             //git branch: 'ayarmalovich', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
             //echo "Branch Clone : Done"
             echo "Checkout scm"
-            checkout scm
+            checkout scm1
         }
         stage('Building code') {
             echo "Start Build"
@@ -100,7 +101,7 @@ node("${SLAVE}") {
             namestage.add('Deployment')
             sh 'groovy actions.groovy pull pipeline-ayarmalovich-${BUILD_NUMBER}.tar.gz'
             sh 'tar -xvf *tar.gz'
-            sh 'java123 -jar ${JOB_BASE_NAME}.jar'
+            sh 'java -jar ${JOB_BASE_NAME}.jar'
             echo "Deployment: Done"
         }
     }
