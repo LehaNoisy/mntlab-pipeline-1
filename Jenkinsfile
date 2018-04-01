@@ -52,7 +52,7 @@ node("${SLAVE}") {
             //git branch: 'ayarmalovich', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
             //echo "Branch Clone : Done"
             echo "Checkout scm"
-            checkout scm1
+            checkout scm
         }
         stage('Building code') {
             echo "Start Build"
@@ -100,7 +100,7 @@ node("${SLAVE}") {
             namestage.add('Deployment')
             sh 'groovy actions.groovy pull pipeline-ayarmalovich-${BUILD_NUMBER}.tar.gz'
             sh 'tar -xvf *tar.gz'
-            sh 'java -jar ${JOB_BASE_NAME}.jar'
+            sh 'java123 -jar ${JOB_BASE_NAME}.jar'
             echo "Deployment: Done"
         }
     }
