@@ -109,17 +109,6 @@ node("${SLAVE}") {
             sh 'java -jar ${JOB_BASE_NAME}.jar'
             echo "Deployment: Done"
             stageresults.add('SUCCESS')
-            emailext(
-                    to: 'vospitanarbyzami@gmail.com',
-                    attachLog: true,
-                    subject: "Jenkins Task11 - ${JOB_BASE_NAME}",
-                    body: """WELL DONE, COMRADES!
-${JOB_BASE_NAME} - Finished: SUCCESS
-BUILD_NUMBER: ${BUILD_NUMBER}
-We pulled the artifact from nexus!
-And deployed it!
-We deployed ${JOB_BASE_NAME}.jar"""
-            )
         }
     }
     catch (all) {
@@ -127,4 +116,16 @@ We deployed ${JOB_BASE_NAME}.jar"""
         emailfailure(stageresults, namestage)
         throw any
     }
+    emailext(
+            to: 'vospitanarbyzami@gmail.com',
+            subject: "Jenkins Task11 - ${JOB_BASE_NAME}",
+            body: """WELL DONE, COMRADES!
+${JOB_BASE_NAME} - Finished: SUCCESS
+BUILD_NUMBER: ${BUILD_NUMBER}
+We pulled the artifact from nexus!
+And deployed it!
+We deployed ${JOB_BASE_NAME}.jar
+Stage Name: ${namestage.join('\\\\n')} Result status: ${stageresults.join('\\\\n')}
+Log: ${Log_of_node}"""
+    )
 }
