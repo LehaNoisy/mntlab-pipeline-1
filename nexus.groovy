@@ -25,9 +25,10 @@ else if (args[0] == 'push'){
     def UploadFile = new DataOutputStream(connection.outputStream)
     UploadFile.write(new File ("${fileName}").getBytes())
     UploadFile.close()
-    if(connection.responseCode == 200) {
+    if(connection.responseCode / 100 = 2) {
         println "SUCCESS"
     } else{
         println "Upload failed. Response code ${connection.responseCode}"
+        System.exit(1)
     }
 }
