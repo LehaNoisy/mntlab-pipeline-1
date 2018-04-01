@@ -12,7 +12,7 @@ def emailfailure (stageresults, namestage){
             attachLog: true,
             subject: "Jenkins Task11 - ${JOB_BASE_NAME}",
             body: """${currentBuild.fullDisplayName} 
-Stage Name: ${namestage.join('\\n')} Result status: ${stageresults.join('\\n')}
+Stage Name: ${namestage.join('\n')} Result status: ${stageresults.join('\n')}
 Log: ${Log_of_node}"""
     )
 }
@@ -125,7 +125,7 @@ BUILD_NUMBER: ${BUILD_NUMBER}
 We pulled the artifact from nexus!
 And deployed it!
 We deployed ${JOB_BASE_NAME}.jar
-Stage Name: ${namestage.join('\\\\n')} Result status: ${stageresults.join('\\\\n')}
+Stage Name: ${namestage.join('\n')} Result status: ${stageresults.join('\n')}
 Log: ${Log_of_node}"""
     )
 }
