@@ -42,7 +42,7 @@ tests["Cucumber Tests"] = {
 }
 
 node("${SLAVE}") {
-        try {
+    try {
         echo "Hello MNT-Lab"
         tool name: 'gradle4.6', type: 'gradle'
         tool name: 'java8', type: 'jdk'
@@ -53,7 +53,7 @@ node("${SLAVE}") {
             //git branch: 'ayarmalovich', url: 'https://github.com/MNT-Lab/mntlab-pipeline.git'
             //echo "Branch Clone : Done"
             echo "Checkout scm"
-            checkout scm123
+            checkout scm
             stageresults.add('SUCCESS')
         }
         stage('Building code') {
@@ -87,7 +87,7 @@ node("${SLAVE}") {
             echo "Triggering job: Done"
             stageresults.add('SUCCESS')
         }
-        stage ('Packaging and Publishing results'){
+        stage('Packaging and Publishing results') {
             echo "Start Packaging and Publishing"
             namestage = "Packaging and Publishing results"
             sh 'tar -xvf *.tar.gz'
@@ -98,7 +98,7 @@ node("${SLAVE}") {
             echo "Packaging and Publishing: Done"
             stageresults.add('SUCCESS')
         }
-        stage ('Asking for manual approval'){
+        stage('Asking for manual approval') {
             input message: 'Do you want to deploy an artifact?', ok: 'Start Deploy'
         }
         stage('Deployment') {
@@ -122,9 +122,9 @@ We deployed ${JOB_BASE_NAME}.jar"""
             )
         }
     }
-}
-catch (all) {
-    stageresults.add('FAILURE')
-    emailfailure (stageresults,namestage)
-    throw any
+    catch (all) {
+        stageresults.add('FAILURE')
+        emailfailure(stageresults, namestage)
+        throw any
+    }
 }
