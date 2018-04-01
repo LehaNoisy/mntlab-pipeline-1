@@ -1,5 +1,5 @@
 def BUILD_NUMBER = args[0]
-def AuthEncoded = "YWtvOmFrbw=="
+def AuthEncoded = "YWRtaW46YWRtaW5hZG1pbg=="
 def NEXUS_URL = 'http://EPBYMINW7423.minsk.epam.com:8081'
 def REPO_NAME = 'AKO-maven2-hosted-repo'
 def GROUP = 'PipeGroup'
