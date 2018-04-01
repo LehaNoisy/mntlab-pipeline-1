@@ -3,17 +3,18 @@ import jenkins.model.*
 import hudson.*
 import hudson.model.*
 
-def namestage = ""
-def emailfailure (status, namestage){
-    if(status=="FAILURE") {
-        emailext(
-                to: 'vospitanarbyzami@gmail.com',
-                attachLog: true,
-                subject: "Jenkins Task11 - ${JOB_BASE_NAME}",
-                body: """${currentBuild.fullDisplayName} 
-Stage Name - ${namestage} Result status - ${status}"""
-        )
-    }
+def namestage = ['Preparation (Checking out)','Building code','Testing code','Triggering job and fetching artefact after finishing','Packaging and Publishing results','Deployment']
+def stageresults = []
+def Log_of_node = currentBuild.rawBuild.getLog(20).join('\n')
+def emailfailure (stageresults, namestage){
+    emailext(
+            to: 'vospitanarbyzami@gmail.com',
+            attachLog: true,
+            subject: "Jenkins Task11 - ${JOB_BASE_NAME}",
+            body: """${currentBuild.fullDisplayName} 
+Stage Name: ${namestage.join('\\n')} Result status: ${stageresults.join('\\n')}
+Log: ${Log_of_node}"""
+    )
 }
 
 def job_pattern = /EPBYMINW2473.*child*/
@@ -39,12 +40,11 @@ tests["Cucumber Tests"] = {
     sh 'gradle cucumber'
     echo "Cucumber Test: Done"
 }
-
-node("${SLAVE}") {
-    echo "Hello MNT-Lab"
-    tool name: 'gradle4.6', type: 'gradle'
-    tool name: 'java8', type: 'jdk'
-    try {
+try {
+    node("${SLAVE}") {
+        echo "Hello MNT-Lab"
+        tool name: 'gradle4.6', type: 'gradle'
+        tool name: 'java8', type: 'jdk'
         stage('Preparation (Checking out)') {
             cleanWs()
             namestage = "Preparation (Checking out)"
@@ -53,15 +53,8 @@ node("${SLAVE}") {
             //echo "Branch Clone : Done"
             echo "Checkout scm"
             checkout scm
+            stageresults.add('SUCCESS')
         }
-        currentBuild.result = "SUCCESS"
-    }
-    catch (all) {
-        currentBuild.result = "FAILURE"
-        emailfailure (currentBuild.result, namestage)
-        throw any
-    }
-    try {
         stage('Building code') {
             echo "Start Build"
             namestage = "Testing code"
@@ -69,15 +62,8 @@ node("${SLAVE}") {
                 sh "gradle build"
             }
             echo "Build: Done"
+            stageresults.add('SUCCESS')
         }
-        currentBuild.result = "SUCCESS"
-    }
-    catch (all) {
-        currentBuild.result = "FAILURE"
-        emailfailure (currentBuild.result, namestage)
-        throw any
-    }
-    try {
         stage('Testing code') {
             echo "Start Tests"
             namestage = "Testing code"
@@ -85,15 +71,8 @@ node("${SLAVE}") {
                 parallel(tests)
             }
             echo "Tests: Done"
+            stageresults.add('SUCCESS')
         }
-        currentBuild.result = "SUCCESS"
-    }
-    catch (all) {
-        currentBuild.result = "FAILURE"
-        emailfailure (currentBuild.result, namestage)
-        throw any
-    }
-    try {
         stage('Triggering job and fetching artefact after finishing') {
             echo "Start Triggering job"
             namestage = "Triggering job and fetching artefact after finishing"
@@ -105,15 +84,8 @@ node("${SLAVE}") {
                     projectName: "${NameJob(job_pattern)}"
             ])
             echo "Triggering job: Done"
+            stageresults.add('SUCCESS')
         }
-        currentBuild.result = "SUCCESS"
-    }
-    catch (all) {
-        currentBuild.result = "FAILURE"
-        emailfailure (currentBuild.result, namestage)
-        throw any
-    }
-    try {
         stage ('Packaging and Publishing results'){
             echo "Start Packaging and Publishing"
             namestage = "Packaging and Publishing results"
@@ -123,18 +95,11 @@ node("${SLAVE}") {
             sh 'groovy actions.groovy push pipeline-ayarmalovich-${BUILD_NUMBER}.tar.gz'
             sh 'rm -rf *tar.gz'
             echo "Packaging and Publishing: Done"
+            stageresults.add('SUCCESS')
         }
-        currentBuild.result = "SUCCESS"
-    }
-    catch (all) {
-        currentBuild.result = "FAILURE"
-        emailfailure (currentBuild.result, namestage)
-        throw any
-    }
-    stage ('Asking for manual approval'){
-        input message: 'Do you want to deploy an artifact?', ok: 'Start Deploy'
-    }
-    try {
+        stage ('Asking for manual approval'){
+            input message: 'Do you want to deploy an artifact?', ok: 'Start Deploy'
+        }
         stage('Deployment') {
             echo "Start Deployment"
             namestage = "Deployment"
@@ -142,6 +107,7 @@ node("${SLAVE}") {
             sh 'tar -xvf *tar.gz'
             sh 'java -jar ${JOB_BASE_NAME}.jar'
             echo "Deployment: Done"
+            stageresults.add('SUCCESS')
             emailext(
                     to: 'vospitanarbyzami@gmail.com',
                     attachLog: true,
@@ -154,11 +120,10 @@ And deployed it!
 We deployed ${JOB_BASE_NAME}.jar"""
             )
         }
-        currentBuild.result = "SUCCESS"
     }
-    catch (all) {
-        currentBuild.result = "FAILURE"
-        emailfailure (currentBuild.result, namestage)
-        throw any
-    }
+}
+catch (all) {
+    stageresults.add('FAILURE')
+    emailfailure (stageresults,namestage)
+    throw any
 }
