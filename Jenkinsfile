@@ -53,7 +53,6 @@ node("${SLAVE}") {
             //echo "Branch Clone : Done"
             echo "Checkout scm"
             checkout scm1
-            stageresults.add('SUCCESS')
         }
         stage('Building code') {
             echo "Start Build"
@@ -62,7 +61,6 @@ node("${SLAVE}") {
                 sh "gradle build"
             }
             echo "Build: Done"
-            stageresults.add('SUCCESS')
         }
         stage('Testing code') {
             echo "Start Tests"
@@ -71,7 +69,6 @@ node("${SLAVE}") {
                 parallel(tests)
             }
             echo "Tests: Done"
-            stageresults.add('SUCCESS')
         }
         stage('Triggering job and fetching artefact after finishing') {
             echo "Start Triggering job"
@@ -84,7 +81,6 @@ node("${SLAVE}") {
                     projectName: "${NameJob(job_pattern)}"
             ])
             echo "Triggering job: Done"
-            stageresults.add('SUCCESS')
         }
         stage('Packaging and Publishing results') {
             echo "Start Packaging and Publishing"
@@ -95,7 +91,6 @@ node("${SLAVE}") {
             sh 'groovy actions.groovy push pipeline-ayarmalovich-${BUILD_NUMBER}.tar.gz'
             sh 'rm -rf *tar.gz'
             echo "Packaging and Publishing: Done"
-            stageresults.add('SUCCESS')
         }
         stage('Asking for manual approval') {
             input message: 'Do you want to deploy an artifact?', ok: 'Start Deploy'
@@ -107,7 +102,6 @@ node("${SLAVE}") {
             sh 'tar -xvf *tar.gz'
             sh 'java -jar ${JOB_BASE_NAME}.jar'
             echo "Deployment: Done"
-            stageresults.add('SUCCESS')
         }
     }
     catch (all) {
