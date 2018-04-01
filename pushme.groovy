@@ -13,6 +13,6 @@ take.setRequestMethod("PUT")
 take.doOutput = true
 take.setRequestProperty("Authorization" , "Basic ${AuthEncoded}")
 def upload = new DataOutputStream(take.outputStream)
-upload.write (File)
+upload.write (art)
 upload.close()
 println take.responseCode
