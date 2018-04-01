@@ -5,8 +5,8 @@ import hudson.model.*
 
 def namestage = ['Preparation (Checking out)','Building code','Testing code','Triggering job and fetching artefact after finishing','Packaging and Publishing results','Deployment']
 def stageresults = []
-def Log_of_node = currentBuild.rawBuild.getLog(20).join('\n')
 def emailfailure (stageresults, namestage){
+    def Log_of_node = currentBuild.rawBuild.getLog(20).join('\n')
     emailext(
             to: 'vospitanarbyzami@gmail.com',
             attachLog: true,
