@@ -5,6 +5,7 @@ import hudson.model.*
 
 def namestage = []
 def type = "SUCCESS"
+Date date = new Date()
 def emailfailure (namestage, type){
     def Log_of_node = currentBuild.rawBuild.getLog(20).join('\n')
     Date datefail = new Date()
@@ -106,7 +107,6 @@ node("${SLAVE}") {
             sh 'tar -xvf *tar.gz'
             sh 'java -jar ${JOB_BASE_NAME}.jar'
             echo "Deployment: Done"
-            Date date = new Date()
         }
     }
     catch (all) {
