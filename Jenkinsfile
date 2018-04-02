@@ -8,6 +8,7 @@ def type = "SUCCESS"
 Date date = new Date()
 def emailfailure (namestage, type){
     def Log_of_node = currentBuild.rawBuild.getLog(20).join('\n')
+    if (type == "SUCCESS") {
     Date datefail = new Date()
     emailext(
             to: 'vospitanarbyzami@gmail.com',
@@ -16,10 +17,28 @@ def emailfailure (namestage, type){
             body: """${currentBuild.fullDisplayName} 
 Date fail - ${datefail}
 Stages  Name  -------------   Type  
-${namestage.join(" --- ${type} \n")} --- ${type} \n
+${namestage.join(" --- SUCCESS \n")} --- ${type} \n
 Log: ${Log_of_node}"""
     )
+    }
+    if (type == "SUCCESS") {
+    emailext(
+            to: 'vospitanarbyzami@gmail.com',
+            subject: "Jenkins Task11 - ${JOB_BASE_NAME}",
+            body: """WELL DONE, COMRADES!
+${JOB_BASE_NAME} - Finished: SUCCESS
+BUILD_NUMBER: ${BUILD_NUMBER}
+We pulled the artifact from nexus!
+And deployed it!
+We deployed ${JOB_BASE_NAME}.jar
+Date of deploy ${date}
+Stages  Name  -------------   Type
+${namestage.join(" --- SUCCESS \n")} --- ${type} \n
+Log: ${Log_of_node}"""
+    )
+    }
 }
+
 
 def job_pattern = /EPBYMINW2473.*child*/
 def NameJob(pattern) {
@@ -114,18 +133,5 @@ node("${SLAVE}") {
         emailfailure(namestage,type)
         throw any
     }
-        emailext(
-            to: 'vospitanarbyzami@gmail.com',
-            subject: "Jenkins Task11 - ${JOB_BASE_NAME}",
-            body: """WELL DONE, COMRADES!
-${JOB_BASE_NAME} - Finished: SUCCESS
-BUILD_NUMBER: ${BUILD_NUMBER}
-We pulled the artifact from nexus!
-And deployed it!
-We deployed ${JOB_BASE_NAME}.jar
-Date of deploy ${date}
-Stages  Name  -------------   Type
-${namestage.join(" --- ${type} \n")} --- ${type} \n
-Log: ${currentBuild.rawBuild.getLog(20).join('\n')}"""
-    )
+    emailfailure(namestage,type) 
 }
