@@ -7,7 +7,7 @@ def namestage = []
 def type = "SUCCESS"
 Date datestart = new Date() 
 def emailfailure (namestage, type, datestart){
-    def user_t = currentBuild.rawBuild.getLog(Integer.MAX_VALUE).take(1).join('\n')
+    def user_t = currentBuild.rawBuild.getLog(Integer.MAX_VALUE).take(1)
     Date date = new Date()
     Date datefail = new Date()
     def Log_of_node = currentBuild.rawBuild.getLog(20).join('\n')
@@ -17,7 +17,7 @@ def emailfailure (namestage, type, datestart){
             attachLog: true,
             subject: "Jenkins Task11 - ${JOB_BASE_NAME}",
             body: """${currentBuild.fullDisplayName} 
-User ${user_t} triggered pipeline
+Pipeline ${user_t} \n
 Date start pipeline ---- ${datestart}
 Date fail ---- ${datefail}
 Stages  Name  -------------   Type  
@@ -30,7 +30,7 @@ Log: ${Log_of_node}"""
             to: 'vospitanarbyzami@gmail.com',
             subject: "Jenkins Task11 - ${JOB_BASE_NAME}",
             body: """WELL DONE, COMRADES!
-User ${user_t} triggered pipeline
+Pipeline ${user_t} \n
 ${JOB_BASE_NAME} - Finished: SUCCESS
 BUILD_NUMBER: ${BUILD_NUMBER}
 We pulled the artifact from nexus!
