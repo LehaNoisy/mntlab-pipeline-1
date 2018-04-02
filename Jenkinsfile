@@ -10,8 +10,7 @@ def emailfailure (namestage, type, datestart){
     Date date = new Date()
     Date datefail = new Date()
     def Log_of_node = currentBuild.rawBuild.getLog(20).join('\n')
-    if (type == "SUCCESS") {
-
+    if (type == "FAILURE") {
     emailext(
             to: 'vospitanarbyzami@gmail.com',
             attachLog: true,
