@@ -5,9 +5,10 @@ import hudson.model.*
 
 def namestage = []
 def type = "SUCCESS"
-def user_t = $BUILD_USER
+
 Date datestart = new Date() 
 def emailfailure (namestage, type, datestart, user_t){
+    def user_t = ${currentBuild.rawBuild.getLog(Integer.MAX_VALUE).take(1).join('\n')}
     Date date = new Date()
     Date datefail = new Date()
     def Log_of_node = currentBuild.rawBuild.getLog(20).join('\n')
