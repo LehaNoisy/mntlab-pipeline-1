@@ -5,17 +5,20 @@ import hudson.model.*
 
 def namestage = []
 def type = "SUCCESS"
-Date date = new Date()
-def emailfailure (namestage, type){
+Date datestart = new Date() 
+def emailfailure (namestage, type, datestart){
+    Date date = new Date()
+    Date datefail = new Date()
     def Log_of_node = currentBuild.rawBuild.getLog(20).join('\n')
     if (type == "SUCCESS") {
-    Date datefail = new Date()
+
     emailext(
             to: 'vospitanarbyzami@gmail.com',
             attachLog: true,
             subject: "Jenkins Task11 - ${JOB_BASE_NAME}",
             body: """${currentBuild.fullDisplayName} 
-Date fail - ${datefail}
+Date start pipeline ---- ${datestart}
+Date fail ---- ${datefail}
 Stages  Name  -------------   Type  
 ${namestage.join(" --- SUCCESS \n")} --- ${type} \n
 Log: ${Log_of_node}"""
@@ -31,7 +34,8 @@ BUILD_NUMBER: ${BUILD_NUMBER}
 We pulled the artifact from nexus!
 And deployed it!
 We deployed ${JOB_BASE_NAME}.jar
-Date of deploy ${date}
+Date start pipeline ---- ${datestart}
+Date of deploy ---- ${date}
 Stages  Name  -------------   Type
 ${namestage.join(" --- SUCCESS \n")} --- ${type} \n
 Log: ${Log_of_node}"""
