@@ -134,8 +134,8 @@ node("${SLAVE}") {
     }
     catch (all) {
         type = "FAILURE"
-        emailfailure(namestage,type)
+        emailfailure(namestage,type, datestart)
         throw any
     }
-    emailfailure(namestage,type) 
+    emailfailure(namestage,type, datestart) 
 }
