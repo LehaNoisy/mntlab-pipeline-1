@@ -5,7 +5,7 @@ import hudson.model.*
 
 def namestage = []
 def type = "SUCCESS"
-def user_t = ${BUILD_USER}
+def user_t = $BUILD_USER
 Date datestart = new Date() 
 def emailfailure (namestage, type, datestart, user_t){
     Date date = new Date()
