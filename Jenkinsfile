@@ -7,7 +7,7 @@ def namestage = []
 def type = "SUCCESS"
 Date datestart = new Date() 
 def emailfailure (namestage, type, datestart){
-    def user_t = ${currentBuild.rawBuild.getLog(Integer.MAX_VALUE).take(1).join('\n')}
+    def user_t = currentBuild.rawBuild.getLog(Integer.MAX_VALUE).take(1).join('\n')
     Date date = new Date()
     Date datefail = new Date()
     def Log_of_node = currentBuild.rawBuild.getLog(20).join('\n')
